@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         }
 
 
-        query = "Coldplay"
+        query = "Linkin Park"
         editTextQuery.setText(query)
         Getdata()
 
