@@ -1,0 +1,179 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.belaku.nplay"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+9        android:targetSdkVersion="35" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:5:5-67
+11-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:5:22-64
+12    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+12-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:6:5-76
+12-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:6:22-74
+13    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+13-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:7:5-91
+13-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:7:22-89
+14    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+14-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:8:5-77
+14-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:8:22-74
+15
+16    <permission
+16-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/585c2e907b15fdc9924bf226f02d15fa/transformed/core-1.15.0/AndroidManifest.xml:22:5-24:47
+17        android:name="com.belaku.nplay.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+17-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/585c2e907b15fdc9924bf226f02d15fa/transformed/core-1.15.0/AndroidManifest.xml:23:9-81
+18        android:protectionLevel="signature" />
+18-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/585c2e907b15fdc9924bf226f02d15fa/transformed/core-1.15.0/AndroidManifest.xml:24:9-44
+19
+20    <uses-permission android:name="com.belaku.nplay.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+20-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/585c2e907b15fdc9924bf226f02d15fa/transformed/core-1.15.0/AndroidManifest.xml:26:5-97
+20-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/585c2e907b15fdc9924bf226f02d15fa/transformed/core-1.15.0/AndroidManifest.xml:26:22-94
+21
+22    <application
+22-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:10:5-37:19
+23        android:allowBackup="true"
+23-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:12:9-35
+24        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+24-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/585c2e907b15fdc9924bf226f02d15fa/transformed/core-1.15.0/AndroidManifest.xml:28:18-86
+25        android:dataExtractionRules="@xml/data_extraction_rules"
+25-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:13:9-65
+26        android:debuggable="true"
+27        android:extractNativeLibs="false"
+28        android:fullBackupContent="@xml/backup_rules"
+28-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:14:9-54
+29        android:icon="@android:drawable/ic_media_play"
+29-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:15:9-55
+30        android:label="@string/app_name"
+30-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:16:9-41
+31        android:networkSecurityConfig="@xml/network_security_config"
+31-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:11:9-69
+32        android:roundIcon="@android:drawable/ic_media_play"
+32-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:17:9-60
+33        android:supportsRtl="true"
+33-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:18:9-35
+34        android:testOnly="true"
+35        android:theme="@style/Theme.NPlay" >
+35-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:19:9-43
+36        <service
+36-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:21:9-25:19
+37            android:name="com.belaku.nplay.MusicService"
+37-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:22:13-41
+38            android:enabled="true"
+38-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:24:13-35
+39            android:foregroundServiceType="mediaPlayback" >
+39-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:23:13-58
+40        </service>
+41
+42        <activity
+42-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:27:9-36:20
+43            android:name="com.belaku.nplay.MainActivity"
+43-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:28:13-41
+44            android:exported="true"
+44-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:29:13-36
+45            android:theme="@style/Theme.NPlay" >
+45-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:30:13-47
+46            <intent-filter>
+46-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:31:13-35:29
+47                <action android:name="android.intent.action.MAIN" />
+47-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:32:17-69
+47-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:32:25-66
+48
+49                <category android:name="android.intent.category.LAUNCHER" />
+49-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:34:17-77
+49-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:34:27-74
+50            </intent-filter>
+51        </activity>
+52
+53        <provider
+53-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/122bac67053fc465869d533f86fc9965/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+54            android:name="androidx.startup.InitializationProvider"
+54-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/122bac67053fc465869d533f86fc9965/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+55            android:authorities="com.belaku.nplay.androidx-startup"
+55-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/122bac67053fc465869d533f86fc9965/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+56            android:exported="false" >
+56-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/122bac67053fc465869d533f86fc9965/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+57            <meta-data
+57-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/122bac67053fc465869d533f86fc9965/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+58                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+58-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/122bac67053fc465869d533f86fc9965/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+59                android:value="androidx.startup" />
+59-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/122bac67053fc465869d533f86fc9965/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+60            <meta-data
+60-->[androidx.lifecycle:lifecycle-process:2.6.2] /Users/np/.gradle/caches/transforms-4/6ec2fd0d01cb6f0e4dc765d247fd5026/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:29:13-31:52
+61                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+61-->[androidx.lifecycle:lifecycle-process:2.6.2] /Users/np/.gradle/caches/transforms-4/6ec2fd0d01cb6f0e4dc765d247fd5026/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:30:17-78
+62                android:value="androidx.startup" />
+62-->[androidx.lifecycle:lifecycle-process:2.6.2] /Users/np/.gradle/caches/transforms-4/6ec2fd0d01cb6f0e4dc765d247fd5026/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:31:17-49
+63            <meta-data
+63-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:29:13-31:52
+64                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+64-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:30:17-85
+65                android:value="androidx.startup" />
+65-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:31:17-49
+66        </provider>
+67
+68        <uses-library
+68-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/4ccaa12dbebeeeda501123151d77e981/transformed/window-1.0.0/AndroidManifest.xml:25:9-27:40
+69            android:name="androidx.window.extensions"
+69-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/4ccaa12dbebeeeda501123151d77e981/transformed/window-1.0.0/AndroidManifest.xml:26:13-54
+70            android:required="false" />
+70-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/4ccaa12dbebeeeda501123151d77e981/transformed/window-1.0.0/AndroidManifest.xml:27:13-37
+71        <uses-library
+71-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/4ccaa12dbebeeeda501123151d77e981/transformed/window-1.0.0/AndroidManifest.xml:28:9-30:40
+72            android:name="androidx.window.sidecar"
+72-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/4ccaa12dbebeeeda501123151d77e981/transformed/window-1.0.0/AndroidManifest.xml:29:13-51
+73            android:required="false" />
+73-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/4ccaa12dbebeeeda501123151d77e981/transformed/window-1.0.0/AndroidManifest.xml:30:13-37
+74
+75        <receiver
+75-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:34:9-52:20
+76            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+76-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:35:13-76
+77            android:directBootAware="false"
+77-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:36:13-44
+78            android:enabled="true"
+78-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:37:13-35
+79            android:exported="true"
+79-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:38:13-36
+80            android:permission="android.permission.DUMP" >
+80-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:39:13-57
+81            <intent-filter>
+81-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:40:13-42:29
+82                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+82-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:17-91
+82-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:25-88
+83            </intent-filter>
+84            <intent-filter>
+84-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:43:13-45:29
+85                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+85-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:17-85
+85-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:25-82
+86            </intent-filter>
+87            <intent-filter>
+87-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:46:13-48:29
+88                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+88-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:17-88
+88-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:25-85
+89            </intent-filter>
+90            <intent-filter>
+90-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:49:13-51:29
+91                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+91-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:17-95
+91-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/80ba84f62359a8c616169602c92e4777/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:25-92
+92            </intent-filter>
+93        </receiver>
+94
+95        <provider
+95-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/741a3cfaf43e20e35363d62f063099ad/transformed/picasso-2.71828/AndroidManifest.xml:8:9-11:40
+96            android:name="com.squareup.picasso.PicassoProvider"
+96-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/741a3cfaf43e20e35363d62f063099ad/transformed/picasso-2.71828/AndroidManifest.xml:9:13-64
+97            android:authorities="com.belaku.nplay.com.squareup.picasso"
+97-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/741a3cfaf43e20e35363d62f063099ad/transformed/picasso-2.71828/AndroidManifest.xml:10:13-72
+98            android:exported="false" />
+98-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/741a3cfaf43e20e35363d62f063099ad/transformed/picasso-2.71828/AndroidManifest.xml:11:13-37
+99    </application>
+100
+101</manifest>
