@@ -33,11 +33,14 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/Theme.NPlay" >
+        <activity
+            android:name="com.belaku.nplay.SettingsActivity"
+            android:exported="false" />
+
         <service
             android:name="com.belaku.nplay.MusicService"
             android:enabled="true"
-            android:foregroundServiceType="mediaPlayback" >
-        </service>
+            android:foregroundServiceType="mediaPlayback" />
 
         <activity
             android:name="com.belaku.nplay.MainActivity"

@@ -22,14 +22,10 @@ public final class ActivityMainBinding implements ViewBinding {
   @NonNull
   public final FloatingActionButton fab;
 
-  @NonNull
-  public final CoordinatorLayout playerBg;
-
   private ActivityMainBinding(@NonNull CoordinatorLayout rootView,
-      @NonNull FloatingActionButton fab, @NonNull CoordinatorLayout playerBg) {
+      @NonNull FloatingActionButton fab) {
     this.rootView = rootView;
     this.fab = fab;
-    this.playerBg = playerBg;
   }
 
   @Override
@@ -65,9 +61,7 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      CoordinatorLayout playerBg = (CoordinatorLayout) rootView;
-
-      return new ActivityMainBinding((CoordinatorLayout) rootView, fab, playerBg);
+      return new ActivityMainBinding((CoordinatorLayout) rootView, fab);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

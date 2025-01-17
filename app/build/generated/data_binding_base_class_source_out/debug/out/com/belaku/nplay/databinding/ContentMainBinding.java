@@ -5,10 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,33 +24,34 @@ public final class ContentMainBinding implements ViewBinding {
   private final RelativeLayout rootView;
 
   @NonNull
-  public final EditText edtxQuery;
+  public final EditText edtxSearchQuery;
 
   @NonNull
-  public final ImageButton imgbtnPlay;
+  public final ImageButton imgbtnFav;
 
   @NonNull
-  public final ImageButton imgbtnPlaypause;
+  public final LinearLayout llDynamic;
+
+  @NonNull
+  public final RelativeLayout rlMain;
 
   @NonNull
   public final RecyclerView rv;
 
   @NonNull
-  public final SeekBar seekbar;
+  public final HorizontalScrollView ssDynamic;
 
-  @NonNull
-  public final TextView txSongname;
-
-  private ContentMainBinding(@NonNull RelativeLayout rootView, @NonNull EditText edtxQuery,
-      @NonNull ImageButton imgbtnPlay, @NonNull ImageButton imgbtnPlaypause,
-      @NonNull RecyclerView rv, @NonNull SeekBar seekbar, @NonNull TextView txSongname) {
+  private ContentMainBinding(@NonNull RelativeLayout rootView, @NonNull EditText edtxSearchQuery,
+      @NonNull ImageButton imgbtnFav, @NonNull LinearLayout llDynamic,
+      @NonNull RelativeLayout rlMain, @NonNull RecyclerView rv,
+      @NonNull HorizontalScrollView ssDynamic) {
     this.rootView = rootView;
-    this.edtxQuery = edtxQuery;
-    this.imgbtnPlay = imgbtnPlay;
-    this.imgbtnPlaypause = imgbtnPlaypause;
+    this.edtxSearchQuery = edtxSearchQuery;
+    this.imgbtnFav = imgbtnFav;
+    this.llDynamic = llDynamic;
+    this.rlMain = rlMain;
     this.rv = rv;
-    this.seekbar = seekbar;
-    this.txSongname = txSongname;
+    this.ssDynamic = ssDynamic;
   }
 
   @Override
@@ -80,23 +81,25 @@ public final class ContentMainBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.edtx_query;
-      EditText edtxQuery = ViewBindings.findChildViewById(rootView, id);
-      if (edtxQuery == null) {
+      id = R.id.edtx_search_query;
+      EditText edtxSearchQuery = ViewBindings.findChildViewById(rootView, id);
+      if (edtxSearchQuery == null) {
         break missingId;
       }
 
-      id = R.id.imgbtn_play;
-      ImageButton imgbtnPlay = ViewBindings.findChildViewById(rootView, id);
-      if (imgbtnPlay == null) {
+      id = R.id.imgbtn_fav;
+      ImageButton imgbtnFav = ViewBindings.findChildViewById(rootView, id);
+      if (imgbtnFav == null) {
         break missingId;
       }
 
-      id = R.id.imgbtn_playpause;
-      ImageButton imgbtnPlaypause = ViewBindings.findChildViewById(rootView, id);
-      if (imgbtnPlaypause == null) {
+      id = R.id.ll_dynamic;
+      LinearLayout llDynamic = ViewBindings.findChildViewById(rootView, id);
+      if (llDynamic == null) {
         break missingId;
       }
+
+      RelativeLayout rlMain = (RelativeLayout) rootView;
 
       id = R.id.rv;
       RecyclerView rv = ViewBindings.findChildViewById(rootView, id);
@@ -104,20 +107,14 @@ public final class ContentMainBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.seekbar;
-      SeekBar seekbar = ViewBindings.findChildViewById(rootView, id);
-      if (seekbar == null) {
+      id = R.id.ss_dynamic;
+      HorizontalScrollView ssDynamic = ViewBindings.findChildViewById(rootView, id);
+      if (ssDynamic == null) {
         break missingId;
       }
 
-      id = R.id.tx_songname;
-      TextView txSongname = ViewBindings.findChildViewById(rootView, id);
-      if (txSongname == null) {
-        break missingId;
-      }
-
-      return new ContentMainBinding((RelativeLayout) rootView, edtxQuery, imgbtnPlay,
-          imgbtnPlaypause, rv, seekbar, txSongname);
+      return new ContentMainBinding((RelativeLayout) rootView, edtxSearchQuery, imgbtnFav,
+          llDynamic, rlMain, rv, ssDynamic);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

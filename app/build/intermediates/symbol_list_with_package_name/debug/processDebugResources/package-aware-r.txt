@@ -3344,7 +3344,7 @@ id east
 id edge
 id edit_query
 id edit_text_id
-id edtx_query
+id edtx_search_query
 id elastic
 id embed
 id end
@@ -3395,8 +3395,7 @@ id ifRoom
 id ignore
 id ignoreRequest
 id image
-id imgbtn_play
-id imgbtn_playpause
+id imgbtn_fav
 id imgv_art
 id immediateStop
 id included
@@ -3418,9 +3417,11 @@ id line3
 id linear
 id listMode
 id list_item
+id ll_dynamic
 id locale
 id ltr
 id m3_side_sheet
+id main
 id marquee
 id masked
 id match_constraint
@@ -3533,7 +3534,6 @@ id pathRelative
 id peekHeight
 id percent
 id pin
-id player_bg
 id position
 id postLayout
 id pressed
@@ -3548,6 +3548,7 @@ id right
 id rightToLeft
 id right_icon
 id right_side
+id rl_main
 id rounded
 id row_index_key
 id rtl
@@ -3572,7 +3573,6 @@ id search_mag_icon
 id search_plate
 id search_src_text
 id search_voice_btn
-id seekbar
 id select_dialog_listview
 id selected
 id selection_type
@@ -3604,6 +3604,7 @@ id square
 id src_atop
 id src_in
 id src_over
+id ss_dynamic
 id standard
 id start
 id startHorizontal
@@ -3670,7 +3671,6 @@ id triangle
 id tx_aname
 id tx_duration
 id tx_sname
-id tx_songname
 id tx_url
 id unchecked
 id uniform
@@ -3812,6 +3812,7 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_main
+layout activity_settings
 layout content_main
 layout custom_dialog
 layout design_bottom_navigation_item

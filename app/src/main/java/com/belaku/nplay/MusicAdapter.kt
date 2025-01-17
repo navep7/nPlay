@@ -16,7 +16,8 @@ class MusicAdapter(
 
     //Setup variables to hold the instance of the views defined in your recyclerView item layout
     //Kinda like the onCreate method in an Activity
-    inner class ItemViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
+    inner class ItemViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener,
+        View.OnLongClickListener {
         val sname: TextView = view.findViewById(R.id.tx_sname)
         val aname: TextView = view.findViewById(R.id.tx_aname)
         val uname: TextView = view.findViewById(R.id.tx_url)
@@ -25,6 +26,7 @@ class MusicAdapter(
 
         init {
             view.setOnClickListener(this)
+            view.setOnLongClickListener(this)
         }
 
         override fun onClick(p0: View?) {
@@ -32,6 +34,14 @@ class MusicAdapter(
             if (position != RecyclerView.NO_POSITION) {
                 listener.onItemClick(position)
             }
+        }
+
+        override fun onLongClick(p0: View?): Boolean {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemLongClick(position)
+            }
+            return true
         }
     }
 
@@ -62,5 +72,6 @@ class MusicAdapter(
 
     interface RecyclerViewEvent{
         fun onItemClick(position: Int)
+        fun onItemLongClick(position: Int)
     }
 }

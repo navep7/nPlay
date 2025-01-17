@@ -11,14 +11,11 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.IBinder
-import android.os.Message
-import android.os.Messenger
-import android.os.RemoteException
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import java.util.Timer
-import java.util.TimerTask
 
 
 class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
@@ -29,7 +26,10 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
     private lateinit var scontext: MusicService
     private var songsUrlList: ArrayList<String> = ArrayList()
 
-    private var songIndex: Int = 0
+    companion object {
+        var songIndex: Int = 0
+    }
+
 
 
 
@@ -116,8 +116,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
 
         scontext = this;
-    //    songsUrlList = intent.getStringArrayListExtra("songsUrl")!!
-
 
         for (i in 0 until 30) {
             if (intent.extras?.get(i.toString()) != null)
@@ -147,6 +145,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                     setDataSource(applicationContext, uri)
                     prepare() // might take long! (for buffering, etc)
                     start()
+                    saveIndex(songIndex)
                 }
                 mediaPlayer.setOnCompletionListener(this)
                 mediaPlayer.setOnErrorListener(this)
@@ -159,7 +158,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
         }
 
-
         if (intent != null) {
             sendIntent = intent
         }
@@ -171,6 +169,15 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
     }
 
     private fun updateActivity() {
+        Log.d("BR21", "Broadcasting message")
+        val intent = Intent("nPlay_Events")
+
+        // You can also include some extra data.
+        intent.putExtra("song_index", songIndex)
+
+        Log.d("BR21", "sending")
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    }/*{
 
         val messengerSongInfo = sendIntent.getParcelableExtra("songInfo") as Messenger?
         val messageSongInfo: Message = Message.obtain(null, songIndex)
@@ -208,7 +215,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 }        // do your periodic task
             }
         }, 0, 1000)
-    }
+    }*/
 
 
 
@@ -230,6 +237,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 setDataSource(applicationContext, uri)
                 prepare() // might take long! (for buffering, etc)
                 start()
+                saveIndex(songIndex)
             }
 
             mediaPlayer.setOnCompletionListener(this)
@@ -238,6 +246,20 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
         updateActivity()
 
+
+
+    }
+
+    private fun saveIndex(songIndex: Int) {
+        // Storing data into SharedPreferences
+        var sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
+        // Creating an Editor object to edit(write to the file)
+        var sharedPreferencesEditor = sharedPreferences.edit()
+        // Storing the key and its value as the data fetched from edittext
+        sharedPreferencesEditor.putInt("playingIndex", songIndex)
+
+        sharedPreferencesEditor.apply()
+        sharedPreferencesEditor.commit()
     }
 
 
@@ -245,8 +267,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
         super.onDestroy()
         if(mediaPlayer.isPlaying()){
             mediaPlayer.stop();
-            mSeekUpdateTimer.cancel()
-        }
+          }
         mediaPlayer.release();
         Log.i("OnDestroyMS", "onDestroy: MS OnDestroy called");
     }
@@ -256,6 +277,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
         Toast.makeText(applicationContext, "Err - " + p1.toString(), Toast.LENGTH_LONG).show()
         Log.d("onErrorMusService", p1.toString())
     }
+
+
 
 
 }
