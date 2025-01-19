@@ -12,23 +12,29 @@ import android.net.Uri
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.masoudss.lib.SeekBarOnProgressChanged
+import com.masoudss.lib.WaveformSeekBar
 import java.util.Timer
+import java.util.TimerTask
 
 
 class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
-    private lateinit var mSeekUpdateTimer: Timer
     private lateinit var serviceNotification: Notification
-    private lateinit var mediaPlayer: MediaPlayer
     private lateinit var sendIntent: Intent
     private lateinit var scontext: MusicService
     private var songsUrlList: ArrayList<String> = ArrayList()
 
     companion object {
+        lateinit var timerInService: Timer
         var songIndex: Int = 0
+        lateinit var mediaPlayer: MediaPlayer
+        lateinit var notificationManager: NotificationManager
     }
+
 
 
 
@@ -59,6 +65,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 .setContentText("").build()
 
             startForeground(1, serviceNotification)
+
         }
     }
 
@@ -93,7 +100,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 .setOngoing(true)
                 .setContentIntent(pendingIntent)
 
-        val notificationManager =
+        notificationManager =
             getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
 
@@ -124,6 +131,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
         }
 
+     //   serviceNotify(MainActivity.dataList[songIndex].title)
+
         println("S21 - rSize" + songsUrlList.size)
         for (item in songsUrlList)
             println("S21 - received" + item)
@@ -134,7 +143,11 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
             try {
                 val uri = Uri.parse(songsUrlList[songIndex])
+                MainActivity.wfs.visibility = View.VISIBLE
+                MainActivity.txNow.visibility = View.VISIBLE
+                MainActivity.txTotal.visibility = View.VISIBLE
 
+              //  MainActivity.wfs.setSampleFrom(songsUrlList[songIndex])
                 mediaPlayer = MediaPlayer().apply {
                     setAudioAttributes(
                         AudioAttributes.Builder()
@@ -145,6 +158,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                     setDataSource(applicationContext, uri)
                     prepare() // might take long! (for buffering, etc)
                     start()
+              //      startFadeIn()
                     saveIndex(songIndex)
                 }
                 mediaPlayer.setOnCompletionListener(this)
@@ -166,6 +180,73 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
 
         return START_STICKY
+    }
+
+    var volume: Float = 0f
+
+
+    private fun startFadeOut() {
+        volume = 1f
+        val FADE_DURATION = 15000 //The duration of the fade
+        //The amount of time between volume changes. The smaller this is, the smoother the fade
+        val FADE_INTERVAL = 100
+        val MIN_VOLUME = 0 //The volume will increase from 0 to 1
+        val numberOfSteps = FADE_DURATION / FADE_INTERVAL //Calculate the number of fade steps
+        //Calculate by how much the volume changes each step
+        val deltaVolume = MIN_VOLUME / numberOfSteps.toFloat()
+
+        //Create a new Timer and Timer task to run the fading outside the main UI thread
+        timerInService = Timer(true)
+        val timerTask: TimerTask = object : TimerTask() {
+            override fun run() {
+                fadeOutStep(deltaVolume) //Do a fade step
+                //Cancel and Purge the Timer if the desired volume has been reached
+                if (volume <= 0f) {
+                    mediaPlayer.setVolume(1f, 1f)
+                    timerInService.cancel()
+                    timerInService.purge()
+                }
+            }
+        }
+
+        timerInService.schedule(timerTask, FADE_INTERVAL.toLong(), FADE_INTERVAL.toLong())
+    }
+
+    private fun fadeOutStep(deltaVolume: Float) {
+        mediaPlayer.setVolume(volume, volume)
+        volume -= deltaVolume
+    }
+
+    private fun startFadeIn() {
+        volume = 0f
+        val FADE_DURATION = 15000 //The duration of the fade
+        //The amount of time between volume changes. The smaller this is, the smoother the fade
+        val FADE_INTERVAL = 100
+        val MAX_VOLUME = 1 //The volume will increase from 0 to 1
+        val numberOfSteps = FADE_DURATION / FADE_INTERVAL //Calculate the number of fade steps
+        //Calculate by how much the volume changes each step
+        val deltaVolume = MAX_VOLUME / numberOfSteps.toFloat()
+
+        //Create a new Timer and Timer task to run the fading outside the main UI thread
+        timerInService = Timer(true)
+        val timerTask: TimerTask = object : TimerTask() {
+            override fun run() {
+                fadeInStep(deltaVolume) //Do a fade step
+                //Cancel and Purge the Timer if the desired volume has been reached
+                if (volume >= 1f) {
+                    timerInService.cancel()
+                    timerInService.purge()
+                    startFadeOut()
+                }
+            }
+        }
+
+        timerInService.schedule(timerTask, FADE_INTERVAL.toLong(), FADE_INTERVAL.toLong())
+    }
+
+    private fun fadeInStep(deltaVolume: Float) {
+        mediaPlayer.setVolume(volume, volume)
+        volume += deltaVolume
     }
 
     private fun updateActivity() {
@@ -237,6 +318,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 setDataSource(applicationContext, uri)
                 prepare() // might take long! (for buffering, etc)
                 start()
+            //    startFadeIn()
                 saveIndex(songIndex)
             }
 
@@ -265,6 +347,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
     override fun onDestroy() {
         super.onDestroy()
+        notificationManager.cancelAll()
         if(mediaPlayer.isPlaying()){
             mediaPlayer.stop();
           }
@@ -274,7 +357,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
     override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {
         TODO("Not yet implemented")
-        Toast.makeText(applicationContext, "Err - " + p1.toString(), Toast.LENGTH_LONG).show()
+    //    Toast.makeText(applicationContext, "Err - " + p1.toString(), Toast.LENGTH_LONG).show()
         Log.d("onErrorMusService", p1.toString())
     }
 

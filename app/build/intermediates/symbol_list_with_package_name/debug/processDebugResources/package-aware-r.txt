@@ -835,6 +835,11 @@ attr marginHorizontal
 attr marginLeftSystemWindowInsets
 attr marginRightSystemWindowInsets
 attr marginTopSystemWindowInsets
+attr marker_color
+attr marker_text_color
+attr marker_text_padding
+attr marker_text_size
+attr marker_width
 attr materialAlertDialogBodyTextStyle
 attr materialAlertDialogButtonSpacerVisibility
 attr materialAlertDialogTheme
@@ -1370,6 +1375,20 @@ attr wavePeriod
 attr wavePhase
 attr waveShape
 attr waveVariesBy
+attr wave_background_color
+attr wave_corner_radius
+attr wave_gap
+attr wave_gravity
+attr wave_max_progress
+attr wave_min_height
+attr wave_padding_Bottom
+attr wave_padding_left
+attr wave_padding_right
+attr wave_padding_top
+attr wave_progress
+attr wave_progress_color
+attr wave_visible_progress
+attr wave_width
 attr windowActionBar
 attr windowActionBarOverlay
 attr windowActionModeOverlay
@@ -3573,6 +3592,7 @@ id search_mag_icon
 id search_plate
 id search_src_text
 id search_voice_btn
+id seek
 id select_dialog_listview
 id selected
 id selection_type
@@ -3669,6 +3689,7 @@ id transition_scene_layoutid_cache
 id transition_transform
 id triangle
 id tx_aname
+id tx_current_time
 id tx_duration
 id tx_sname
 id tx_url
@@ -3688,6 +3709,7 @@ id view_tree_view_model_store_owner
 id visible
 id visible_removing_fragment_view_tag
 id west
+id wfsb
 id withText
 id with_icon
 id withinBounds
@@ -3901,6 +3923,7 @@ mipmap ic_launcher
 mipmap ic_launcher_round
 navigation nav_graph
 plurals mtrl_badge_content_description
+raw abc
 string abc_action_bar_home_description
 string abc_action_bar_up_description
 string abc_action_menu_overflow_description
@@ -5374,6 +5397,7 @@ styleable ViewBackgroundHelper android_background backgroundTint backgroundTintM
 styleable ViewPager2 android_orientation
 styleable ViewStubCompat android_id android_layout android_inflatedId
 styleable ViewTransition android_id SharedValue SharedValueId clearsTag duration ifTagNotSet ifTagSet motionInterpolator motionTarget onStateTransition pathMotionArc setsTag transitionDisable upDuration viewTransitionMode
+styleable WaveformSeekBar marker_color marker_text_color marker_text_padding marker_text_size marker_width wave_background_color wave_corner_radius wave_gap wave_gravity wave_max_progress wave_min_height wave_padding_Bottom wave_padding_left wave_padding_right wave_padding_top wave_progress wave_progress_color wave_visible_progress wave_width
 styleable include constraintSet
 xml backup_rules
 xml data_extraction_rules

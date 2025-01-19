@@ -9,12 +9,15 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.belaku.nplay.R;
+import com.masoudss.lib.WaveformSeekBar;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -39,19 +42,36 @@ public final class ContentMainBinding implements ViewBinding {
   public final RecyclerView rv;
 
   @NonNull
+  public final SeekBar seek;
+
+  @NonNull
   public final HorizontalScrollView ssDynamic;
+
+  @NonNull
+  public final TextView txCurrentTime;
+
+  @NonNull
+  public final TextView txDuration;
+
+  @NonNull
+  public final WaveformSeekBar wfsb;
 
   private ContentMainBinding(@NonNull RelativeLayout rootView, @NonNull EditText edtxSearchQuery,
       @NonNull ImageButton imgbtnFav, @NonNull LinearLayout llDynamic,
-      @NonNull RelativeLayout rlMain, @NonNull RecyclerView rv,
-      @NonNull HorizontalScrollView ssDynamic) {
+      @NonNull RelativeLayout rlMain, @NonNull RecyclerView rv, @NonNull SeekBar seek,
+      @NonNull HorizontalScrollView ssDynamic, @NonNull TextView txCurrentTime,
+      @NonNull TextView txDuration, @NonNull WaveformSeekBar wfsb) {
     this.rootView = rootView;
     this.edtxSearchQuery = edtxSearchQuery;
     this.imgbtnFav = imgbtnFav;
     this.llDynamic = llDynamic;
     this.rlMain = rlMain;
     this.rv = rv;
+    this.seek = seek;
     this.ssDynamic = ssDynamic;
+    this.txCurrentTime = txCurrentTime;
+    this.txDuration = txDuration;
+    this.wfsb = wfsb;
   }
 
   @Override
@@ -107,14 +127,38 @@ public final class ContentMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.seek;
+      SeekBar seek = ViewBindings.findChildViewById(rootView, id);
+      if (seek == null) {
+        break missingId;
+      }
+
       id = R.id.ss_dynamic;
       HorizontalScrollView ssDynamic = ViewBindings.findChildViewById(rootView, id);
       if (ssDynamic == null) {
         break missingId;
       }
 
+      id = R.id.tx_current_time;
+      TextView txCurrentTime = ViewBindings.findChildViewById(rootView, id);
+      if (txCurrentTime == null) {
+        break missingId;
+      }
+
+      id = R.id.tx_duration;
+      TextView txDuration = ViewBindings.findChildViewById(rootView, id);
+      if (txDuration == null) {
+        break missingId;
+      }
+
+      id = R.id.wfsb;
+      WaveformSeekBar wfsb = ViewBindings.findChildViewById(rootView, id);
+      if (wfsb == null) {
+        break missingId;
+      }
+
       return new ContentMainBinding((RelativeLayout) rootView, edtxSearchQuery, imgbtnFav,
-          llDynamic, rlMain, rv, ssDynamic);
+          llDynamic, rlMain, rv, seek, ssDynamic, txCurrentTime, txDuration, wfsb);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

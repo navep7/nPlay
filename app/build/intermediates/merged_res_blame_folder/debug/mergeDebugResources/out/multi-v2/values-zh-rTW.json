@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.belaku.nplay.app-mergeDebugResources-46:/values-zh-rTW/values-zh-rTW.xml",
+            "outputFile": "com.belaku.nplay.app-mergeDebugResources-47:/values-zh-rTW/values-zh-rTW.xml",
             "map": [
                 {
                     "source": "/Users/np/.gradle/caches/transforms-4/ee6b49f37d5710600a702b187c4dc1b6/transformed/core-1.15.0/res/values-zh-rTW/values-zh-rTW.xml",

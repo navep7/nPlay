@@ -5,6 +5,7 @@ INJECTED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:2:1-42:12
 INJECTED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:2:1-42:12
 INJECTED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:2:1-42:12
 MERGED from [androidx.databinding:viewbinding:8.6.0] /Users/np/.gradle/caches/transforms-4/d644bd2cbb90ff335b556f4d8c838dda/transformed/viewbinding-8.6.0/AndroidManifest.xml:2:1-7:12
+MERGED from [com.github.massoudss:waveformSeekBar:5.0.2] /Users/np/.gradle/caches/transforms-4/b68d31ce0343d4937868ebb118414215/transformed/waveformSeekBar-5.0.2/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.navigation:navigation-common:2.8.5] /Users/np/.gradle/caches/transforms-4/0226b7744bbb5261170128c35f637310/transformed/navigation-common-2.8.5/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-common-ktx:2.8.5] /Users/np/.gradle/caches/transforms-4/1ec32b2cd470129440026b51a9a422bf/transformed/navigation-common-ktx-2.8.5/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.navigation:navigation-runtime:2.8.5] /Users/np/.gradle/caches/transforms-4/9240750d8af8bded3553880d65dcfc7d/transformed/navigation-runtime-2.8.5/AndroidManifest.xml:17:1-22:12
@@ -62,6 +63,7 @@ MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/np/.gradle/caches/
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/np/.gradle/caches/transforms-4/814ac99d34889c8540a2770ff005aedb/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] /Users/np/.gradle/caches/transforms-4/6c4ae8469d15aed01cca056b3c4dfced/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.4.1] /Users/np/.gradle/caches/transforms-4/502fcd458c00a1d0214502ebe4be1886/transformed/annotation-experimental-1.4.1/AndroidManifest.xml:2:1-7:12
+MERGED from [com.github.lincollincol:amplituda:2.2.2] /Users/np/.gradle/caches/transforms-4/d6b4f08486bc95890046a62ac8fa79ec/transformed/amplituda-2.2.2/AndroidManifest.xml:2:1-11:12
 MERGED from [com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/15d9bcfd7d95882a6262388beff91182/transformed/picasso-2.71828/AndroidManifest.xml:2:1-14:12
 MERGED from [com.android.support:exifinterface:27.1.0] /Users/np/.gradle/caches/transforms-4/b16d70a06aea0f520f985833a49f559c/transformed/exifinterface-27.1.0/AndroidManifest.xml:17:1-22:12
 	package
@@ -175,6 +177,8 @@ INJECTED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml
 INJECTED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml
 MERGED from [androidx.databinding:viewbinding:8.6.0] /Users/np/.gradle/caches/transforms-4/d644bd2cbb90ff335b556f4d8c838dda/transformed/viewbinding-8.6.0/AndroidManifest.xml:5:5-44
 MERGED from [androidx.databinding:viewbinding:8.6.0] /Users/np/.gradle/caches/transforms-4/d644bd2cbb90ff335b556f4d8c838dda/transformed/viewbinding-8.6.0/AndroidManifest.xml:5:5-44
+MERGED from [com.github.massoudss:waveformSeekBar:5.0.2] /Users/np/.gradle/caches/transforms-4/b68d31ce0343d4937868ebb118414215/transformed/waveformSeekBar-5.0.2/AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.massoudss:waveformSeekBar:5.0.2] /Users/np/.gradle/caches/transforms-4/b68d31ce0343d4937868ebb118414215/transformed/waveformSeekBar-5.0.2/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.navigation:navigation-common:2.8.5] /Users/np/.gradle/caches/transforms-4/0226b7744bbb5261170128c35f637310/transformed/navigation-common-2.8.5/AndroidManifest.xml:20:5-44
 MERGED from [androidx.navigation:navigation-common:2.8.5] /Users/np/.gradle/caches/transforms-4/0226b7744bbb5261170128c35f637310/transformed/navigation-common-2.8.5/AndroidManifest.xml:20:5-44
 MERGED from [androidx.navigation:navigation-common-ktx:2.8.5] /Users/np/.gradle/caches/transforms-4/1ec32b2cd470129440026b51a9a422bf/transformed/navigation-common-ktx-2.8.5/AndroidManifest.xml:5:5-44
@@ -289,6 +293,8 @@ MERGED from [androidx.print:print:1.0.0] /Users/np/.gradle/caches/transforms-4/6
 MERGED from [androidx.print:print:1.0.0] /Users/np/.gradle/caches/transforms-4/6c4ae8469d15aed01cca056b3c4dfced/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.4.1] /Users/np/.gradle/caches/transforms-4/502fcd458c00a1d0214502ebe4be1886/transformed/annotation-experimental-1.4.1/AndroidManifest.xml:5:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.4.1] /Users/np/.gradle/caches/transforms-4/502fcd458c00a1d0214502ebe4be1886/transformed/annotation-experimental-1.4.1/AndroidManifest.xml:5:5-44
+MERGED from [com.github.lincollincol:amplituda:2.2.2] /Users/np/.gradle/caches/transforms-4/d6b4f08486bc95890046a62ac8fa79ec/transformed/amplituda-2.2.2/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.lincollincol:amplituda:2.2.2] /Users/np/.gradle/caches/transforms-4/d6b4f08486bc95890046a62ac8fa79ec/transformed/amplituda-2.2.2/AndroidManifest.xml:7:5-9:41
 MERGED from [com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/15d9bcfd7d95882a6262388beff91182/transformed/picasso-2.71828/AndroidManifest.xml:5:5-44
 MERGED from [com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/15d9bcfd7d95882a6262388beff91182/transformed/picasso-2.71828/AndroidManifest.xml:5:5-44
 MERGED from [com.android.support:exifinterface:27.1.0] /Users/np/.gradle/caches/transforms-4/b16d70a06aea0f520f985833a49f559c/transformed/exifinterface-27.1.0/AndroidManifest.xml:20:5-44

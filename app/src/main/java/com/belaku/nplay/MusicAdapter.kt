@@ -1,13 +1,19 @@
 package com.belaku.nplay
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.net.toUri
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.TimeZone
+
 
 class MusicAdapter(
     private val data: List<Data>,
@@ -20,7 +26,6 @@ class MusicAdapter(
         View.OnLongClickListener {
         val sname: TextView = view.findViewById(R.id.tx_sname)
         val aname: TextView = view.findViewById(R.id.tx_aname)
-        val uname: TextView = view.findViewById(R.id.tx_url)
         val dur: TextView = view.findViewById(R.id.tx_duration)
         val imageView: ImageView = view.findViewById(R.id.imgv_art)
 
@@ -54,13 +59,18 @@ class MusicAdapter(
 
     // Set values to the views we pulled out of the recycler_view_row
     // layout file based on the position of the recyclerView
+    @RequiresApi(Build.VERSION_CODES.O)
+    @SuppressLint("DefaultLocale")
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val songdata: Data = data[position]
 
         holder.sname.text = songdata.title
         holder.aname.text = songdata.album.title
-        holder.uname.text = songdata.preview
-        holder.dur.text = songdata.duration.toString()
+        /*val d: Date = Date(songdata.duration * 1000L)
+        val df: SimpleDateFormat = SimpleDateFormat("mm:ss") // HH for 0-23
+        df.setTimeZone(TimeZone.getTimeZone("GMT"))
+        val time: kotlin.String = df.format(d)
+        holder.dur.text = time*/
         Picasso.get().load(songdata.album.cover).into(holder.imageView)
     }
 
