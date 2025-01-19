@@ -1,4 +1,4 @@
-package com.belaku.nplay
+package com.belaku.nplay.deezer
 
 data class MusicData(
     val `data`: List<Data>,

@@ -10,20 +10,16 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
-import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
 import android.util.Log
-import android.util.StatsLog.logEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.SeekBar
@@ -34,11 +30,13 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.belaku.nplay.MusicService.Companion.mediaPlayer
 import com.belaku.nplay.databinding.ActivityMainBinding
+import com.belaku.nplay.deezer.ApiInterface
+import com.belaku.nplay.deezer.Data
+import com.belaku.nplay.deezer.MusicData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.masoudss.lib.SeekBarOnProgressChanged
@@ -50,10 +48,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.File
 import java.lang.reflect.Type
 import java.net.URL
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.TimeZone
@@ -150,7 +146,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     stopService(Intent(this@MainActivity, MusicService::class.java))
                 }
                 query = tx.text.toString()
-                Getdata()
+                GetdataFromDeezer()
             })
             linearLayoutFavs.addView(tx)
         }
@@ -162,7 +158,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             if (actionId == EditorInfo.IME_ACTION_SEND) {
            //     Toast.makeText(this@MainActivity, editTextSearch.getText(), Toast.LENGTH_SHORT).show()
                 query = editTextSearch.getText().toString()
-                Getdata()
+                GetdataFromDeezer()
                 handled = true
             }
             handled
@@ -314,7 +310,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     override fun onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
 //        saveQuery(query)
-        if (!MusicService.mediaPlayer.isPlaying) {
+
+        if (isMyServiceRunning(MusicService::class.java)) {
             stopService(Intent(this@MainActivity, MusicService::class.java))
             MusicService.notificationManager.cancelAll();
         }
@@ -441,7 +438,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
 
-    private fun Getdata() {
+    private fun GetdataFromDeezer() {
         val retrofitBuilder = Retrofit.Builder()
             .baseUrl("https://deezerdevs-deezer.p.rapidapi.com/")
             .addConverterFactory(GsonConverterFactory.create())

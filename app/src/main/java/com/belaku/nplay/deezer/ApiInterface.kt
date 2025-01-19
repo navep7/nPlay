@@ -1,4 +1,4 @@
-package com.belaku.nplay
+package com.belaku.nplay.deezer
 
 import retrofit2.Call
 import retrofit2.http.GET

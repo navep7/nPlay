@@ -1,4 +1,4 @@
-package com.belaku.nplay
+package com.belaku.nplay.deezer
 
 data class Artist(
     val id: Int,
