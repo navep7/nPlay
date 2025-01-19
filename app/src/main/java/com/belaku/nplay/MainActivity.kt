@@ -1,5 +1,6 @@
 package com.belaku.nplay
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -10,11 +11,13 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
 import android.util.Log
+import android.util.StatsLog.logEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -23,6 +26,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import android.widget.TextView.VISIBLE
@@ -33,16 +37,27 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.belaku.nplay.MusicService.Companion.mediaPlayer
 import com.belaku.nplay.databinding.ActivityMainBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.masoudss.lib.SeekBarOnProgressChanged
+import com.masoudss.lib.WaveformSeekBar
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
 import java.lang.reflect.Type
 import java.net.URL
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.TimeZone
+import kotlin.concurrent.fixedRateTimer
 import kotlin.properties.Delegates
 
 
@@ -56,6 +71,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     private lateinit var editTextSearch: EditText
     private lateinit var recyclerview : RecyclerView
 
+
     private var playingSongIndex by Delegates.notNull<Int>()
     private var playingSeekDuration by Delegates.notNull<Int>()
     private var playingSeekUpdate by Delegates.notNull<Int>()
@@ -64,31 +80,29 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     private lateinit var mMessageReceiver: BroadcastReceiver
     private lateinit var sharedPreferencesEditor: SharedPreferences.Editor
     private lateinit var sharedPreferences: SharedPreferences
-    private var noOfSearch: Int = 0
     private var arraylistFavorites = ArrayList<String>()
-    private var gotDuration: Boolean = false
-    private lateinit var updateUIReciver: BroadcastReceiver
-    private lateinit var handlerSongInfo: Handler
-    private lateinit var handlerSeekInfo: Handler
- //   private lateinit var btnPlay: ImageButton
-    private lateinit var btnPlayPause: ImageButton
+
     private lateinit var playIntent: Intent
     private lateinit var bitmapAlbum: Bitmap
     private var songs: ArrayList<String> = ArrayList()
     private lateinit var handlerForBG: Handler
     private var songIndex: Int = 0
-    private lateinit var player: MediaPlayer
     private lateinit var image: BitmapDrawable
 
+    @SuppressLint("StaticFieldLeak")
     companion object {
         lateinit var dataList: ArrayList<Data>
-        lateinit var dataList1: List<Data>
-        lateinit var dataList2: List<Data>
+        lateinit var seekBar: SeekBar
+        lateinit var wfs:WaveformSeekBar
+        lateinit var txNow: TextView
+        lateinit var txTotal: TextView
+
     }
     private lateinit var query: String
-    private lateinit var editTextQuery: EditText
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
+
+
 
 
     var receiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -109,17 +123,32 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         findViewByIds()
         initializeStuff()
 
+      /*  val thread = Thread {
+            try {
+                // Your code goes here
+                Spotify()
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        thread.start()*/
+
         mSharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
          sharedPreferencesEditor = mSharedPreference.edit()
 
         arraylistFavorites = populateFavorites("favorites")
-        makeToast("Favs saved - " + arraylistFavorites.size)
         for (item in arraylistFavorites) {
             val tx: TextView =  TextView(applicationContext)
             tx.text = item + "\t\t\t"
             tx.setBackgroundResource(android.R.drawable.editbox_background)
             tx.setOnClickListener(View.OnClickListener {
+                seekBar.setProgress(0)
+                if (isMyServiceRunning(MusicService::class.java)) {
+                    stopService(Intent(this@MainActivity, MusicService::class.java))
+                }
                 query = tx.text.toString()
                 Getdata()
             })
@@ -131,7 +160,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         editTextSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_SEND) {
-                Toast.makeText(this@MainActivity, editTextSearch.getText(), Toast.LENGTH_SHORT).show()
+           //     Toast.makeText(this@MainActivity, editTextSearch.getText(), Toast.LENGTH_SHORT).show()
                 query = editTextSearch.getText().toString()
                 Getdata()
                 handled = true
@@ -162,12 +191,14 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                         startForegroundService(playIntent)
                     }
                 } else {
-                    binding.fab.setImageResource(android.R.drawable.ic_media_play)
-                    val myService = Intent(
-                        this@MainActivity,
-                        MusicService::class.java
-                    )
-                    stopService(myService)
+                    if (mediaPlayer.isPlaying) {
+                        binding.fab.setImageResource(android.R.drawable.ic_media_play)
+                        mediaPlayer.pause()
+
+                    } else {
+                        binding.fab.setImageResource(android.R.drawable.ic_media_pause)
+                        mediaPlayer.start()
+                    }
                 }
 
 
@@ -224,6 +255,22 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     }
 
+    private fun Spotify() {
+
+        val client = OkHttpClient()
+
+        val request = Request.Builder()
+            .url("https://spotify23.p.rapidapi.com/search/?q=eminem&type=tracks&offset=0&limit=10&numberOfTopResults=5 HTTP/1.1")
+            .get()
+            .addHeader("x-rapidapi-key", "9e92cc4f67msh8bb4ede93f53bf7p1ecb22jsn26ea5014a6df")
+            .addHeader("x-rapidapi-host", "spotify23.p.rapidapi.com")
+            .build()
+
+        val response = client.newCall(request).execute()
+
+        response.body()?.let { Log.d("Spotify Response - ", it.string()) }
+    }
+
     private fun initializeStuff() {
         arrayListFavsAdded = ArrayList()
     }
@@ -239,8 +286,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
     fun populateFavorites(key: String?): ArrayList<String> {
-
-
         val json = mSharedPreference.getString(key, "[]")
         val type: Type = object : TypeToken<ArrayList<String?>?>() {}.type
         return gson.fromJson(json, type)
@@ -252,7 +297,14 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         editTextSearch = findViewById(R.id.edtx_search_query)
         recyclerview = findViewById(R.id.rv)
         linearLayoutFavs = findViewById(R.id.ll_dynamic)
+        seekBar = findViewById(R.id.seek)
+        wfs = findViewById(R.id.wfsb)
+
+    //    wavePlay()
+        txNow = findViewById(R.id.tx_current_time)
+        txTotal = findViewById(R.id.tx_duration)
     }
+
 
 
     private fun makeToast(s: String) {
@@ -261,10 +313,27 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     override fun onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+//        saveQuery(query)
+        if (!MusicService.mediaPlayer.isPlaying) {
+            stopService(Intent(this@MainActivity, MusicService::class.java))
+            MusicService.notificationManager.cancelAll();
+        }
         super.onDestroy()
      }
 
 
+
+    private fun saveQuery(query: String) {
+        // Storing data into SharedPreferences
+        var sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
+        // Creating an Editor object to edit(write to the file)
+        var sharedPreferencesEditor = sharedPreferences.edit()
+        // Storing the key and its value as the data fetched from edittext
+        sharedPreferencesEditor.putString("playingQuery", query)
+
+        sharedPreferencesEditor.apply()
+        sharedPreferencesEditor.commit()
+    }
 
     private fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
         val manager = getSystemService(ACTIVITY_SERVICE) as ActivityManager
@@ -286,8 +355,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         if (isMyServiceRunning(MusicService::class.java)) {
 
             binding.fab.visibility = VISIBLE
+            if (mediaPlayer.isPlaying)
             binding.fab.setImageResource(android.R.drawable.ic_media_pause)
-            makeToast(dataList.size.toString())
+            else binding.fab.setImageResource(android.R.drawable.ic_media_play)
 
             sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
@@ -304,12 +374,32 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
            updateUI(songIndex)
 
         }
+
     }
 
 
 
 
     private fun updateUI(what: Int) {
+
+        wfs.visibility = View.VISIBLE
+        txNow.visibility = View.VISIBLE
+        txTotal.visibility = View.VISIBLE
+        wfs.setSampleFrom(R.raw.abc)
+        wfs.apply {
+            onProgressChanged = object : SeekBarOnProgressChanged {
+                override fun onProgressChanged(
+                    waveformSeekBar: WaveformSeekBar,
+                    progress: Float,
+                    fromUser: Boolean
+                ) {
+                    if (mediaPlayer != null)
+                        if (fromUser) {
+                            mediaPlayer?.seekTo(progress.toInt())
+                        }
+                }
+            }
+        }
 
         recyclerview.scrollToPosition(what)
         val thread = Thread {
@@ -318,6 +408,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 val url = URL(dataList[what].album.cover)
                 bitmapAlbum = BitmapFactory.decodeStream(url.openConnection().getInputStream())
                 image = BitmapDrawable(applicationContext.getResources(), bitmapAlbum)
+                handlerForBG.postDelayed(Runnable {  relativeLayoutMain.background = image }, 1000)
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
                 Log.d("updateUI exception - ", e.toString())
@@ -326,8 +417,27 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         thread.start()
 
+        seekBar.max = mediaPlayer.duration
+        wfs.maxProgress = mediaPlayer.duration.toFloat()
 
-        handlerForBG.postDelayed(Runnable {  relativeLayoutMain.background = image }, 1000)
+
+        fixedRateTimer("timer", false, 0L, 1000) {
+            this@MainActivity.runOnUiThread {
+                if(isMyServiceRunning(MusicService::class.java))
+                if(mediaPlayer.isPlaying) {
+                    seekBar.setProgress(mediaPlayer.currentPosition)
+                    wfs.progress = mediaPlayer.currentPosition.toFloat()
+                    Log.d("Time21 ", mediaPlayer.currentPosition.toString())
+                    val duration = mediaPlayer.currentPosition
+                    val d: Date = Date(duration.toLong())
+                    val df: SimpleDateFormat = SimpleDateFormat("mm:ss") // HH for 0-23
+                    df.setTimeZone(TimeZone.getTimeZone("GMT"))
+                    val time: kotlin.String = df.format(d)
+                    txNow.setText(time)
+                }
+            }
+        }
+
     }
 
 
@@ -372,7 +482,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             }
 
             override fun onFailure(call: Call<MusicData?>, t: Throwable) {
-                Toast.makeText(applicationContext, "not Found", Toast.LENGTH_LONG).show()
+        //        Toast.makeText(applicationContext, "not Found", Toast.LENGTH_LONG).show()
             }
 
         })

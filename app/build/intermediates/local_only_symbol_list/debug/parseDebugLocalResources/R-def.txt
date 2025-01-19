@@ -25,13 +25,16 @@ id main
 id nav_graph
 id rl_main
 id rv
+id seek
 id ss_dynamic
 id textview_first
 id textview_second
 id tx_aname
+id tx_current_time
 id tx_duration
 id tx_sname
 id tx_url
+id wfsb
 layout activity_main
 layout activity_settings
 layout content_main
@@ -42,6 +45,7 @@ menu menu_main
 mipmap ic_launcher
 mipmap ic_launcher_round
 navigation nav_graph
+raw abc
 string action_settings
 string app_name
 string first_fragment_label

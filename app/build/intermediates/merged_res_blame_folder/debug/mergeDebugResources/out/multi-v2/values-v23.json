@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.belaku.nplay.app-mergeDebugResources-46:/values-v23/values-v23.xml",
+            "outputFile": "com.belaku.nplay.app-mergeDebugResources-47:/values-v23/values-v23.xml",
             "map": [
                 {
                     "source": "/Users/np/.gradle/caches/transforms-4/62b60564d0a22ecf5715453fd682ea45/transformed/cardview-1.0.0/res/values-v23/values-v23.xml",

@@ -11615,6 +11615,30 @@
         <attr name="android:id"/>
         <attr format="string" name="route"/>
         <attr name="android:label"/>
+    </declare-styleable></file></source></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="com.github.massoudss:waveformSeekBar:5.0.2$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/np/.gradle/caches/transforms-4/b68d31ce0343d4937868ebb118414215/transformed/waveformSeekBar-5.0.2/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="com.github.massoudss:waveformSeekBar:5.0.2" from-dependency="true" generated-set="com.github.massoudss:waveformSeekBar:5.0.2$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/np/.gradle/caches/transforms-4/b68d31ce0343d4937868ebb118414215/transformed/waveformSeekBar-5.0.2/res"><file path="/Users/np/.gradle/caches/transforms-4/b68d31ce0343d4937868ebb118414215/transformed/waveformSeekBar-5.0.2/res/values/values.xml" qualifiers=""><string name="app_name">lib</string><declare-styleable name="WaveformSeekBar">
+        <attr format="float" name="wave_progress"/>
+        <attr format="float" name="wave_max_progress"/>
+        <attr format="float" name="wave_visible_progress"/>
+        <attr format="dimension" name="wave_width"/>
+        <attr format="dimension" name="wave_gap"/>
+        <attr format="dimension" name="wave_padding_top"/>
+        <attr format="dimension" name="wave_padding_Bottom"/>
+        <attr format="dimension" name="wave_padding_left"/>
+        <attr format="dimension" name="wave_padding_right"/>
+        <attr format="dimension" name="wave_min_height"/>
+        <attr format="dimension" name="wave_corner_radius"/>
+        <attr format="color" name="wave_background_color"/>
+        <attr format="color" name="wave_progress_color"/>
+        <attr format="enum" name="wave_gravity">
+            <enum name="top" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="bottom" value="2"/>
+        </attr>
+        <attr format="dimension" name="marker_width"/>
+        <attr format="color" name="marker_color"/>
+        <attr format="dimension" name="marker_text_size"/>
+        <attr format="color" name="marker_text_color"/>
+        <attr format="dimension" name="marker_text_padding"/>
     </declare-styleable></file></source></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/np/ASPs/nPlayG/app/src/main/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/np/ASPs/nPlayG/app/src/main/res"><file name="ic_launcher" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-mdpi/ic_launcher.webp" qualifiers="mdpi-v4" type="mipmap"/><file name="ic_launcher_round" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" qualifiers="mdpi-v4" type="mipmap"/><file path="/Users/np/ASPs/nPlayG/app/src/main/res/values-w600dp/dimens.xml" qualifiers="w600dp-v13"><dimen name="fab_margin">48dp</dimen></file><file name="ic_launcher" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-hdpi/ic_launcher.webp" qualifiers="hdpi-v4" type="mipmap"/><file name="ic_launcher_round" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" qualifiers="hdpi-v4" type="mipmap"/><file name="ic_launcher_foreground" path="/Users/np/ASPs/nPlayG/app/src/main/res/drawable/ic_launcher_foreground.xml" qualifiers="" type="drawable"/><file name="background_fill" path="/Users/np/ASPs/nPlayG/app/src/main/res/drawable/background_fill.xml" qualifiers="" type="drawable"/><file name="seekprogress" path="/Users/np/ASPs/nPlayG/app/src/main/res/drawable/seekprogress.xml" qualifiers="" type="drawable"/><file name="progress_fill" path="/Users/np/ASPs/nPlayG/app/src/main/res/drawable/progress_fill.xml" qualifiers="" type="drawable"/><file name="thumb" path="/Users/np/ASPs/nPlayG/app/src/main/res/drawable/thumb.xml" qualifiers="" type="drawable"/><file name="ic_launcher_background" path="/Users/np/ASPs/nPlayG/app/src/main/res/drawable/ic_launcher_background.xml" qualifiers="" type="drawable"/><file name="ic_launcher" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" qualifiers="xxxhdpi-v4" type="mipmap"/><file name="ic_launcher_round" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" qualifiers="xxxhdpi-v4" type="mipmap"/><file name="rv_item" path="/Users/np/ASPs/nPlayG/app/src/main/res/layout/rv_item.xml" qualifiers="" type="layout"/><file name="content_main" path="/Users/np/ASPs/nPlayG/app/src/main/res/layout/content_main.xml" qualifiers="" type="layout"/><file name="activity_settings" path="/Users/np/ASPs/nPlayG/app/src/main/res/layout/activity_settings.xml" qualifiers="" type="layout"/><file name="fragment_second" path="/Users/np/ASPs/nPlayG/app/src/main/res/layout/fragment_second.xml" qualifiers="" type="layout"/><file name="fragment_first" path="/Users/np/ASPs/nPlayG/app/src/main/res/layout/fragment_first.xml" qualifiers="" type="layout"/><file name="activity_main" path="/Users/np/ASPs/nPlayG/app/src/main/res/layout/activity_main.xml" qualifiers="" type="layout"/><file name="ic_launcher" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" qualifiers="xxhdpi-v4" type="mipmap"/><file name="ic_launcher_round" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" qualifiers="xxhdpi-v4" type="mipmap"/><file path="/Users/np/ASPs/nPlayG/app/src/main/res/values-night/themes.xml" qualifiers="night-v8"><style name="Base.Theme.NPlay" parent="Theme.Material3.DayNight.NoActionBar">
         
         
@@ -11661,7 +11685,7 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
-    </style></file><file name="menu_main" path="/Users/np/ASPs/nPlayG/app/src/main/res/menu/menu_main.xml" qualifiers="" type="menu"/><file name="ic_launcher" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" qualifiers="xhdpi-v4" type="mipmap"/><file name="ic_launcher_round" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" qualifiers="xhdpi-v4" type="mipmap"/><file path="/Users/np/ASPs/nPlayG/app/src/main/res/values-w1240dp/dimens.xml" qualifiers="w1240dp-v13"><dimen name="fab_margin">200dp</dimen></file><file name="ic_launcher" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" qualifiers="anydpi-v26" type="mipmap"/><file name="ic_launcher_round" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" qualifiers="anydpi-v26" type="mipmap"/></source></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/np/ASPs/nPlayG/app/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/np/ASPs/nPlayG/app/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/np/ASPs/nPlayG/app/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated" generated-set="generated$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/np/ASPs/nPlayG/app/build/generated/res/resValues/debug"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="AlertDialog">
+    </style></file><file name="menu_main" path="/Users/np/ASPs/nPlayG/app/src/main/res/menu/menu_main.xml" qualifiers="" type="menu"/><file name="ic_launcher" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" qualifiers="xhdpi-v4" type="mipmap"/><file name="ic_launcher_round" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" qualifiers="xhdpi-v4" type="mipmap"/><file name="abc" path="/Users/np/ASPs/nPlayG/app/src/main/res/raw/abc.mp3" qualifiers="" type="raw"/><file path="/Users/np/ASPs/nPlayG/app/src/main/res/values-w1240dp/dimens.xml" qualifiers="w1240dp-v13"><dimen name="fab_margin">200dp</dimen></file><file name="ic_launcher" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" qualifiers="anydpi-v26" type="mipmap"/><file name="ic_launcher_round" path="/Users/np/ASPs/nPlayG/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" qualifiers="anydpi-v26" type="mipmap"/></source></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/np/ASPs/nPlayG/app/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/np/ASPs/nPlayG/app/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/np/ASPs/nPlayG/app/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated" generated-set="generated$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/np/ASPs/nPlayG/app/build/generated/res/resValues/debug"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="AlertDialog">
         <attr name="android:layout"/>
         <attr format="reference" name="buttonPanelSideLayout"/>
         <attr format="reference" name="listLayout"/>
@@ -13503,6 +13527,30 @@
             <flag name="disableIntraAutoTransition" value="2"/>
             <flag name="onInterceptTouchReturnSwipe" value="4"/>
         </attr>
+    </declare-styleable><declare-styleable name="WaveformSeekBar">
+        <attr format="float" name="wave_progress"/>
+        <attr format="float" name="wave_max_progress"/>
+        <attr format="float" name="wave_visible_progress"/>
+        <attr format="dimension" name="wave_width"/>
+        <attr format="dimension" name="wave_gap"/>
+        <attr format="dimension" name="wave_padding_top"/>
+        <attr format="dimension" name="wave_padding_Bottom"/>
+        <attr format="dimension" name="wave_padding_left"/>
+        <attr format="dimension" name="wave_padding_right"/>
+        <attr format="dimension" name="wave_min_height"/>
+        <attr format="dimension" name="wave_corner_radius"/>
+        <attr format="color" name="wave_background_color"/>
+        <attr format="color" name="wave_progress_color"/>
+        <attr format="enum" name="wave_gravity">
+            <enum name="top" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="bottom" value="2"/>
+        </attr>
+        <attr format="dimension" name="marker_width"/>
+        <attr format="color" name="marker_color"/>
+        <attr format="dimension" name="marker_text_size"/>
+        <attr format="color" name="marker_text_color"/>
+        <attr format="dimension" name="marker_text_padding"/>
     </declare-styleable><declare-styleable name="PropertySet">
         
         <attr name="android:visibility"/>

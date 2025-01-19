@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.belaku.nplay.app-mergeDebugResources-46:/values-ro/values-ro.xml",
+            "outputFile": "com.belaku.nplay.app-mergeDebugResources-47:/values-ro/values-ro.xml",
             "map": [
                 {
                     "source": "/Users/np/.gradle/caches/transforms-4/79709d1ba8ab32434b37c31c811c2032/transformed/appcompat-1.7.0/res/values-ro/values-ro.xml",
