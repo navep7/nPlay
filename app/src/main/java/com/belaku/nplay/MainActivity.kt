@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             tx.text = item + "\t\t\t"
             tx.setBackgroundResource(android.R.drawable.editbox_background)
             tx.setOnClickListener(View.OnClickListener {
-                seekBar.setProgress(0)
+                wfs.progress = 0f
                 if (isMyServiceRunning(MusicService::class.java)) {
                     stopService(Intent(this@MainActivity, MusicService::class.java))
                 }
