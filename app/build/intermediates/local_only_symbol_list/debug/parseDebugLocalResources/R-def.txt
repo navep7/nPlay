@@ -25,7 +25,6 @@ id main
 id nav_graph
 id rl_main
 id rv
-id seek
 id ss_dynamic
 id textview_first
 id textview_second
@@ -45,7 +44,12 @@ menu menu_main
 mipmap ic_launcher
 mipmap ic_launcher_round
 navigation nav_graph
+raw a
 raw abc
+raw b
+raw c
+raw d
+raw e
 string action_settings
 string app_name
 string first_fragment_label

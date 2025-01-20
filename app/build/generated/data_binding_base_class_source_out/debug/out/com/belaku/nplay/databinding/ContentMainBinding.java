@@ -9,7 +9,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,35 +41,31 @@ public final class ContentMainBinding implements ViewBinding {
   public final RecyclerView rv;
 
   @NonNull
-  public final SeekBar seek;
-
-  @NonNull
   public final HorizontalScrollView ssDynamic;
 
   @NonNull
   public final TextView txCurrentTime;
 
   @NonNull
-  public final TextView txDuration;
+  public final TextView txSname;
 
   @NonNull
   public final WaveformSeekBar wfsb;
 
   private ContentMainBinding(@NonNull RelativeLayout rootView, @NonNull EditText edtxSearchQuery,
       @NonNull ImageButton imgbtnFav, @NonNull LinearLayout llDynamic,
-      @NonNull RelativeLayout rlMain, @NonNull RecyclerView rv, @NonNull SeekBar seek,
+      @NonNull RelativeLayout rlMain, @NonNull RecyclerView rv,
       @NonNull HorizontalScrollView ssDynamic, @NonNull TextView txCurrentTime,
-      @NonNull TextView txDuration, @NonNull WaveformSeekBar wfsb) {
+      @NonNull TextView txSname, @NonNull WaveformSeekBar wfsb) {
     this.rootView = rootView;
     this.edtxSearchQuery = edtxSearchQuery;
     this.imgbtnFav = imgbtnFav;
     this.llDynamic = llDynamic;
     this.rlMain = rlMain;
     this.rv = rv;
-    this.seek = seek;
     this.ssDynamic = ssDynamic;
     this.txCurrentTime = txCurrentTime;
-    this.txDuration = txDuration;
+    this.txSname = txSname;
     this.wfsb = wfsb;
   }
 
@@ -127,12 +122,6 @@ public final class ContentMainBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.seek;
-      SeekBar seek = ViewBindings.findChildViewById(rootView, id);
-      if (seek == null) {
-        break missingId;
-      }
-
       id = R.id.ss_dynamic;
       HorizontalScrollView ssDynamic = ViewBindings.findChildViewById(rootView, id);
       if (ssDynamic == null) {
@@ -145,9 +134,9 @@ public final class ContentMainBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.tx_duration;
-      TextView txDuration = ViewBindings.findChildViewById(rootView, id);
-      if (txDuration == null) {
+      id = R.id.tx_sname;
+      TextView txSname = ViewBindings.findChildViewById(rootView, id);
+      if (txSname == null) {
         break missingId;
       }
 
@@ -158,7 +147,7 @@ public final class ContentMainBinding implements ViewBinding {
       }
 
       return new ContentMainBinding((RelativeLayout) rootView, edtxSearchQuery, imgbtnFav,
-          llDynamic, rlMain, rv, seek, ssDynamic, txCurrentTime, txDuration, wfsb);
+          llDynamic, rlMain, rv, ssDynamic, txCurrentTime, txSname, wfsb);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

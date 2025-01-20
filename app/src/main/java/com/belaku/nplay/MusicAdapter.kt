@@ -66,11 +66,11 @@ class MusicAdapter(
 
         holder.sname.text = songdata.title
         holder.aname.text = songdata.album.title
-        /*val d: Date = Date(songdata.duration * 1000L)
+        val d: Date = Date(songdata.duration * 1000L)
         val df: SimpleDateFormat = SimpleDateFormat("mm:ss") // HH for 0-23
         df.setTimeZone(TimeZone.getTimeZone("GMT"))
         val time: kotlin.String = df.format(d)
-        holder.dur.text = time*/
+        holder.dur.text = time
         Picasso.get().load(songdata.album.cover).into(holder.imageView)
     }
 

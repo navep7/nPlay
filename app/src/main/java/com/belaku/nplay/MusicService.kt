@@ -41,7 +41,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
     override fun onCreate() {
         super.onCreate()
-        serviceNotify(MainActivity.dataList[songIndex].title)
+        serviceNotify("")
     //    notifySong(0)
     }
 
@@ -144,10 +144,10 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
             try {
                 val uri = Uri.parse(songsUrlList[songIndex])
                 MainActivity.wfs.visibility = View.VISIBLE
+                MainActivity.txSongName.visibility = View.VISIBLE
                 MainActivity.txNow.visibility = View.VISIBLE
-                MainActivity.txTotal.visibility = View.VISIBLE
-
-              //  MainActivity.wfs.setSampleFrom(songsUrlList[songIndex])
+                MainActivity.txSongName.text = MainActivity.dataList[songIndex].title
+         //       MainActivity.wfs.setSampleFrom(songsUrlList[songIndex])
                 mediaPlayer = MediaPlayer().apply {
                     setAudioAttributes(
                         AudioAttributes.Builder()
@@ -165,7 +165,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 mediaPlayer.setOnErrorListener(this)
             } catch (e: Exception) {
                 println(e.toString())
-            //    Toast.makeText(applicationContext, "P ex - " + e, Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "P ex - " + e, Toast.LENGTH_LONG).show()
             }
 
 

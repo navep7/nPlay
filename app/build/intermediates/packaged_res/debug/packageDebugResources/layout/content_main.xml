@@ -58,47 +58,44 @@
         android:visibility="invisible"
         android:textStyle="bold"
         android:textColor="@android:color/holo_red_light"
-        android:layout_alignStart="@+id/seek"
-        android:layout_below="@+id/seek"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tx_sname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:ignore="HardcodedText" />
 
+
     <TextView
-        android:id="@+id/tx_duration"
-        android:text="00:30"
+        android:id="@+id/tx_sname"
         android:visibility="invisible"
-        android:textColor="@android:color/holo_red_light"
-        android:layout_alignEnd="@+id/seek"
-        android:layout_below="@+id/seek"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="HardcodedText" />
+        android:text="Song Name.."
+        android:textColor="@android:color/white"
+        android:background="#21000000"
+        android:textStyle="bold|italic"
+        android:textSize="35sp"
+        android:gravity="center"
+        android:layout_above="@+id/wfsb"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <com.masoudss.lib.WaveformSeekBar
         android:id="@+id/wfsb"
         android:visibility="invisible"
-        android:layout_alignBottom="@+id/rv"
-        android:layout_alignStart="@+id/rv"
-        android:layout_marginStart="@dimen/fab_margin"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_width="350dp"
-        android:layout_height="35dp"
-        app:wave_background_color="@android:color/holo_green_light"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:wave_background_color="@android:color/black"
         app:wave_corner_radius="25dp"
         app:wave_gap="3dp"
         app:wave_gravity="center"
-        app:wave_min_height="3dp"
-        android:layout_centerInParent="true"
-        app:wave_progress_color="@android:color/holo_red_light"
+        app:wave_min_height="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="100dp"
+        android:layout_alignParentBottom="true"
+        app:wave_progress_color="@android:color/white"
         app:wave_width="3dp" />
 
-    <SeekBar
-        android:id="@+id/seek"
-        android:visibility="invisible"
-        android:layout_alignBottom="@+id/rv"
-        android:layout_alignStart="@+id/rv"
-        android:layout_width="350dp"
-        android:layout_height="35dp"/>
 
 </RelativeLayout>
