@@ -10,23 +10,18 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
-import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
 import android.util.Log
-import android.util.StatsLog.logEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import android.widget.TextView.VISIBLE
@@ -34,7 +29,6 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.belaku.nplay.MusicService.Companion.mediaPlayer
@@ -50,10 +44,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.File
 import java.lang.reflect.Type
 import java.net.URL
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.TimeZone
@@ -92,10 +84,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     @SuppressLint("StaticFieldLeak")
     companion object {
         lateinit var dataList: ArrayList<Data>
-        lateinit var seekBar: SeekBar
         lateinit var wfs:WaveformSeekBar
+        lateinit var txSongName: TextView
         lateinit var txNow: TextView
-        lateinit var txTotal: TextView
 
     }
     private lateinit var query: String
@@ -146,6 +137,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             tx.setBackgroundResource(android.R.drawable.editbox_background)
             tx.setOnClickListener(View.OnClickListener {
                 wfs.progress = 0f
+                txSongName.text = "Playing..."
                 if (isMyServiceRunning(MusicService::class.java)) {
                     stopService(Intent(this@MainActivity, MusicService::class.java))
                 }
@@ -297,12 +289,12 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         editTextSearch = findViewById(R.id.edtx_search_query)
         recyclerview = findViewById(R.id.rv)
         linearLayoutFavs = findViewById(R.id.ll_dynamic)
-        seekBar = findViewById(R.id.seek)
         wfs = findViewById(R.id.wfsb)
+        txSongName = findViewById(R.id.tx_sname)
 
     //    wavePlay()
         txNow = findViewById(R.id.tx_current_time)
-        txTotal = findViewById(R.id.tx_duration)
+
     }
 
 
@@ -382,10 +374,25 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     private fun updateUI(what: Int) {
 
+        txSongName.text = dataList[what].title
         wfs.visibility = View.VISIBLE
+        txSongName.visibility = VISIBLE
         txNow.visibility = View.VISIBLE
-        txTotal.visibility = View.VISIBLE
-        wfs.setSampleFrom(R.raw.abc)
+
+
+        val threadSeek = Thread {
+            try {
+                wfs.setSampleFrom(songs[what])
+            // Your code goes here
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        threadSeek.start()
+
+
+      //  wfs.setSampleFrom(R.raw.abc)
         wfs.apply {
             onProgressChanged = object : SeekBarOnProgressChanged {
                 override fun onProgressChanged(
@@ -417,7 +424,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         thread.start()
 
-        seekBar.max = mediaPlayer.duration
         wfs.maxProgress = mediaPlayer.duration.toFloat()
 
 
@@ -425,7 +431,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             this@MainActivity.runOnUiThread {
                 if(isMyServiceRunning(MusicService::class.java))
                 if(mediaPlayer.isPlaying) {
-                    seekBar.setProgress(mediaPlayer.currentPosition)
                     wfs.progress = mediaPlayer.currentPosition.toFloat()
                     Log.d("Time21 ", mediaPlayer.currentPosition.toString())
                     val duration = mediaPlayer.currentPosition
@@ -508,17 +513,19 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     @RequiresApi(Build.VERSION_CODES.O)
     override
     fun onItemClick(position: Int) {
+        {
 
 
-
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override
     fun onItemLongClick(position: Int) {
 
-        saveFav(editTextSearch.text.toString())
-            makeToast("Added " + editTextSearch.text.toString() + " to Favs!")
+        if (editTextSearch.text.length > 0)
+            if (saveFav(editTextSearch.text.toString()))
+                makeToast("Added " + editTextSearch.text.toString() + " to Favs!")
 
     }
 

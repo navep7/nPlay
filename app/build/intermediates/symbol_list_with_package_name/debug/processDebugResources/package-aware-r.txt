@@ -3592,7 +3592,6 @@ id search_mag_icon
 id search_plate
 id search_src_text
 id search_voice_btn
-id seek
 id select_dialog_listview
 id selected
 id selection_type
@@ -3923,7 +3922,12 @@ mipmap ic_launcher
 mipmap ic_launcher_round
 navigation nav_graph
 plurals mtrl_badge_content_description
+raw a
 raw abc
+raw b
+raw c
+raw d
+raw e
 string abc_action_bar_home_description
 string abc_action_bar_up_description
 string abc_action_menu_overflow_description
