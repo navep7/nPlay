@@ -29,6 +29,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.belaku.nplay.MusicService.Companion.mediaPlayer
@@ -56,7 +57,7 @@ import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
-    private lateinit var fabPlayAlbum: FloatingActionButton
+
     private var gson: Gson = Gson()
     private lateinit var linearLayoutFavs: LinearLayout
     private lateinit var arrayListFavsAdded: ArrayList<String>
@@ -86,6 +87,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     @SuppressLint("StaticFieldLeak")
     companion object {
+        lateinit var fabPlayAlbum: FloatingActionButton
         lateinit var dataList: ArrayList<Data>
         lateinit var wfs:WaveformSeekBar
         lateinit var txSongName: TextView
@@ -397,6 +399,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
 
+    @SuppressLint("ResourceAsColor")
     private fun updateUI(what: Int) {
 
         for (item in dataList) {
@@ -448,6 +451,16 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 bitmapAlbum = BitmapFactory.decodeStream(url.openConnection().getInputStream())
                 image = BitmapDrawable(applicationContext.getResources(), bitmapAlbum)
                 handlerForBG.postDelayed(Runnable {  relativeLayoutMain.background = image }, 1000)
+
+
+                Palette.from(image.bitmap).generate { palette ->
+                    // Do something with colors...
+                    if (palette != null) {
+                        wfs.waveBackgroundColor = palette.getLightMutedColor(R.color.white)
+                        wfs.waveProgressColor = palette.getDarkMutedColor(R.color.black)
+                    }
+                }
+
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
                 Log.d("updateUI exception - ", e.toString())
@@ -457,7 +470,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         thread.start()
 
         wfs.maxProgress = mediaPlayer.duration.toFloat()
-
 
         fixedRateTimer("timer", false, 0L, 1000) {
             this@MainActivity.runOnUiThread {
@@ -475,6 +487,13 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             }
         }
 
+    }
+
+    fun getDominantColor(bitmap: Bitmap?): Int {
+        val newBitmap = Bitmap.createScaledBitmap(bitmap!!, 1, 1, true)
+        val color = newBitmap.getPixel(0, 0)
+        newBitmap.recycle()
+        return color
     }
 
 
@@ -545,10 +564,19 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     @RequiresApi(Build.VERSION_CODES.O)
     override
     fun onItemClick(position: Int) {
-        {
+
+        if (isMyServiceRunning(MusicService::class.java))
+        stopService(playIntent)
 
 
-        }
+
+
+            fabPlayAlbum.setImageResource(android.R.drawable.ic_media_pause)
+            playIntent.putExtra("0", songs[position])
+            startForegroundService(playIntent)
+
+            handlerForBG.postDelayed(Runnable { updateUI(position) }, 1000)
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

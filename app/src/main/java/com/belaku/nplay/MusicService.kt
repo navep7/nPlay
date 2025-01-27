@@ -124,12 +124,13 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
         scontext = this;
 
+        if (intent.extras?.get("1") != null)
         for (i in 0 until 30) {
             if (intent.extras?.get(i.toString()) != null)
                 songsUrlList.add(intent.extras?.get(i.toString()).toString())
             else break
-
         }
+        else  songsUrlList.add(intent.extras?.get("0").toString())
 
      //   serviceNotify(MainActivity.dataList[songIndex].title)
 
@@ -137,9 +138,13 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
         for (item in songsUrlList)
             println("S21 - received" + item)
 
-        if (songsUrlList != null) {
+        if (songsUrlList.size > 0) {
 
-            notifySong(0)
+            for (i in MainActivity.dataList.indices) {
+                if (MainActivity.dataList[i].preview.equals(songsUrlList[0]))
+                    notifySong(i)
+            }
+         //   notifySong(songIndex)
 
             try {
                 val uri = Uri.parse(songsUrlList[songIndex])
@@ -302,7 +307,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
     override fun onCompletion(p0: MediaPlayer?) {
 
-        songIndex++
+        if (songsUrlList.size > 1) {
+            songIndex++
 
         notifySong(songIndex)
 
@@ -318,7 +324,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 setDataSource(applicationContext, uri)
                 prepare() // might take long! (for buffering, etc)
                 start()
-            //    startFadeIn()
+                //    startFadeIn()
                 saveIndex(songIndex)
             }
 
@@ -327,9 +333,11 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
         }
 
         updateActivity()
-
-
-
+    } else {
+            super.stopSelf()
+            MainActivity.fabPlayAlbum.setImageResource(android.R.drawable.ic_media_play)
+            songsUrlList.clear()
+        }
     }
 
     private fun saveIndex(songIndex: Int) {

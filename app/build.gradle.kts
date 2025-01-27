@@ -42,6 +42,7 @@ dependencies {
 
     implementation("com.github.massoudss:waveformSeekBar:5.0.2")
     implementation("com.github.lincollincol:amplituda:2.2.2")
+    implementation("androidx.palette:palette:1.0.0")
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.picasso)
