@@ -17,8 +17,7 @@ id action_settings
 id button_first
 id button_second
 id edtx_search_query
-id fab
-id imgbtn_fav
+id fab_play_all
 id imgv_art
 id ll_dynamic
 id main
@@ -31,6 +30,7 @@ id textview_second
 id tx_aname
 id tx_current_time
 id tx_duration
+id tx_featuring
 id tx_sname
 id tx_url
 id wfsb

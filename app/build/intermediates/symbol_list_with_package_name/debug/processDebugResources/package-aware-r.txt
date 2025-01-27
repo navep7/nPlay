@@ -3374,7 +3374,7 @@ id escape
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
-id fab
+id fab_play_all
 id fade
 id fill
 id fill_horizontal
@@ -3414,7 +3414,6 @@ id ifRoom
 id ignore
 id ignoreRequest
 id image
-id imgbtn_fav
 id imgv_art
 id immediateStop
 id included
@@ -3690,6 +3689,7 @@ id triangle
 id tx_aname
 id tx_current_time
 id tx_duration
+id tx_featuring
 id tx_sname
 id tx_url
 id unchecked

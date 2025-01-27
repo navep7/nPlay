@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.belaku.nplay.MusicService.Companion.mediaPlayer
 import com.belaku.nplay.databinding.ActivityMainBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.masoudss.lib.SeekBarOnProgressChanged
@@ -55,6 +56,7 @@ import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
+    private lateinit var fabPlayAlbum: FloatingActionButton
     private var gson: Gson = Gson()
     private lateinit var linearLayoutFavs: LinearLayout
     private lateinit var arrayListFavsAdded: ArrayList<String>
@@ -62,6 +64,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     private lateinit var relativeLayoutMain: RelativeLayout
     private lateinit var editTextSearch: EditText
     private lateinit var recyclerview : RecyclerView
+    private lateinit var textViewFeaturing: TextView
 
 
     private var playingSongIndex by Delegates.notNull<Int>()
@@ -133,9 +136,11 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         arraylistFavorites = populateFavorites("favorites")
         for (item in arraylistFavorites) {
             val tx: TextView =  TextView(applicationContext)
-            tx.text = item + "\t\t\t"
+            tx.text = item.substring(0, 1).toUpperCase() + item.substring(1) + "\t\t\t"
             tx.setBackgroundResource(android.R.drawable.editbox_background)
-            tx.setOnClickListener(View.OnClickListener {
+
+            tx.setOnClickListener {
+                textViewFeaturing.text = "Featuring, " + tx.text.toString().strip() + "..."
                 wfs.progress = 0f
                 txSongName.text = "Playing..."
                 if (isMyServiceRunning(MusicService::class.java)) {
@@ -143,8 +148,24 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 }
                 query = tx.text.toString()
                 Getdata()
-            })
+            }
             linearLayoutFavs.addView(tx)
+
+
+            if (!isMyServiceRunning(MusicService::class.java)) {
+                wfs.progress = 0f
+                txSongName.text = "Playing..."
+                if (isMyServiceRunning(MusicService::class.java)) {
+                    stopService(Intent(this@MainActivity, MusicService::class.java))
+                }
+
+
+                if (item == arraylistFavorites.get(0)) {
+                    query = tx.text.toString()
+                    textViewFeaturing.text = "Featuring, " + tx.text.toString().strip() + "..."
+                    Getdata()
+                }
+            }
         }
 
 
@@ -153,6 +174,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_SEND) {
            //     Toast.makeText(this@MainActivity, editTextSearch.getText(), Toast.LENGTH_SHORT).show()
+                textViewFeaturing.text = "Featuring, " + editTextSearch.text.substring(0, 1).toUpperCase() + editTextSearch.text.substring(1)
                 query = editTextSearch.getText().toString()
                 Getdata()
                 handled = true
@@ -168,13 +190,13 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
 
-        binding.fab.setOnClickListener { view ->
+        fabPlayAlbum.setOnClickListener { view ->
 
 
                 if(!isMyServiceRunning(MusicService::class.java)) {
 
                     if (songs.size > 0) {
-                        binding.fab.setImageResource(android.R.drawable.ic_media_pause)
+                        fabPlayAlbum.setImageResource(android.R.drawable.ic_media_pause)
                         var i: Int = 0;
                         for (item in songs) {
                             playIntent.putExtra(i.toString(), item)
@@ -184,11 +206,11 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     }
                 } else {
                     if (mediaPlayer.isPlaying) {
-                        binding.fab.setImageResource(android.R.drawable.ic_media_play)
+                        fabPlayAlbum.setImageResource(android.R.drawable.ic_media_play)
                         mediaPlayer.pause()
 
                     } else {
-                        binding.fab.setImageResource(android.R.drawable.ic_media_pause)
+                        fabPlayAlbum.setImageResource(android.R.drawable.ic_media_pause)
                         mediaPlayer.start()
                     }
                 }
@@ -292,8 +314,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         wfs = findViewById(R.id.wfsb)
         txSongName = findViewById(R.id.tx_sname)
 
-    //    wavePlay()
+        textViewFeaturing = findViewById(R.id.tx_featuring)
         txNow = findViewById(R.id.tx_current_time)
+        fabPlayAlbum = findViewById(R.id.fab_play_all)
 
     }
 
@@ -304,9 +327,10 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
     override fun onDestroy() {
+
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
-//        saveQuery(query)
-        if (!MusicService.mediaPlayer.isPlaying) {
+        if (isMyServiceRunning(MusicService::class.java))
+        if (!mediaPlayer.isPlaying) {
             stopService(Intent(this@MainActivity, MusicService::class.java))
             MusicService.notificationManager.cancelAll();
         }
@@ -346,10 +370,10 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         )
         if (isMyServiceRunning(MusicService::class.java)) {
 
-            binding.fab.visibility = VISIBLE
+            fabPlayAlbum.visibility = VISIBLE
             if (mediaPlayer.isPlaying)
-            binding.fab.setImageResource(android.R.drawable.ic_media_pause)
-            else binding.fab.setImageResource(android.R.drawable.ic_media_play)
+            fabPlayAlbum.setImageResource(android.R.drawable.ic_media_pause)
+            else fabPlayAlbum.setImageResource(android.R.drawable.ic_media_play)
 
             sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
@@ -363,6 +387,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 )
             )
 
+
            updateUI(songIndex)
 
         }
@@ -374,10 +399,15 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     private fun updateUI(what: Int) {
 
+        for (item in dataList) {
+            songs.add(item.preview)
+        }
+
         txSongName.text = dataList[what].title
         wfs.visibility = View.VISIBLE
         txSongName.visibility = VISIBLE
         txNow.visibility = View.VISIBLE
+
 
 
         val threadSeek = Thread {
@@ -385,10 +415,12 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 wfs.setSampleFrom(songs[what])
             // Your code goes here
             } catch (e: Exception) {
+                Log.d("ExcpSeek - ", e.toString())
                 e.printStackTrace()
             }
         }
 
+        if (songs.size > 0)
         threadSeek.start()
 
 
@@ -464,8 +496,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 dataList = (response.body()?.data as ArrayList<Data>?)!!
 
                 if (dataList.size > 0) {
-                    binding.fab.setImageResource(android.R.drawable.ic_media_play)
-                    binding.fab.visibility = VISIBLE
+                    fabPlayAlbum.setImageResource(android.R.drawable.ic_media_play)
+                    fabPlayAlbum.visibility = VISIBLE
                 }
                 songs.clear()
                 for (item in dataList)

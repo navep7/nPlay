@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.belaku.nplay.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.masoudss.lib.WaveformSeekBar;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -29,7 +29,7 @@ public final class ContentMainBinding implements ViewBinding {
   public final EditText edtxSearchQuery;
 
   @NonNull
-  public final ImageButton imgbtnFav;
+  public final FloatingActionButton fabPlayAll;
 
   @NonNull
   public final LinearLayout llDynamic;
@@ -47,24 +47,28 @@ public final class ContentMainBinding implements ViewBinding {
   public final TextView txCurrentTime;
 
   @NonNull
+  public final TextView txFeaturing;
+
+  @NonNull
   public final TextView txSname;
 
   @NonNull
   public final WaveformSeekBar wfsb;
 
   private ContentMainBinding(@NonNull RelativeLayout rootView, @NonNull EditText edtxSearchQuery,
-      @NonNull ImageButton imgbtnFav, @NonNull LinearLayout llDynamic,
+      @NonNull FloatingActionButton fabPlayAll, @NonNull LinearLayout llDynamic,
       @NonNull RelativeLayout rlMain, @NonNull RecyclerView rv,
       @NonNull HorizontalScrollView ssDynamic, @NonNull TextView txCurrentTime,
-      @NonNull TextView txSname, @NonNull WaveformSeekBar wfsb) {
+      @NonNull TextView txFeaturing, @NonNull TextView txSname, @NonNull WaveformSeekBar wfsb) {
     this.rootView = rootView;
     this.edtxSearchQuery = edtxSearchQuery;
-    this.imgbtnFav = imgbtnFav;
+    this.fabPlayAll = fabPlayAll;
     this.llDynamic = llDynamic;
     this.rlMain = rlMain;
     this.rv = rv;
     this.ssDynamic = ssDynamic;
     this.txCurrentTime = txCurrentTime;
+    this.txFeaturing = txFeaturing;
     this.txSname = txSname;
     this.wfsb = wfsb;
   }
@@ -102,9 +106,9 @@ public final class ContentMainBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.imgbtn_fav;
-      ImageButton imgbtnFav = ViewBindings.findChildViewById(rootView, id);
-      if (imgbtnFav == null) {
+      id = R.id.fab_play_all;
+      FloatingActionButton fabPlayAll = ViewBindings.findChildViewById(rootView, id);
+      if (fabPlayAll == null) {
         break missingId;
       }
 
@@ -134,6 +138,12 @@ public final class ContentMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tx_featuring;
+      TextView txFeaturing = ViewBindings.findChildViewById(rootView, id);
+      if (txFeaturing == null) {
+        break missingId;
+      }
+
       id = R.id.tx_sname;
       TextView txSname = ViewBindings.findChildViewById(rootView, id);
       if (txSname == null) {
@@ -146,8 +156,8 @@ public final class ContentMainBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ContentMainBinding((RelativeLayout) rootView, edtxSearchQuery, imgbtnFav,
-          llDynamic, rlMain, rv, ssDynamic, txCurrentTime, txSname, wfsb);
+      return new ContentMainBinding((RelativeLayout) rootView, edtxSearchQuery, fabPlayAll,
+          llDynamic, rlMain, rv, ssDynamic, txCurrentTime, txFeaturing, txSname, wfsb);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

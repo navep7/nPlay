@@ -36,10 +36,13 @@
 
     </HorizontalScrollView>
 
-    <ImageButton
-        android:id="@+id/imgbtn_fav"
-        android:src="@android:drawable/btn_star"
-        android:visibility="invisible"
+
+
+    <TextView
+        android:id="@+id/tx_featuring"
+        android:text="Featuring..."
+        android:textColor="@color/white"
+        android:layout_marginStart="@dimen/fab_margin"
         android:layout_below="@+id/ss_dynamic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -47,8 +50,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
-        android:layout_below="@+id/ss_dynamic"
-        android:layout_toEndOf="@+id/imgbtn_fav"
+        android:layout_below="@+id/tx_featuring"
+        android:layout_marginStart="35dp"
+        android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -74,7 +78,7 @@
         android:textStyle="bold|italic"
         android:textSize="35sp"
         android:gravity="center"
-        android:layout_above="@+id/wfsb"
+        android:layout_below="@+id/rv"
         android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -93,9 +97,21 @@
         android:layout_marginStart="@dimen/fab_margin"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="100dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/tx_sname"
         app:wave_progress_color="@android:color/white"
         app:wave_width="3dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_play_all"
+        android:src="@android:drawable/ic_media_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"/>
+
+
+
 
 
 </RelativeLayout>

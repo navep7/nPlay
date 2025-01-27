@@ -1,15 +1,15 @@
 [
     {
-        "merged": "com.belaku.nplay.app-mergeDebugResources-48:/layout/rv_item.xml",
-        "source": "com.belaku.nplay.app-main-51:/layout/rv_item.xml"
-    },
-    {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-mergeDebugResources-48:/layout/activity_main.xml",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/layout/activity_main.xml"
     },
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-mergeDebugResources-48:/layout/fragment_first.xml",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/layout/fragment_first.xml"
+    },
+    {
+        "merged": "com.belaku.nplay.app-mergeDebugResources-48:/layout/content_main.xml",
+        "source": "com.belaku.nplay.app-main-51:/layout/content_main.xml"
     },
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-mergeDebugResources-48:/layout/content_main.xml",

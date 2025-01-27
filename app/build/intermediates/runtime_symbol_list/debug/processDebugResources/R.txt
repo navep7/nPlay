@@ -3373,7 +3373,7 @@ int id escape 0x7f0800bf
 int id exitUntilCollapsed 0x7f0800c0
 int id expand_activities_button 0x7f0800c1
 int id expanded_menu 0x7f0800c2
-int id fab 0x7f0800c3
+int id fab_play_all 0x7f08021c
 int id fade 0x7f0800c4
 int id fill 0x7f0800c5
 int id fill_horizontal 0x7f0800c6
@@ -3413,7 +3413,6 @@ int id ifRoom 0x7f0800e7
 int id ignore 0x7f0800e8
 int id ignoreRequest 0x7f0800e9
 int id image 0x7f0800ea
-int id imgbtn_fav 0x7f0800eb
 int id imgv_art 0x7f0800ec
 int id immediateStop 0x7f0800ed
 int id included 0x7f0800ee
@@ -3689,6 +3688,7 @@ int id triangle 0x7f0801fc
 int id tx_aname 0x7f0801fd
 int id tx_current_time 0x7f0801fe
 int id tx_duration 0x7f0801ff
+int id tx_featuring 0x7f08021b
 int id tx_sname 0x7f080200
 int id tx_url 0x7f080201
 int id unchecked 0x7f080202
