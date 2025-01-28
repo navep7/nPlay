@@ -24,7 +24,15 @@
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/layout/rv_item.xml"
     },
     {
+        "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-mergeDebugResources-48:/layout/activity_notify_handler.xml",
+        "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/layout/activity_notify_handler.xml"
+    },
+    {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-mergeDebugResources-48:/layout/activity_settings.xml",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-mergeDebugResources-48:/layout/notification_push.xml",
+        "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/layout/notification_push.xml"
     }
 ]

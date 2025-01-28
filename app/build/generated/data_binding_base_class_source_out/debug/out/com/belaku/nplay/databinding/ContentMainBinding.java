@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,6 +33,9 @@ public final class ContentMainBinding implements ViewBinding {
   public final FloatingActionButton fabPlayAll;
 
   @NonNull
+  public final ImageButton imgbtnPlayAlbum;
+
+  @NonNull
   public final LinearLayout llDynamic;
 
   @NonNull
@@ -56,13 +60,14 @@ public final class ContentMainBinding implements ViewBinding {
   public final WaveformSeekBar wfsb;
 
   private ContentMainBinding(@NonNull RelativeLayout rootView, @NonNull EditText edtxSearchQuery,
-      @NonNull FloatingActionButton fabPlayAll, @NonNull LinearLayout llDynamic,
-      @NonNull RelativeLayout rlMain, @NonNull RecyclerView rv,
+      @NonNull FloatingActionButton fabPlayAll, @NonNull ImageButton imgbtnPlayAlbum,
+      @NonNull LinearLayout llDynamic, @NonNull RelativeLayout rlMain, @NonNull RecyclerView rv,
       @NonNull HorizontalScrollView ssDynamic, @NonNull TextView txCurrentTime,
       @NonNull TextView txFeaturing, @NonNull TextView txSname, @NonNull WaveformSeekBar wfsb) {
     this.rootView = rootView;
     this.edtxSearchQuery = edtxSearchQuery;
     this.fabPlayAll = fabPlayAll;
+    this.imgbtnPlayAlbum = imgbtnPlayAlbum;
     this.llDynamic = llDynamic;
     this.rlMain = rlMain;
     this.rv = rv;
@@ -112,6 +117,12 @@ public final class ContentMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.imgbtn_PlayAlbum;
+      ImageButton imgbtnPlayAlbum = ViewBindings.findChildViewById(rootView, id);
+      if (imgbtnPlayAlbum == null) {
+        break missingId;
+      }
+
       id = R.id.ll_dynamic;
       LinearLayout llDynamic = ViewBindings.findChildViewById(rootView, id);
       if (llDynamic == null) {
@@ -157,7 +168,8 @@ public final class ContentMainBinding implements ViewBinding {
       }
 
       return new ContentMainBinding((RelativeLayout) rootView, edtxSearchQuery, fabPlayAll,
-          llDynamic, rlMain, rv, ssDynamic, txCurrentTime, txFeaturing, txSname, wfsb);
+          imgbtnPlayAlbum, llDynamic, rlMain, rv, ssDynamic, txCurrentTime, txFeaturing, txSname,
+          wfsb);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

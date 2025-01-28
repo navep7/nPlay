@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
@@ -20,19 +21,23 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.RemoteViews
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import android.widget.TextView.VISIBLE
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.belaku.nplay.MusicService.Companion.mediaPlayer
+import com.belaku.nplay.MusicService.Companion.noteContentView
 import com.belaku.nplay.databinding.ActivityMainBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
@@ -58,13 +63,14 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
+    private val PERMISSIONS_REQUEST_POST_N: Int = 0
+    private val notePlay: Boolean = true
+    private lateinit var notePlayPauseEvent: Intent
     private var gson: Gson = Gson()
     private lateinit var linearLayoutFavs: LinearLayout
     private lateinit var arrayListFavsAdded: ArrayList<String>
     private lateinit var mSharedPreference: SharedPreferences
-    private lateinit var relativeLayoutMain: RelativeLayout
     private lateinit var editTextSearch: EditText
-    private lateinit var recyclerview : RecyclerView
     private lateinit var textViewFeaturing: TextView
 
 
@@ -83,15 +89,19 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     private var songs: ArrayList<String> = ArrayList()
     private lateinit var handlerForBG: Handler
     private var songIndex: Int = 0
-    private lateinit var image: BitmapDrawable
+    private lateinit var imageButtonPlayAlbum: ImageButton
 
     @SuppressLint("StaticFieldLeak")
     companion object {
-        lateinit var fabPlayAlbum: FloatingActionButton
+        lateinit var fabPlayPause: FloatingActionButton
         lateinit var dataList: ArrayList<Data>
         lateinit var wfs:WaveformSeekBar
         lateinit var txSongName: TextView
         lateinit var txNow: TextView
+        lateinit var contentView: RemoteViews
+        lateinit var imageArtAlbum: BitmapDrawable
+        lateinit var relativeLayoutMain: RelativeLayout
+        lateinit var recyclerview : RecyclerView
 
     }
     private lateinit var query: String
@@ -109,12 +119,17 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
 
+    @SuppressLint("ResourceAsColor")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        PermissionCheck()
+
+        contentView = RemoteViews(packageName, R.layout.notification_push)
 
         findViewByIds()
         initializeStuff()
@@ -144,10 +159,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             tx.setOnClickListener {
                 textViewFeaturing.text = "Featuring, " + tx.text.toString().strip() + "..."
                 wfs.progress = 0f
-                txSongName.text = "Playing..."
-                if (isMyServiceRunning(MusicService::class.java)) {
-                    stopService(Intent(this@MainActivity, MusicService::class.java))
-                }
                 query = tx.text.toString()
                 Getdata()
             }
@@ -156,7 +167,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
             if (!isMyServiceRunning(MusicService::class.java)) {
                 wfs.progress = 0f
-                txSongName.text = "Playing..."
                 if (isMyServiceRunning(MusicService::class.java)) {
                     stopService(Intent(this@MainActivity, MusicService::class.java))
                 }
@@ -190,30 +200,50 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
 
+        imageButtonPlayAlbum.setOnClickListener {
+            if (isMyServiceRunning(MusicService::class.java)) {
+
+                stopService(playIntent)
+                imageButtonPlayAlbum.visibility = View.INVISIBLE
+                fabPlayPause.visibility = View.VISIBLE
+                fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
+                var i = 0;
+                for (item in songs) {
+                    playIntent.putExtra(i.toString(), item)
+                    i++
+                }
+
+                updateFirstUI()
+                startForegroundService(playIntent)
 
 
-        fabPlayAlbum.setOnClickListener { view ->
+            } else {
+                imageButtonPlayAlbum.visibility = View.INVISIBLE
+                fabPlayPause.visibility = View.VISIBLE
+                fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
+                var i = 0;
+                for (item in songs) {
+                    playIntent.putExtra(i.toString(), item)
+                    i++
+                }
+                updateFirstUI()
+                startForegroundService(playIntent)
+            }
+        }
 
 
-                if(!isMyServiceRunning(MusicService::class.java)) {
+        fabPlayPause.setOnClickListener { view ->
 
-                    if (songs.size > 0) {
-                        fabPlayAlbum.setImageResource(android.R.drawable.ic_media_pause)
-                        var i: Int = 0;
-                        for (item in songs) {
-                            playIntent.putExtra(i.toString(), item)
-                            i++
-                        }
-                        startForegroundService(playIntent)
-                    }
-                } else {
+
+                if(isMyServiceRunning(MusicService::class.java))  {
                     if (mediaPlayer.isPlaying) {
-                        fabPlayAlbum.setImageResource(android.R.drawable.ic_media_play)
+                        fabPlayPause.setImageResource(android.R.drawable.ic_media_play)
                         mediaPlayer.pause()
 
                     } else {
-                        fabPlayAlbum.setImageResource(android.R.drawable.ic_media_pause)
+                        fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
                         mediaPlayer.start()
+
                     }
                 }
 
@@ -271,6 +301,59 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     }
 
+    private fun updateFirstUI() {
+
+        Thread {
+            try {
+                // Your code goes here
+                val url = URL(dataList[0].album.cover)
+                var bitmapAlbum =
+                    BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                imageArtAlbum = BitmapDrawable(applicationContext.resources, bitmapAlbum)
+
+                relativeLayoutMain.background = imageArtAlbum
+                noteContentView.setImageViewBitmap(com.belaku.nplay.R.id.note_image, imageArtAlbum.bitmap)
+
+
+
+                Palette.from(imageArtAlbum.bitmap).generate { palette ->
+                    // Do something with colors...
+                    if (palette != null) {
+                        wfs.waveBackgroundColor = palette.getLightMutedColor(com.belaku.nplay.R.color.white)
+                        wfs.waveProgressColor = palette.getDarkMutedColor(com.belaku.nplay.R.color.black)
+                    }
+                }
+
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+                Log.d("updateUI exception - ", e.toString())
+            }
+        }.start()
+
+    }
+
+    private fun PermissionCheck() {
+
+        var permission_array=arrayOf(android.Manifest.permission.POST_NOTIFICATIONS)
+        if((ContextCompat.checkSelfPermission(this,permission_array[0]))==PackageManager.PERMISSION_DENIED){
+            requestPermissions(permission_array,0)
+        }
+
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if(requestCode==0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+
+            //Do Your Operations Here
+
+            //
+
+
+        }
+    }
+
     private fun Spotify() {
 
         val client = OkHttpClient()
@@ -318,7 +401,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         textViewFeaturing = findViewById(R.id.tx_featuring)
         txNow = findViewById(R.id.tx_current_time)
-        fabPlayAlbum = findViewById(R.id.fab_play_all)
+        fabPlayPause = findViewById(R.id.fab_play_all)
+        imageButtonPlayAlbum = findViewById(R.id.imgbtn_PlayAlbum)
 
     }
 
@@ -372,10 +456,10 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         )
         if (isMyServiceRunning(MusicService::class.java)) {
 
-            fabPlayAlbum.visibility = VISIBLE
+            fabPlayPause.visibility = VISIBLE
             if (mediaPlayer.isPlaying)
-            fabPlayAlbum.setImageResource(android.R.drawable.ic_media_pause)
-            else fabPlayAlbum.setImageResource(android.R.drawable.ic_media_play)
+            fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
+            else fabPlayPause.setImageResource(android.R.drawable.ic_media_play)
 
             sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
@@ -402,11 +486,11 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     @SuppressLint("ResourceAsColor")
     private fun updateUI(what: Int) {
 
-        for (item in dataList) {
-            songs.add(item.preview)
-        }
+        for (item in dataList)
+            songs.add(item.preview + " - " + item.title + " - " +  item.album.cover)
 
-        txSongName.text = dataList[what].title
+
+     //   txSongName.text = dataList[what].title
         wfs.visibility = View.VISIBLE
         txSongName.visibility = VISIBLE
         txNow.visibility = View.VISIBLE
@@ -415,7 +499,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         val threadSeek = Thread {
             try {
-                wfs.setSampleFrom(songs[what])
+                wfs.setSampleFrom(songs[what].split(" - ").get(0))
             // Your code goes here
             } catch (e: Exception) {
                 Log.d("ExcpSeek - ", e.toString())
@@ -424,7 +508,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         }
 
         if (songs.size > 0)
-        threadSeek.start()
+            threadSeek.start()
 
 
       //  wfs.setSampleFrom(R.raw.abc)
@@ -444,30 +528,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         }
 
         recyclerview.scrollToPosition(what)
-        val thread = Thread {
-            try {
-                // Your code goes here
-                val url = URL(dataList[what].album.cover)
-                bitmapAlbum = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                image = BitmapDrawable(applicationContext.getResources(), bitmapAlbum)
-                handlerForBG.postDelayed(Runnable {  relativeLayoutMain.background = image }, 1000)
 
-
-                Palette.from(image.bitmap).generate { palette ->
-                    // Do something with colors...
-                    if (palette != null) {
-                        wfs.waveBackgroundColor = palette.getLightMutedColor(R.color.white)
-                        wfs.waveProgressColor = palette.getDarkMutedColor(R.color.black)
-                    }
-                }
-
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-                Log.d("updateUI exception - ", e.toString())
-            }
-        }
-
-        thread.start()
 
         wfs.maxProgress = mediaPlayer.duration.toFloat()
 
@@ -515,12 +576,12 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 dataList = (response.body()?.data as ArrayList<Data>?)!!
 
                 if (dataList.size > 0) {
-                    fabPlayAlbum.setImageResource(android.R.drawable.ic_media_play)
-                    fabPlayAlbum.visibility = VISIBLE
+                    imageButtonPlayAlbum.setImageResource(android.R.drawable.ic_media_play)
+                    imageButtonPlayAlbum.visibility = VISIBLE
                 }
                 songs.clear()
                 for (item in dataList)
-                    songs.add(item.preview)
+                    songs.add(item.preview + " - " + item.title + " - " +  item.album.cover)
 
                 for (item in dataList)
                     Log.d("DATA7", "p - " + item.preview + "\n l - " + item.link)
@@ -566,12 +627,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     fun onItemClick(position: Int) {
 
         if (isMyServiceRunning(MusicService::class.java))
-        stopService(playIntent)
+            stopService(playIntent)
 
-
-
-
-            fabPlayAlbum.setImageResource(android.R.drawable.ic_media_pause)
+            fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
             playIntent.putExtra("0", songs[position])
             startForegroundService(playIntent)
 

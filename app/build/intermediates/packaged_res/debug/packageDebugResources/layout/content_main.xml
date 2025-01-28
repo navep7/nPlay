@@ -37,20 +37,33 @@
     </HorizontalScrollView>
 
 
+<ImageButton
+    android:id="@+id/imgbtn_PlayAlbum"
+    android:visibility="invisible"
+    android:layout_below="@+id/ss_dynamic"
+    android:layout_toRightOf="@+id/tx_featuring"
+    android:src="@android:drawable/ic_media_play"
+    android:background="@android:color/transparent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+
 
     <TextView
         android:id="@+id/tx_featuring"
+        android:background="#75ffffff"
         android:text="Featuring..."
-        android:textColor="@color/white"
-        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginTop="7dp"
+        android:textColor="@color/black"
         android:layout_below="@+id/ss_dynamic"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/fab_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
-        android:layout_below="@+id/tx_featuring"
+        android:layout_below="@+id/imgbtn_PlayAlbum"
         android:layout_marginStart="35dp"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
@@ -103,6 +116,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_play_all"
+        android:visibility="invisible"
         android:src="@android:drawable/ic_media_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

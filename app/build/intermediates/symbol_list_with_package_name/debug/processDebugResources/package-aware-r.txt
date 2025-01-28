@@ -3414,6 +3414,7 @@ id ifRoom
 id ignore
 id ignoreRequest
 id image
+id imgbtn_PlayAlbum
 id imgv_art
 id immediateStop
 id included
@@ -3517,6 +3518,9 @@ id noState
 id none
 id normal
 id north
+id note_artist_name
+id note_image
+id note_song_name
 id notification_background
 id notification_main_column
 id notification_main_column_container
@@ -3833,6 +3837,7 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_main
+layout activity_notify_handler
 layout activity_settings
 layout content_main
 layout custom_dialog
@@ -3908,6 +3913,7 @@ layout mtrl_search_bar
 layout mtrl_search_view
 layout notification_action
 layout notification_action_tombstone
+layout notification_push
 layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer

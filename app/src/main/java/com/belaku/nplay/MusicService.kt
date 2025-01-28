@@ -1,38 +1,54 @@
 package com.belaku.nplay
 
+import android.R
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
 import android.util.Log
 import android.view.View
+import android.widget.RemoteViews
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.masoudss.lib.SeekBarOnProgressChanged
-import com.masoudss.lib.WaveformSeekBar
+import androidx.palette.graphics.Palette
+import com.belaku.nplay.MainActivity.Companion.dataList
+import com.belaku.nplay.MainActivity.Companion.imageArtAlbum
+import com.belaku.nplay.MainActivity.Companion.relativeLayoutMain
+import com.belaku.nplay.MainActivity.Companion.wfs
+import java.net.URL
 import java.util.Timer
 import java.util.TimerTask
 
 
 class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
+
+    var handler: Handler = Handler()
     private lateinit var serviceNotification: Notification
     private lateinit var sendIntent: Intent
     private lateinit var scontext: MusicService
     private var songsUrlList: ArrayList<String> = ArrayList()
+    private var songsNameList: ArrayList<String> = ArrayList()
+    private var songsAlbumArtList: ArrayList<String> = ArrayList()
+
 
     companion object {
         lateinit var timerInService: Timer
         var songIndex: Int = 0
         lateinit var mediaPlayer: MediaPlayer
         lateinit var notificationManager: NotificationManager
+        lateinit var noteContentView: RemoteViews
     }
 
 
@@ -75,6 +91,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
     }
 
 
+    @SuppressLint("RemoteViewLayout")
     private fun notifySong(sIndex: Int) {
 
      //   serviceNotify(MainActivity.dataList[sIndex].title)
@@ -88,13 +105,20 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
         )
 
 
+        noteContentView = MainActivity.contentView
+        noteContentView.setTextViewText(com.belaku.nplay.R.id.note_song_name, dataList[sIndex].title)
+        noteContentView.setTextViewText(com.belaku.nplay.R.id.note_artist_name, dataList[sIndex].artist.name)
+
+
+
         val channelId = "some_channel_id"
         val notificationBuilder: NotificationCompat.Builder =
             NotificationCompat.Builder(this, channelId)
                 .setSilent(true)
-                .setSmallIcon(android.R.drawable.ic_media_play) //                        .setContentTitle(getString(R.string.app_name)
-                .setContentTitle(MainActivity.dataList[sIndex].title)
-                    .setContentText(MainActivity.dataList[sIndex].album.title + " | \n" + MainActivity.dataList[sIndex].artist.name)
+                .setContent(noteContentView)
+                .setSmallIcon(R.drawable.ic_media_play) //                        .setContentTitle(getString(R.string.app_name)
+             //   .setContentTitle(MainActivity.dataList[sIndex].title)
+               //     .setContentText(MainActivity.dataList[sIndex].album.title + " | \n" + MainActivity.dataList[sIndex].artist.name)
                 .setAutoCancel(true)
                 .setSound(null)
                 .setOngoing(true)
@@ -126,17 +150,18 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
         if (intent.extras?.get("1") != null)
         for (i in 0 until 30) {
-            if (intent.extras?.get(i.toString()) != null)
-                songsUrlList.add(intent.extras?.get(i.toString()).toString())
-            else break
+            if (intent.extras?.get(i.toString()) != null) {
+                var splits = intent.extras?.get(i.toString()).toString().split(" - ")
+                songsUrlList.add(splits[0])
+                songsNameList.add(splits.get(1))
+                songsAlbumArtList.add(splits.get(2))
+            } else break
         }
         else  songsUrlList.add(intent.extras?.get("0").toString())
 
      //   serviceNotify(MainActivity.dataList[songIndex].title)
 
-        println("S21 - rSize" + songsUrlList.size)
-        for (item in songsUrlList)
-            println("S21 - received" + item)
+
 
         if (songsUrlList.size > 0) {
 
@@ -254,6 +279,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
         volume += deltaVolume
     }
 
+
     private fun updateActivity() {
         Log.d("BR21", "Broadcasting message")
         val intent = Intent("nPlay_Events")
@@ -263,48 +289,11 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
         Log.d("BR21", "sending")
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-    }/*{
-
-        val messengerSongInfo = sendIntent.getParcelableExtra("songInfo") as Messenger?
-        val messageSongInfo: Message = Message.obtain(null, songIndex)
-
-        try {
-            messengerSongInfo!!.send(messageSongInfo)
-        } catch (exception: RemoteException) {
-            exception.printStackTrace()
-        }
-
-
-        val messengerSeekInfo = sendIntent.getParcelableExtra("seekInfo") as Messenger?
-        val messageSeekInfo: Message = Message.obtain(null, mediaPlayer.duration/1000)
-
-        try {
-            messengerSeekInfo!!.send(messageSeekInfo)
-        } catch (exception: RemoteException) {
-            exception.printStackTrace()
-        }
-
-        mSeekUpdateTimer = Timer()
-        mSeekUpdateTimer.schedule(object : TimerTask() {
-            override fun run() {
-
-                if (mediaPlayer != null)
-                try {
-                        val messengerSeekInfo =
-                            sendIntent.getParcelableExtra("seekInfo") as Messenger?
-                        val messageSeekInfo: Message =
-                            Message.obtain(null, mediaPlayer.currentPosition / 1000)
-                        messengerSeekInfo!!.send(messageSeekInfo)
-
-                } catch (exception: IllegalStateException) {
-                    exception.printStackTrace()
-                }        // do your periodic task
-            }
-        }, 0, 1000)
-    }*/
+    }
 
 
 
+    @SuppressLint("ResourceType")
     override fun onCompletion(p0: MediaPlayer?) {
 
         if (songsUrlList.size > 1) {
@@ -332,10 +321,38 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
             mediaPlayer.setOnErrorListener(this)
         }
 
-        updateActivity()
+            MainActivity.txSongName.text = songsNameList[songIndex]
+            Thread {
+                try {
+                    // Your code goes here
+                    val url = URL(songsAlbumArtList[songIndex])
+                    var bitmapAlbum =
+                        BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                    imageArtAlbum = BitmapDrawable(applicationContext.resources, bitmapAlbum)
+
+                    relativeLayoutMain.background = imageArtAlbum
+                    noteContentView.setImageViewBitmap(com.belaku.nplay.R.id.note_image, imageArtAlbum.bitmap)
+
+
+
+                    Palette.from(imageArtAlbum.bitmap).generate { palette ->
+                        // Do something with colors...
+                        if (palette != null) {
+                            wfs.waveBackgroundColor = palette.getLightMutedColor(com.belaku.nplay.R.color.white)
+                            wfs.waveProgressColor = palette.getDarkMutedColor(com.belaku.nplay.R.color.black)
+                        }
+                    }
+
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                    Log.d("updateUI exception - ", e.toString())
+                }
+            }.start()
+            MainActivity.recyclerview.scrollToPosition(songIndex)
+      //      updateActivity()
     } else {
             super.stopSelf()
-            MainActivity.fabPlayAlbum.setImageResource(android.R.drawable.ic_media_play)
+            MainActivity.fabPlayPause.setImageResource(android.R.drawable.ic_media_play)
             songsUrlList.clear()
         }
     }
