@@ -132,18 +132,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         findViewByIds()
         initializeStuff()
 
-      /*  val thread = Thread {
-            try {
-                // Your code goes here
-                Spotify()
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-
-        thread.start()*/
-
         mSharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
          sharedPreferencesEditor = mSharedPreference.edit()
@@ -159,6 +147,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 wfs.progress = 0f
                 query = tx.text.toString()
                 Getdata()
+                checkFavoritesIcon()
             }
             linearLayoutFavs.addView(tx)
 
@@ -174,6 +163,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     query = tx.text.toString()
                     textViewFeaturing.text = "Featuring, " + tx.text.toString().strip()
                     Getdata()
+
                 }
             }
         }
@@ -588,6 +578,15 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         })
 
+       checkFavoritesIcon()
+
+    }
+
+    private fun checkFavoritesIcon() {
+
+        if (arraylistFavorites.contains(textViewFeaturing.text.split(", ").get(1).strip()))
+            fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_on))
+        else fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_off))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
