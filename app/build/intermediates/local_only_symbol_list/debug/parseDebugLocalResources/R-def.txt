@@ -23,8 +23,6 @@ id imgv_art
 id ll_dynamic
 id main
 id nav_graph
-id note_artist_name
-id note_image
 id note_song_name
 id rl_main
 id rv

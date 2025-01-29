@@ -16,6 +16,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
+import android.text.Html
 import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
@@ -38,9 +39,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
     private lateinit var serviceNotification: Notification
     private lateinit var sendIntent: Intent
     private lateinit var scontext: MusicService
-    private var songsUrlList: ArrayList<String> = ArrayList()
-    private var songsNameList: ArrayList<String> = ArrayList()
-    private var songsAlbumArtList: ArrayList<String> = ArrayList()
 
 
     companion object {
@@ -49,6 +47,9 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
         lateinit var mediaPlayer: MediaPlayer
         lateinit var notificationManager: NotificationManager
         lateinit var noteContentView: RemoteViews
+        var songsUrlList: ArrayList<String> = ArrayList()
+        var songsNameList: ArrayList<String> = ArrayList()
+        var songsAlbumArtList: ArrayList<String> = ArrayList()
     }
 
 
@@ -106,9 +107,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
 
         noteContentView = MainActivity.contentView
-        noteContentView.setTextViewText(com.belaku.nplay.R.id.note_song_name, dataList[sIndex].title)
-        noteContentView.setTextViewText(com.belaku.nplay.R.id.note_artist_name, dataList[sIndex].artist.name)
-
+        var str = " ﮩـﮩﮩ٨ـ ♡ ﮩ٨ـﮩﮩ٨ـ" + "<b>" + songsNameList[sIndex] + "</b> " + " ﮩـﮩﮩ٨ـ ♡ ﮩ٨ـﮩﮩ٨ـ" + "..,";
+        noteContentView.setTextViewText(com.belaku.nplay.R.id.note_song_name, Html.fromHtml(str))
 
 
         val channelId = "some_channel_id"
@@ -116,9 +116,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
             NotificationCompat.Builder(this, channelId)
                 .setSilent(true)
                 .setContent(noteContentView)
-                .setSmallIcon(R.drawable.ic_media_play) //                        .setContentTitle(getString(R.string.app_name)
-             //   .setContentTitle(MainActivity.dataList[sIndex].title)
-               //     .setContentText(MainActivity.dataList[sIndex].album.title + " | \n" + MainActivity.dataList[sIndex].artist.name)
+                .setSmallIcon(R.drawable.ic_media_play)
                 .setAutoCancel(true)
                 .setSound(null)
                 .setOngoing(true)
@@ -331,8 +329,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                     imageArtAlbum = BitmapDrawable(applicationContext.resources, bitmapAlbum)
 
                     relativeLayoutMain.background = imageArtAlbum
-                    noteContentView.setImageViewBitmap(com.belaku.nplay.R.id.note_image, imageArtAlbum.bitmap)
-
 
 
                     Palette.from(imageArtAlbum.bitmap).generate { palette ->

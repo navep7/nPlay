@@ -4,7 +4,6 @@ package com.belaku.nplay.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -21,20 +20,11 @@ public final class NotificationPushBinding implements ViewBinding {
   private final RelativeLayout rootView;
 
   @NonNull
-  public final TextView noteArtistName;
-
-  @NonNull
-  public final ImageView noteImage;
-
-  @NonNull
   public final TextView noteSongName;
 
   private NotificationPushBinding(@NonNull RelativeLayout rootView,
-      @NonNull TextView noteArtistName, @NonNull ImageView noteImage,
       @NonNull TextView noteSongName) {
     this.rootView = rootView;
-    this.noteArtistName = noteArtistName;
-    this.noteImage = noteImage;
     this.noteSongName = noteSongName;
   }
 
@@ -65,26 +55,13 @@ public final class NotificationPushBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.note_artist_name;
-      TextView noteArtistName = ViewBindings.findChildViewById(rootView, id);
-      if (noteArtistName == null) {
-        break missingId;
-      }
-
-      id = R.id.note_image;
-      ImageView noteImage = ViewBindings.findChildViewById(rootView, id);
-      if (noteImage == null) {
-        break missingId;
-      }
-
       id = R.id.note_song_name;
       TextView noteSongName = ViewBindings.findChildViewById(rootView, id);
       if (noteSongName == null) {
         break missingId;
       }
 
-      return new NotificationPushBinding((RelativeLayout) rootView, noteArtistName, noteImage,
-          noteSongName);
+      return new NotificationPushBinding((RelativeLayout) rootView, noteSongName);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

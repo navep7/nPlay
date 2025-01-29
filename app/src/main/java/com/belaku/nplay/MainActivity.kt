@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint("ResourceAsColor", "SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -157,7 +157,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             tx.setBackgroundResource(android.R.drawable.editbox_background)
 
             tx.setOnClickListener {
-                textViewFeaturing.text = "Featuring, " + tx.text.toString().strip() + "..."
+                textViewFeaturing.text = "Featuring,   ${tx.text.toString().strip()}  ..."
                 wfs.progress = 0f
                 query = tx.text.toString()
                 Getdata()
@@ -253,31 +253,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
 
-      /*  btnPlay.setOnClickListener(View.OnClickListener {
-
-            if(!isMyServiceRunning(MusicService::class.java)) {
-
-                if (songs.size > 0) {
-                    btnPlay.setImageResource(android.R.drawable.ic_media_pause)
-                    seekBar.thumb = resources.getDrawable(android.R.drawable.ic_media_pause)
-                var i: Int = 0;
-                    for (item in songs) {
-                        playIntent.putExtra(i.toString(), item)
-                        i++
-                    }
-                    startForegroundService(playIntent)
-                }
-            } else {
-                btnPlay.setImageResource(android.R.drawable.ic_media_play)
-                seekBar.thumb = resources.getDrawable(android.R.drawable.ic_media_play)
-                val myService = Intent(
-                    this@MainActivity,
-                    MusicService::class.java
-                )
-                stopService(myService)
-            }
-
-        })*/
 
         //BR
         mMessageReceiver = object : BroadcastReceiver() {
@@ -303,32 +278,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     private fun updateFirstUI() {
 
-        Thread {
-            try {
-                // Your code goes here
-                val url = URL(dataList[0].album.cover)
-                var bitmapAlbum =
-                    BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                imageArtAlbum = BitmapDrawable(applicationContext.resources, bitmapAlbum)
 
-                relativeLayoutMain.background = imageArtAlbum
-                noteContentView.setImageViewBitmap(com.belaku.nplay.R.id.note_image, imageArtAlbum.bitmap)
-
-
-
-                Palette.from(imageArtAlbum.bitmap).generate { palette ->
-                    // Do something with colors...
-                    if (palette != null) {
-                        wfs.waveBackgroundColor = palette.getLightMutedColor(com.belaku.nplay.R.color.white)
-                        wfs.waveProgressColor = palette.getDarkMutedColor(com.belaku.nplay.R.color.black)
-                    }
-                }
-
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-                Log.d("updateUI exception - ", e.toString())
-            }
-        }.start()
 
     }
 
@@ -490,7 +440,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             songs.add(item.preview + " - " + item.title + " - " +  item.album.cover)
 
 
-     //   txSongName.text = dataList[what].title
+        txSongName.text = MusicService.songsNameList[what]
+
         wfs.visibility = View.VISIBLE
         txSongName.visibility = VISIBLE
         txNow.visibility = View.VISIBLE
@@ -499,13 +450,40 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         val threadSeek = Thread {
             try {
-                wfs.setSampleFrom(songs[what].split(" - ").get(0))
+                wfs.setSampleFrom(MusicService.songsUrlList[what].split(" - ").get(0))
             // Your code goes here
             } catch (e: Exception) {
                 Log.d("ExcpSeek - ", e.toString())
                 e.printStackTrace()
             }
         }
+
+        Thread {
+            try {
+                // Your code goes here
+                val url = URL(MusicService.songsAlbumArtList[what])
+                var bitmapAlbum =
+                    BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                imageArtAlbum = BitmapDrawable(applicationContext.resources, bitmapAlbum)
+
+                relativeLayoutMain.background = imageArtAlbum
+            //    noteContentView.setImageViewBitmap(com.belaku.nplay.R.id.note_image, imageArtAlbum.bitmap)
+
+
+
+                Palette.from(imageArtAlbum.bitmap).generate { palette ->
+                    // Do something with colors...
+                    if (palette != null) {
+                        wfs.waveBackgroundColor = palette.getLightMutedColor(com.belaku.nplay.R.color.white)
+                        wfs.waveProgressColor = palette.getDarkMutedColor(com.belaku.nplay.R.color.black)
+                    }
+                }
+
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+                Log.d("updateUI exception - ", e.toString())
+            }
+        }.start()
 
         if (songs.size > 0)
             threadSeek.start()
@@ -549,14 +527,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         }
 
     }
-
-    fun getDominantColor(bitmap: Bitmap?): Int {
-        val newBitmap = Bitmap.createScaledBitmap(bitmap!!, 1, 1, true)
-        val color = newBitmap.getPixel(0, 0)
-        newBitmap.recycle()
-        return color
-    }
-
 
     private fun Getdata() {
         val retrofitBuilder = Retrofit.Builder()

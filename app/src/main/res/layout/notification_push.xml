@@ -7,34 +7,15 @@
     android:layout_height="64dp"
     android:padding="10dp" >
 
-    <ImageView
-        android:id="@+id/note_image"
-        android:contentDescription="abc"
-        android:src="@android:drawable/alert_dark_frame"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentStart="true"
-        android:layout_marginEnd="10dp"
-        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/note_song_name"
-        android:textSize="13sp"
-        android:textColor="#000"
-        android:text="Testing"
+        android:textSize="21sp"
+        android:textColor="#ff0000"
+        android:layout_centerVertical="true"
+        android:maxLines="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/note_image"
-        tools:ignore="HardcodedText" />
-    <TextView
-        android:id="@+id/note_artist_name"
-        android:textSize="13sp"
-        android:textColor="#000"
-        android:text="Testing is awecome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/note_image"
-        android:layout_below="@id/note_song_name"
         tools:ignore="HardcodedText" />
 
 </RelativeLayout>

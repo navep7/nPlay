@@ -3518,8 +3518,6 @@ id noState
 id none
 id normal
 id north
-id note_artist_name
-id note_image
 id note_song_name
 id notification_background
 id notification_main_column
