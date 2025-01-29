@@ -30,6 +30,9 @@ public final class ContentMainBinding implements ViewBinding {
   public final EditText edtxSearchQuery;
 
   @NonNull
+  public final FloatingActionButton fabFavorite;
+
+  @NonNull
   public final FloatingActionButton fabPlayAll;
 
   @NonNull
@@ -60,12 +63,14 @@ public final class ContentMainBinding implements ViewBinding {
   public final WaveformSeekBar wfsb;
 
   private ContentMainBinding(@NonNull RelativeLayout rootView, @NonNull EditText edtxSearchQuery,
-      @NonNull FloatingActionButton fabPlayAll, @NonNull ImageButton imgbtnPlayAlbum,
-      @NonNull LinearLayout llDynamic, @NonNull RelativeLayout rlMain, @NonNull RecyclerView rv,
+      @NonNull FloatingActionButton fabFavorite, @NonNull FloatingActionButton fabPlayAll,
+      @NonNull ImageButton imgbtnPlayAlbum, @NonNull LinearLayout llDynamic,
+      @NonNull RelativeLayout rlMain, @NonNull RecyclerView rv,
       @NonNull HorizontalScrollView ssDynamic, @NonNull TextView txCurrentTime,
       @NonNull TextView txFeaturing, @NonNull TextView txSname, @NonNull WaveformSeekBar wfsb) {
     this.rootView = rootView;
     this.edtxSearchQuery = edtxSearchQuery;
+    this.fabFavorite = fabFavorite;
     this.fabPlayAll = fabPlayAll;
     this.imgbtnPlayAlbum = imgbtnPlayAlbum;
     this.llDynamic = llDynamic;
@@ -108,6 +113,12 @@ public final class ContentMainBinding implements ViewBinding {
       id = R.id.edtx_search_query;
       EditText edtxSearchQuery = ViewBindings.findChildViewById(rootView, id);
       if (edtxSearchQuery == null) {
+        break missingId;
+      }
+
+      id = R.id.fab_favorite;
+      FloatingActionButton fabFavorite = ViewBindings.findChildViewById(rootView, id);
+      if (fabFavorite == null) {
         break missingId;
       }
 
@@ -167,9 +178,9 @@ public final class ContentMainBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ContentMainBinding((RelativeLayout) rootView, edtxSearchQuery, fabPlayAll,
-          imgbtnPlayAlbum, llDynamic, rlMain, rv, ssDynamic, txCurrentTime, txFeaturing, txSname,
-          wfsb);
+      return new ContentMainBinding((RelativeLayout) rootView, edtxSearchQuery, fabFavorite,
+          fabPlayAll, imgbtnPlayAlbum, llDynamic, rlMain, rv, ssDynamic, txCurrentTime, txFeaturing,
+          txSname, wfsb);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

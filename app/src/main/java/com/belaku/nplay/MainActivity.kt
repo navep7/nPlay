@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
@@ -37,7 +36,6 @@ import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.belaku.nplay.MusicService.Companion.mediaPlayer
-import com.belaku.nplay.MusicService.Companion.noteContentView
 import com.belaku.nplay.databinding.ActivityMainBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
@@ -85,11 +83,11 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     private var arraylistFavorites = ArrayList<String>()
 
     private lateinit var playIntent: Intent
-    private lateinit var bitmapAlbum: Bitmap
     private var songs: ArrayList<String> = ArrayList()
     private lateinit var handlerForBG: Handler
     private var songIndex: Int = 0
     private lateinit var imageButtonPlayAlbum: ImageButton
+    private lateinit var fabFavorite: FloatingActionButton
 
     @SuppressLint("StaticFieldLeak")
     companion object {
@@ -157,7 +155,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             tx.setBackgroundResource(android.R.drawable.editbox_background)
 
             tx.setOnClickListener {
-                textViewFeaturing.text = "Featuring,   ${tx.text.toString().strip()}  ..."
+                textViewFeaturing.text = "Featuring,   ${tx.text.toString().strip()}"
                 wfs.progress = 0f
                 query = tx.text.toString()
                 Getdata()
@@ -174,7 +172,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
                 if (item == arraylistFavorites.get(0)) {
                     query = tx.text.toString()
-                    textViewFeaturing.text = "Featuring, " + tx.text.toString().strip() + "..."
+                    textViewFeaturing.text = "Featuring, " + tx.text.toString().strip()
                     Getdata()
                 }
             }
@@ -199,6 +197,16 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         handlerForBG = Handler()
 
 
+
+        fabFavorite.setOnClickListener {
+
+            fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_on))
+            if (textViewFeaturing.text.length > 0)
+                if (saveFav(textViewFeaturing.text.toString().split(",").get(1)))
+                    makeToast("Added " + (textViewFeaturing.text.toString().split(",").get(1)) + " to Favs!")
+                else makeToast("Already in Favs!")
+
+        }
 
         imageButtonPlayAlbum.setOnClickListener {
             if (isMyServiceRunning(MusicService::class.java)) {
@@ -327,11 +335,14 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     fun saveFav(str: String) : Boolean {
 
-        arraylistFavorites.add(str)
-        val json: String = gson.toJson(arraylistFavorites)
-        sharedPreferencesEditor.putString("favorites", json)
-        sharedPreferencesEditor.apply()
-        return true
+        if (!arraylistFavorites.contains(str.strip())) {
+            arraylistFavorites.add(str.strip())
+            val json: String = gson.toJson(arraylistFavorites)
+            sharedPreferencesEditor.putString("favorites", json)
+            sharedPreferencesEditor.apply()
+            return true
+        }
+        return false
     }
 
     fun populateFavorites(key: String?): ArrayList<String> {
@@ -353,6 +364,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         txNow = findViewById(R.id.tx_current_time)
         fabPlayPause = findViewById(R.id.fab_play_all)
         imageButtonPlayAlbum = findViewById(R.id.imgbtn_PlayAlbum)
+        fabFavorite = findViewById(R.id.fab_favorite)
 
     }
 
@@ -548,6 +560,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 if (dataList.size > 0) {
                     imageButtonPlayAlbum.setImageResource(android.R.drawable.ic_media_play)
                     imageButtonPlayAlbum.visibility = VISIBLE
+                    fabFavorite.visibility = VISIBLE
+                    textViewFeaturing.visibility = VISIBLE
                 }
                 songs.clear()
                 for (item in dataList)

@@ -3373,6 +3373,7 @@ int id escape 0x7f0800bf
 int id exitUntilCollapsed 0x7f0800c0
 int id expand_activities_button 0x7f0800c1
 int id expanded_menu 0x7f0800c2
+int id fab_favorite 0x7f08021f
 int id fab_play_all 0x7f0800c3
 int id fade 0x7f0800c4
 int id fill 0x7f0800c5

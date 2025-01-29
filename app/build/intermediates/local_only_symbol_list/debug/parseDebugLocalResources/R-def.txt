@@ -17,6 +17,7 @@ id action_settings
 id button_first
 id button_second
 id edtx_search_query
+id fab_favorite
 id fab_play_all
 id imgbtn_PlayAlbum
 id imgv_art

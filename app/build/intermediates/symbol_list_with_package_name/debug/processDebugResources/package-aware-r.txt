@@ -3374,6 +3374,7 @@ id escape
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
+id fab_favorite
 id fab_play_all
 id fade
 id fill
