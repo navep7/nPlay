@@ -8,16 +8,16 @@
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/xml/network_security_config.xml"
     },
     {
-        "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-49:/mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/mipmap-mdpi/ic_launcher.webp"
+        "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-49:/layout_fragment_second.xml.flat",
+        "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/layout/fragment_second.xml"
     },
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-49:/navigation_nav_graph.xml.flat",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/navigation/nav_graph.xml"
     },
     {
-        "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-49:/layout_fragment_second.xml.flat",
-        "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/layout/fragment_second.xml"
+        "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-49:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/mipmap-mdpi/ic_launcher.webp"
     },
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-49:/layout_fragment_first.xml.flat",
@@ -28,12 +28,12 @@
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/menu/menu_main.xml"
     },
     {
-        "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-49:/raw_e.mp3.flat",
-        "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/raw/e.mp3"
-    },
-    {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-49:/mipmap-xhdpi_ic_launcher_round.webp.flat",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-49:/raw_e.mp3.flat",
+        "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/raw/e.mp3"
     },
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-49:/drawable_background_fill.xml.flat",
@@ -100,10 +100,6 @@
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/mipmap-anydpi-v26/ic_launcher_round.xml"
     },
     {
-        "merged": "com.belaku.nplay.app-debug-49:/layout_content_main.xml.flat",
-        "source": "com.belaku.nplay.app-main-51:/layout/content_main.xml"
-    },
-    {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-49:/drawable_progress_fill.xml.flat",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/drawable/progress_fill.xml"
     },
@@ -122,6 +118,10 @@
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-49:/drawable_ic_launcher_background.xml.flat",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-51:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.belaku.nplay.app-debug-49:/layout_rv_item.xml.flat",
+        "source": "com.belaku.nplay.app-main-51:/layout/rv_item.xml"
     },
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-49:/drawable_ic_launcher_foreground.xml.flat",

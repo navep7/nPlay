@@ -1,12 +1,15 @@
 package com.belaku.nplay
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
@@ -16,22 +19,23 @@ import java.util.TimeZone
 
 
 class MusicAdapter(
+    private val mActivity: Activity,
     private val data: List<Data>,
     private val listener: RecyclerViewEvent
 ) : RecyclerView.Adapter<MusicAdapter.ItemViewHolder>() {
 
     //Setup variables to hold the instance of the views defined in your recyclerView item layout
     //Kinda like the onCreate method in an Activity
-    inner class ItemViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener,
-        View.OnLongClickListener {
-        val sname: TextView = view.findViewById(R.id.tx_sname)
+    inner class ItemViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
+        val sname: TextView = view.findViewById(R.id.rv_tx_sname)
         val aname: TextView = view.findViewById(R.id.tx_aname)
         val dur: TextView = view.findViewById(R.id.tx_duration)
         val imageView: ImageView = view.findViewById(R.id.imgv_art)
+        val imageViewFavSong: ImageView = view.findViewById(R.id.imgv_fav_song)
 
         init {
             view.setOnClickListener(this)
-            view.setOnLongClickListener(this)
+
         }
 
         override fun onClick(p0: View?) {
@@ -41,13 +45,7 @@ class MusicAdapter(
             }
         }
 
-        override fun onLongClick(p0: View?): Boolean {
-            val position = adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                listener.onItemLongClick(position)
-            }
-            return true
-        }
+
     }
 
     //This is where you inflate the layout (Give each entry/row its look)
@@ -72,6 +70,11 @@ class MusicAdapter(
         val time: kotlin.String = df.format(d)
         holder.dur.text = time
         Picasso.get().load(songdata.album.cover).into(holder.imageView)
+
+        holder.imageViewFavSong.setOnClickListener {
+         //   Toast.makeText(mContext, holder.sname.text, Toast.LENGTH_LONG).show()
+            (mActivity as MainActivity).addToFavoriteSongs(holder.sname.text.toString())
+        }
     }
 
 
@@ -82,6 +85,5 @@ class MusicAdapter(
 
     interface RecyclerViewEvent{
         fun onItemClick(position: Int)
-        fun onItemLongClick(position: Int)
     }
 }

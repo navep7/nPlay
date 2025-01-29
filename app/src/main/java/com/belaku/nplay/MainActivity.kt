@@ -61,6 +61,7 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
+
     private val PERMISSIONS_REQUEST_POST_N: Int = 0
     private val notePlay: Boolean = true
     private lateinit var notePlayPauseEvent: Intent
@@ -100,6 +101,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         lateinit var imageArtAlbum: BitmapDrawable
         lateinit var relativeLayoutMain: RelativeLayout
         lateinit var recyclerview : RecyclerView
+        lateinit var arraylistFavoriteSongs: ArrayList<Data>
 
     }
     private lateinit var query: String
@@ -146,7 +148,12 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 textViewFeaturing.text = "Featuring,   ${tx.text.toString().strip()}"
                 wfs.progress = 0f
                 query = tx.text.toString()
+                makeToast("cprng - " + tx.text.toString().strip() + " vs " + "Favorites")
+                if (!tx.text.toString().strip().equals("Favorites"))
                 Getdata()
+                else {
+                    getFavorites()
+                }
                 checkFavoritesIcon()
             }
             linearLayoutFavs.addView(tx)
@@ -274,6 +281,33 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     }
 
+    private fun renderFavorites() {
+        dataList.clear()
+        for (i in arraylistFavoriteSongs.indices) {
+            dataList.add(arraylistFavoriteSongs.get(i))
+        }
+
+        if (dataList.size > 0) {
+            imageButtonPlayAlbum.setImageResource(android.R.drawable.ic_media_play)
+            imageButtonPlayAlbum.visibility = VISIBLE
+            fabFavorite.visibility = VISIBLE
+            textViewFeaturing.visibility = VISIBLE
+        }
+        songs.clear()
+        for (item in dataList)
+            songs.add(item.preview + " - " + item.title + " - " +  item.album.cover)
+
+        var rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
+        recyclerview.adapter = rvAdapter
+        recyclerview.setLayoutManager(
+            LinearLayoutManager(
+                this@MainActivity,
+                LinearLayoutManager.HORIZONTAL,false
+            )
+        )
+
+    }
+
     private fun updateFirstUI() {
 
 
@@ -343,12 +377,15 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     private fun findViewByIds() {
 
+        arraylistFavoriteSongs = ArrayList()
+
         relativeLayoutMain = findViewById(R.id.rl_main)
         editTextSearch = findViewById(R.id.edtx_search_query)
         recyclerview = findViewById(R.id.rv)
         linearLayoutFavs = findViewById(R.id.ll_dynamic)
         wfs = findViewById(R.id.wfsb)
         txSongName = findViewById(R.id.tx_sname)
+
 
         textViewFeaturing = findViewById(R.id.tx_featuring)
         txNow = findViewById(R.id.tx_current_time)
@@ -366,6 +403,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     override fun onDestroy() {
 
+        saveFavorites(arraylistFavoriteSongs)
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         if (isMyServiceRunning(MusicService::class.java))
         if (!mediaPlayer.isPlaying) {
@@ -375,6 +413,32 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         super.onDestroy()
      }
 
+    private fun saveFavorites(arraylistFavoriteSongs: ArrayList<Data>) {
+        val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val editor = sharedPreferences.edit()
+        val gson = Gson()
+        val json = gson.toJson(arraylistFavoriteSongs)
+
+        editor.putString("arraylistFavoriteSongs", json);
+        editor.apply();
+    }
+
+    private fun getFavorites(): List<Data> {
+        var arrayItems: List<Data> = ArrayList()
+        val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val serializedObject = sharedPreferences.getString("arraylistFavoriteSongs", null)
+        if (serializedObject != null) {
+            val gson = Gson()
+            val type = object : TypeToken<List<Data?>?>() {}.type
+            arrayItems = gson.fromJson<List<Data>>(serializedObject, type)
+        }
+
+        makeToast(arrayItems.size.toString() + " fs")
+        arraylistFavoriteSongs = arrayItems as ArrayList<Data>
+        renderFavorites()
+
+        return arrayItems
+    }
 
 
     private fun saveQuery(query: String) {
@@ -416,7 +480,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
             songIndex = sharedPreferences.getInt("playingIndex", 0)
-            var rvAdapter = MusicAdapter(dataList, this@MainActivity)
+            var rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
             recyclerview.adapter = rvAdapter
             recyclerview.setLayoutManager(
                 LinearLayoutManager(
@@ -561,7 +625,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     Log.d("DATA7", "p - " + item.preview + "\n l - " + item.link)
 
 
-                var rvAdapter = MusicAdapter(dataList, this@MainActivity)
+                var rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
                 recyclerview.adapter = rvAdapter
                 recyclerview.setLayoutManager(
                     LinearLayoutManager(
@@ -607,7 +671,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override
-    fun onItemClick(position: Int) {
+    fun onItemClick(position: Int)  {
+
+    }/*{
 
         if (isMyServiceRunning(MusicService::class.java))
             stopService(playIntent)
@@ -618,19 +684,22 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
             handlerForBG.postDelayed(Runnable { updateUI(position) }, 1000)
 
+    }*/
+
+    fun addToFavoriteSongs(text: String) {
+       for (i in dataList.indices) {
+           if (dataList.get(i).title.equals(text)) {
+               makeToast("Yet2Add - " + dataList.get(i).title + " to Fav Songs")
+
+               if (arraylistFavoriteSongs.size == 0) {
+                   saveFav("Favorites")
+               }
+
+               arraylistFavoriteSongs.add(dataList.get(i))
+           }
+        }
+
     }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    override
-    fun onItemLongClick(position: Int) {
-
-        if (editTextSearch.text.length > 0)
-            if (saveFav(editTextSearch.text.toString()))
-                makeToast("Added " + editTextSearch.text.toString() + " to Favs!")
-
-    }
-
-
 
 
 }

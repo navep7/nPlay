@@ -27,6 +27,7 @@ import androidx.palette.graphics.Palette
 import com.belaku.nplay.MainActivity.Companion.dataList
 import com.belaku.nplay.MainActivity.Companion.imageArtAlbum
 import com.belaku.nplay.MainActivity.Companion.relativeLayoutMain
+import com.belaku.nplay.MainActivity.Companion.txSongName
 import com.belaku.nplay.MainActivity.Companion.wfs
 import java.net.URL
 import java.util.Timer
@@ -294,7 +295,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
     @SuppressLint("ResourceType")
     override fun onCompletion(p0: MediaPlayer?) {
 
-        if (songsUrlList.size > 1) {
+        if (songsUrlList.size > 1 && songsUrlList.size > songIndex + 1) {
             songIndex++
 
         notifySong(songIndex)
@@ -348,6 +349,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
       //      updateActivity()
     } else {
             super.stopSelf()
+            txSongName.text = "Finished Playing!"
             MainActivity.fabPlayPause.setImageResource(android.R.drawable.ic_media_play)
             songsUrlList.clear()
         }

@@ -21,12 +21,14 @@ id fab_favorite
 id fab_play_all
 id imgbtn_PlayAlbum
 id imgv_art
+id imgv_fav_song
 id ll_dynamic
 id main
 id nav_graph
 id note_song_name
 id rl_main
 id rv
+id rv_tx_sname
 id ss_dynamic
 id textview_first
 id textview_second
@@ -35,7 +37,6 @@ id tx_current_time
 id tx_duration
 id tx_featuring
 id tx_sname
-id tx_url
 id wfsb
 layout activity_main
 layout activity_notify_handler

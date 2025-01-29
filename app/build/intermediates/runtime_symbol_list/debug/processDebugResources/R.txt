@@ -3416,6 +3416,7 @@ int id ignoreRequest 0x7f0800e9
 int id image 0x7f0800ea
 int id imgbtn_PlayAlbum 0x7f0800eb
 int id imgv_art 0x7f0800ec
+int id imgv_fav_song 0x7f080220
 int id immediateStop 0x7f0800ed
 int id included 0x7f0800ee
 int id indeterminate 0x7f0800ef
@@ -3573,6 +3574,7 @@ int id rounded 0x7f080188
 int id row_index_key 0x7f080189
 int id rtl 0x7f08018a
 int id rv 0x7f08018b
+int id rv_tx_sname 0x7f080221
 int id save_non_transition_alpha 0x7f08018c
 int id save_overlay_view 0x7f08018d
 int id sawtooth 0x7f08018e
@@ -3693,7 +3695,6 @@ int id tx_current_time 0x7f080200
 int id tx_duration 0x7f080201
 int id tx_featuring 0x7f080202
 int id tx_sname 0x7f080203
-int id tx_url 0x7f080204
 int id unchecked 0x7f080205
 int id uniform 0x7f080206
 int id unlabeled 0x7f080207
