@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     private var gson: Gson = Gson()
     private lateinit var linearLayoutFavs: LinearLayout
     private lateinit var arrayListFavsAdded: ArrayList<String>
-    private lateinit var mSharedPreference: SharedPreferences
+
     private lateinit var editTextSearch: EditText
     private lateinit var textViewFeaturing: TextView
 
@@ -79,8 +79,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
     private lateinit var mMessageReceiver: BroadcastReceiver
-    private lateinit var sharedPreferencesEditor: SharedPreferences.Editor
-    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var mSharedPreferencesEditor: SharedPreferences.Editor
+    private lateinit var mSharedPreferences: SharedPreferences
     private var arraylistFavorites = ArrayList<String>()
 
     private lateinit var playIntent: Intent
@@ -127,6 +127,11 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        dataList = ArrayList()
+
+        mSharedPreferences = getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
+        mSharedPreferencesEditor = mSharedPreferences.edit()
+
         PermissionCheck()
 
         contentView = RemoteViews(packageName, R.layout.notification_push)
@@ -134,9 +139,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         findViewByIds()
         initializeStuff()
 
-        mSharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-
-         sharedPreferencesEditor = mSharedPreference.edit()
 
         arraylistFavorites = populateFavorites("favorites")
         for (item in arraylistFavorites) {
@@ -148,11 +150,11 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 textViewFeaturing.text = "Featuring,   ${tx.text.toString().strip()}"
                 wfs.progress = 0f
                 query = tx.text.toString()
-                makeToast("cprng - " + tx.text.toString().strip() + " vs " + "Favorites")
                 if (!tx.text.toString().strip().equals("Favorites"))
                 Getdata()
                 else {
                     getFavorites()
+                    renderFavorites()
                 }
                 checkFavoritesIcon()
             }
@@ -170,6 +172,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     query = tx.text.toString()
                     textViewFeaturing.text = "Featuring, " + tx.text.toString().strip()
                     Getdata()
+                    getFavorites()
 
                 }
             }
@@ -188,10 +191,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             }
             handled
         })
-
-
-
-        handlerForBG = Handler()
 
 
 
@@ -276,9 +275,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
              IntentFilter("nPlay_Events")
         );
 
-
-
-
     }
 
     private fun renderFavorites() {
@@ -354,6 +350,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     private fun initializeStuff() {
         arrayListFavsAdded = ArrayList()
+        handlerForBG = Handler()
+
     }
 
 
@@ -362,15 +360,15 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         if (!arraylistFavorites.contains(str.strip())) {
             arraylistFavorites.add(str.strip())
             val json: String = gson.toJson(arraylistFavorites)
-            sharedPreferencesEditor.putString("favorites", json)
-            sharedPreferencesEditor.apply()
+            mSharedPreferencesEditor.putString("favorites", json)
+            mSharedPreferencesEditor.apply()
             return true
         }
         return false
     }
 
     fun populateFavorites(key: String?): ArrayList<String> {
-        val json = mSharedPreference.getString(key, "[]")
+        val json = mSharedPreferences.getString(key, "[]")
         val type: Type = object : TypeToken<ArrayList<String?>?>() {}.type
         return gson.fromJson(json, type)
     }
@@ -414,28 +412,29 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
      }
 
     private fun saveFavorites(arraylistFavoriteSongs: ArrayList<Data>) {
-        val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        val editor = sharedPreferences.edit()
+
+        Log.d("SHFAv B4 ", arraylistFavoriteSongs.size.toString())
         val gson = Gson()
         val json = gson.toJson(arraylistFavoriteSongs)
 
-        editor.putString("arraylistFavoriteSongs", json);
-        editor.apply();
+        mSharedPreferencesEditor.putString("arraylistFavoriteSongs", json)
+        mSharedPreferencesEditor.apply()
+        mSharedPreferencesEditor.commit()
+
+        Log.d("SHFAv A4 ", arraylistFavoriteSongs.size.toString())
+
     }
 
     private fun getFavorites(): List<Data> {
         var arrayItems: List<Data> = ArrayList()
-        val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        val serializedObject = sharedPreferences.getString("arraylistFavoriteSongs", null)
+        val serializedObject = mSharedPreferences.getString("arraylistFavoriteSongs", null)
         if (serializedObject != null) {
             val gson = Gson()
             val type = object : TypeToken<List<Data?>?>() {}.type
             arrayItems = gson.fromJson<List<Data>>(serializedObject, type)
         }
 
-        makeToast(arrayItems.size.toString() + " fs")
         arraylistFavoriteSongs = arrayItems as ArrayList<Data>
-        renderFavorites()
 
         return arrayItems
     }
@@ -443,14 +442,12 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     private fun saveQuery(query: String) {
         // Storing data into SharedPreferences
-        var sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
-        // Creating an Editor object to edit(write to the file)
-        var sharedPreferencesEditor = sharedPreferences.edit()
+        // Creating an Editor object to edit(write to the file
         // Storing the key and its value as the data fetched from edittext
-        sharedPreferencesEditor.putString("playingQuery", query)
+        mSharedPreferencesEditor.putString("playingQuery", query)
 
-        sharedPreferencesEditor.apply()
-        sharedPreferencesEditor.commit()
+        mSharedPreferencesEditor.apply()
+        mSharedPreferencesEditor.commit()
     }
 
     private fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
@@ -477,9 +474,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
             else fabPlayPause.setImageResource(android.R.drawable.ic_media_play)
 
-            sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
-            songIndex = sharedPreferences.getInt("playingIndex", 0)
+            songIndex = mSharedPreferences.getInt("playingIndex", 0)
             var rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
             recyclerview.adapter = rvAdapter
             recyclerview.setLayoutManager(
@@ -608,7 +604,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 call: Call<MusicData?>,
                 response: Response<MusicData?>
             ) {
-                dataList = ArrayList()
+
                 dataList = (response.body()?.data as ArrayList<Data>?)!!
 
                 if (dataList.size > 0) {
@@ -689,15 +685,19 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     fun addToFavoriteSongs(text: String) {
        for (i in dataList.indices) {
            if (dataList.get(i).title.equals(text)) {
-               makeToast("Yet2Add - " + dataList.get(i).title + " to Fav Songs")
 
                if (arraylistFavoriteSongs.size == 0) {
                    saveFav("Favorites")
                }
 
-               arraylistFavoriteSongs.add(dataList.get(i))
+               if (!arraylistFavoriteSongs.contains(dataList.get(i))) {
+                   arraylistFavoriteSongs.add(dataList.get(i))
+                    makeToast("Added - " + dataList.get(i).title + " to Favorite Songs! : " + arraylistFavoriteSongs.size)
+               } else makeToast("Song, Already in Favs!")
            }
         }
+
+        saveFavorites(arraylistFavoriteSongs)
 
     }
 
