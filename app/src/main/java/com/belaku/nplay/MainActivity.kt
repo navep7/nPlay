@@ -10,6 +10,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -37,11 +38,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.belaku.nplay.MusicService.Companion.mediaPlayer
 import com.belaku.nplay.databinding.ActivityMainBinding
+import com.google.android.ads.nativetemplates.NativeTemplateStyle
+import com.google.android.ads.nativetemplates.TemplateView
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.masoudss.lib.SeekBarOnProgressChanged
 import com.masoudss.lib.WaveformSeekBar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Call
@@ -61,7 +74,9 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
-
+    private lateinit var nativeAdLoader: AdLoader
+    private lateinit var template: TemplateView
+    private var adLoaded: Boolean = false
     private val PERMISSIONS_REQUEST_POST_N: Int = 0
     private val notePlay: Boolean = true
     private lateinit var notePlayPauseEvent: Intent
@@ -107,7 +122,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     private lateinit var query: String
     private lateinit var binding: ActivityMainBinding
 
-
+    private var mInterstitialAd: InterstitialAd? = null
+    private final val TAG = "MainActivity"
 
 
 
@@ -126,6 +142,37 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        nativeAdLoader = AdLoader.Builder(this, resources.getString(R.string.admob_native_actual))
+            .forNativeAd(object : NativeAd.OnNativeAdLoadedListener {
+                private val background: ColorDrawable? = null
+
+                override fun onNativeAdLoaded(nativeAd: NativeAd) {
+                    val styles =
+                        NativeTemplateStyle.Builder().withMainBackgroundColor(background).build()
+
+                    template.setStyles(styles)
+                    template.setNativeAd(nativeAd)
+                    adLoaded = true
+                    // Showing a simple Toast message to user when Native an ad is Loaded and ready to show
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Native Ad is loaded, now you can show the native ad",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    template.setVisibility(VISIBLE)
+                }
+            }).build()
+
+        showNativeAd()
+        showIntrAd()
+
+
+        val backgroundScope = CoroutineScope(Dispatchers.IO)
+        backgroundScope.launch {
+            // Initialize the Google Mobile Ads SDK on a background thread.
+            MobileAds.initialize(this@MainActivity) {}
+        }
 
         PermissionCheck()
 
@@ -180,7 +227,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         editTextSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_SEND) {
-           //     Toast.makeText(this@MainActivity, editTextSearch.getText(), Toast.LENGTH_SHORT).show()
                 textViewFeaturing.text = "Featuring, " + editTextSearch.text.substring(0, 1).toUpperCase() + editTextSearch.text.substring(1)
                 query = editTextSearch.getText().toString()
                 Getdata()
@@ -279,6 +325,53 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
 
+    }
+
+    private fun showNativeAd() {
+        if (adLoaded) {
+            template.setVisibility(VISIBLE)
+            // Showing a simple Toast message to user when an Native ad is shown to the user
+            Toast.makeText(
+                this@MainActivity,
+                "Native Ad  is loaded and Now showing ad  ",
+                Toast.LENGTH_LONG
+            ).show()
+        } else {
+            //Load the Native ad if it is not loaded
+            loadNativeAd()
+
+            // Showing a simple Toast message to user when Native ad is not loaded
+            Toast.makeText(this@MainActivity, "Native Ad is not Loaded ", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun loadNativeAd() {
+        // Creating  an Ad Request
+        val adRequest = AdRequest.Builder().build()
+
+        // load Native Ad with the Request
+        nativeAdLoader.loadAd(adRequest)
+
+        // Showing a simple Toast message to user when Native an ad is Loading
+        Toast.makeText(this@MainActivity, "Native Ad is loading ", Toast.LENGTH_LONG).show()
+    }
+
+    private fun showIntrAd() {
+
+        val adRequest = AdRequest.Builder().build()
+
+        InterstitialAd.load(this,resources.getString(R.string.admob_intr_adunit_id_actual), adRequest, object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                adError?.toString()?.let { makeToast(it) }
+                mInterstitialAd = null
+            }
+
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                makeToast("Ad was loaded.")
+                mInterstitialAd = interstitialAd
+                mInterstitialAd?.show(this@MainActivity)
+            }
+        })
     }
 
     private fun renderFavorites() {
@@ -392,13 +485,14 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         fabPlayPause = findViewById(R.id.fab_play_all)
         imageButtonPlayAlbum = findViewById(R.id.imgbtn_PlayAlbum)
         fabFavorite = findViewById(R.id.fab_favorite)
+        template = findViewById(R.id.nativeTemplateView)
 
     }
 
 
 
     private fun makeToast(s: String) {
-        Toast.makeText(applicationContext, s, Toast.LENGTH_LONG).show()
+    //    Toast.makeText(applicationContext, s, Toast.LENGTH_LONG).show()
     }
 
     override fun onDestroy() {
@@ -508,6 +602,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         txSongName.text = MusicService.songsNameList[what]
 
+        template.visibility = View.INVISIBLE
         wfs.visibility = View.VISIBLE
         txSongName.visibility = VISIBLE
         txNow.visibility = View.VISIBLE
@@ -637,7 +732,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             }
 
             override fun onFailure(call: Call<MusicData?>, t: Throwable) {
-        //        Toast.makeText(applicationContext, "not Found", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "not Found", Toast.LENGTH_LONG).show()
             }
 
         })
@@ -698,6 +793,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                arraylistFavoriteSongs.add(dataList.get(i))
            }
         }
+
+        saveFavorites(arraylistFavoriteSongs)
 
     }
 

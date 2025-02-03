@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.belaku.nplay.app-mergeDebugResources-47:/values-small-v4/values-small-v4.xml",
+            "outputFile": "com.belaku.nplay.app-mergeDebugResources-57:/values-small-v4/values-small-v4.xml",
             "map": [
                 {
-                    "source": "/Users/np/.gradle/caches/transforms-4/d2303a2c0ee5e87667055819a9164ff1/transformed/material-1.12.0/res/values-small-v4/values-small-v4.xml",
+                    "source": "/Users/np/.gradle/caches/transforms-4/99ddaf8e458be17a6dd376abb680be2c/transformed/material-1.12.0/res/values-small-v4/values-small-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

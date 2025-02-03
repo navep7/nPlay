@@ -136,7 +136,14 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"/>
 
-
+    <!-- Template View for native ad -->
+    <com.google.android.ads.nativetemplates.TemplateView
+        android:layout_alignParentBottom= "true"
+        android:visibility= "gone"
+        android:id= "@+id/nativeTemplateView"
+        app:gnt_template_type= "@layout/gnt_medium_template_view"
+        android:layout_width= "match_parent"
+        android:layout_height= "wrap_content" />
 
 
 

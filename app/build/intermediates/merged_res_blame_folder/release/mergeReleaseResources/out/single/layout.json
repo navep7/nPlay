@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "com.belaku.nplay.app-mergeReleaseResources-58:/layout/rv_item.xml",
+        "source": "com.belaku.nplay.app-main-60:/layout/rv_item.xml"
+    },
+    {
+        "merged": "com.belaku.nplay.app-mergeReleaseResources-58:/layout/fragment_second.xml",
+        "source": "com.belaku.nplay.app-main-60:/layout/fragment_second.xml"
+    },
+    {
+        "merged": "com.belaku.nplay.app-mergeReleaseResources-58:/layout/activity_notify_handler.xml",
+        "source": "com.belaku.nplay.app-main-60:/layout/activity_notify_handler.xml"
+    },
+    {
+        "merged": "com.belaku.nplay.app-mergeReleaseResources-58:/layout/notification_push.xml",
+        "source": "com.belaku.nplay.app-main-60:/layout/notification_push.xml"
+    },
+    {
+        "merged": "com.belaku.nplay.app-mergeReleaseResources-58:/layout/fragment_first.xml",
+        "source": "com.belaku.nplay.app-main-60:/layout/fragment_first.xml"
+    },
+    {
+        "merged": "com.belaku.nplay.app-mergeReleaseResources-58:/layout/content_main.xml",
+        "source": "com.belaku.nplay.app-main-60:/layout/content_main.xml"
+    },
+    {
+        "merged": "com.belaku.nplay.app-mergeReleaseResources-58:/layout/activity_main.xml",
+        "source": "com.belaku.nplay.app-main-60:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.belaku.nplay.app-mergeReleaseResources-58:/layout/activity_settings.xml",
+        "source": "com.belaku.nplay.app-main-60:/layout/activity_settings.xml"
+    }
+]

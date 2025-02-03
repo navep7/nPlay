@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.belaku.nplay.app-mergeDebugResources-47:/values-sw600dp-v13/values-sw600dp-v13.xml",
+            "outputFile": "com.belaku.nplay.app-mergeDebugResources-57:/values-sw600dp-v13/values-sw600dp-v13.xml",
             "map": [
                 {
-                    "source": "/Users/np/.gradle/caches/transforms-4/d2303a2c0ee5e87667055819a9164ff1/transformed/material-1.12.0/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "source": "/Users/np/.gradle/caches/transforms-4/99ddaf8e458be17a6dd376abb680be2c/transformed/material-1.12.0/res/values-sw600dp-v13/values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,10,11,12,13,14",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "/Users/np/.gradle/caches/transforms-4/79709d1ba8ab32434b37c31c811c2032/transformed/appcompat-1.7.0/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "source": "/Users/np/.gradle/caches/transforms-4/5653243b4934e59aef9f7e9a3317444c/transformed/appcompat-1.7.0/res/values-sw600dp-v13/values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

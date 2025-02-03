@@ -1,8 +1,8 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="com.belaku.nplay"
-4    android:versionCode="1"
-5    android:versionName="1.0" >
+4    android:versionCode="2"
+5    android:versionName="2.0" >
 6
 7    <uses-sdk
 8        android:minSdkVersion="24"
@@ -20,166 +20,530 @@
 14    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 14-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:8:5-77
 14-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:8:22-74
-15
-16    <permission
-16-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/ee6b49f37d5710600a702b187c4dc1b6/transformed/core-1.15.0/AndroidManifest.xml:22:5-24:47
-17        android:name="com.belaku.nplay.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-17-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/ee6b49f37d5710600a702b187c4dc1b6/transformed/core-1.15.0/AndroidManifest.xml:23:9-81
-18        android:protectionLevel="signature" />
-18-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/ee6b49f37d5710600a702b187c4dc1b6/transformed/core-1.15.0/AndroidManifest.xml:24:9-44
-19
-20    <uses-permission android:name="com.belaku.nplay.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-20-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/ee6b49f37d5710600a702b187c4dc1b6/transformed/core-1.15.0/AndroidManifest.xml:26:5-97
-20-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/ee6b49f37d5710600a702b187c4dc1b6/transformed/core-1.15.0/AndroidManifest.xml:26:22-94
+15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+15-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:25:5-79
+15-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:25:22-76
+16    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+16-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:26:5-79
+16-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:26:22-76
+17    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" />
+17-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:27:5-82
+17-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:27:22-79
+18    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION" />
+18-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:28:5-88
+18-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:28:22-85
+19    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_TOPICS" /> <!-- Android package visibility setting -->
+19-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:29:5-83
+19-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:29:22-80
+20    <queries>
+20-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:35:5-68:15
 21
-22    <application
-22-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:10:5-40:19
-23        android:allowBackup="true"
-23-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:11:9-35
-24        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-24-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/ee6b49f37d5710600a702b187c4dc1b6/transformed/core-1.15.0/AndroidManifest.xml:28:18-86
-25        android:dataExtractionRules="@xml/data_extraction_rules"
-25-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:12:9-65
-26        android:debuggable="true"
-27        android:extractNativeLibs="false"
-28        android:fullBackupContent="@xml/backup_rules"
-28-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:13:9-54
-29        android:icon="@android:drawable/ic_media_play"
-29-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:14:9-55
-30        android:label="@string/app_name"
-30-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:15:9-41
-31        android:networkSecurityConfig="@xml/network_security_config"
-31-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:16:9-69
-32        android:roundIcon="@android:drawable/ic_media_play"
-32-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:17:9-60
-33        android:supportsRtl="true"
-33-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:18:9-35
-34        android:testOnly="true"
-35        android:theme="@style/Theme.NPlay" >
-35-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:19:9-43
-36        <activity
-36-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:21:9-23:40
-37            android:name="com.belaku.nplay.SettingsActivity"
-37-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:22:13-45
-38            android:exported="false" />
-38-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:23:13-37
+22        <!-- For browser content -->
+23        <intent>
+23-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:38:9-44:18
+24            <action android:name="android.intent.action.VIEW" />
+24-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:39:13-65
+24-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:39:21-62
+25
+26            <category android:name="android.intent.category.BROWSABLE" />
+26-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:41:13-74
+26-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:41:23-71
+27
+28            <data android:scheme="https" />
+28-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:43:13-44
+28-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:43:19-41
+29        </intent>
+30        <!-- End of browser content -->
+31        <!-- For CustomTabsService -->
+32        <intent>
+32-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:47:9-49:18
+33            <action android:name="android.support.customtabs.action.CustomTabsService" />
+33-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:48:13-90
+33-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:48:21-87
+34        </intent>
+35        <!-- End of CustomTabsService -->
+36        <!-- For MRAID capabilities -->
+37        <intent>
+37-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:52:9-56:18
+38            <action android:name="android.intent.action.INSERT" />
+38-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:53:13-67
+38-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:53:21-64
 39
-40        <service
-40-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:25:9-28:69
-41            android:name="com.belaku.nplay.MusicService"
-41-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:26:13-41
-42            android:enabled="true"
-42-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:27:13-35
-43            android:foregroundServiceType="mediaPlayback" />
-43-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:28:13-58
+40            <data android:mimeType="vnd.android.cursor.dir/event" />
+40-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:43:13-44
+41        </intent>
+42        <intent>
+42-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:57:9-61:18
+43            <action android:name="android.intent.action.VIEW" />
+43-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:39:13-65
+43-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:39:21-62
 44
-45        <activity
-45-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:30:9-39:20
-46            android:name="com.belaku.nplay.MainActivity"
-46-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:31:13-41
-47            android:exported="true"
-47-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:32:13-36
-48            android:theme="@style/Theme.NPlay" >
-48-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:33:13-47
-49            <intent-filter>
-49-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:34:13-38:29
-50                <action android:name="android.intent.action.MAIN" />
-50-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:35:17-69
-50-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:35:25-66
-51
-52                <category android:name="android.intent.category.LAUNCHER" />
-52-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:37:17-77
-52-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:37:27-74
-53            </intent-filter>
-54        </activity>
-55
-56        <provider
-56-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/0f680c04e74dc5825ace1a6622301ad2/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
-57            android:name="androidx.startup.InitializationProvider"
-57-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/0f680c04e74dc5825ace1a6622301ad2/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
-58            android:authorities="com.belaku.nplay.androidx-startup"
-58-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/0f680c04e74dc5825ace1a6622301ad2/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
-59            android:exported="false" >
-59-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/0f680c04e74dc5825ace1a6622301ad2/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
-60            <meta-data
-60-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/0f680c04e74dc5825ace1a6622301ad2/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
-61                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-61-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/0f680c04e74dc5825ace1a6622301ad2/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
-62                android:value="androidx.startup" />
-62-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/0f680c04e74dc5825ace1a6622301ad2/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
-63            <meta-data
-63-->[androidx.lifecycle:lifecycle-process:2.6.2] /Users/np/.gradle/caches/transforms-4/5b2a72264822560196afb8caebc85d6b/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:29:13-31:52
-64                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-64-->[androidx.lifecycle:lifecycle-process:2.6.2] /Users/np/.gradle/caches/transforms-4/5b2a72264822560196afb8caebc85d6b/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:30:17-78
-65                android:value="androidx.startup" />
-65-->[androidx.lifecycle:lifecycle-process:2.6.2] /Users/np/.gradle/caches/transforms-4/5b2a72264822560196afb8caebc85d6b/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:31:17-49
-66            <meta-data
-66-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:29:13-31:52
-67                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-67-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:30:17-85
-68                android:value="androidx.startup" />
-68-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:31:17-49
-69        </provider>
-70
-71        <uses-library
-71-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/4c3c033952f461279a84d79f735a4dbf/transformed/window-1.0.0/AndroidManifest.xml:25:9-27:40
-72            android:name="androidx.window.extensions"
-72-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/4c3c033952f461279a84d79f735a4dbf/transformed/window-1.0.0/AndroidManifest.xml:26:13-54
-73            android:required="false" />
-73-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/4c3c033952f461279a84d79f735a4dbf/transformed/window-1.0.0/AndroidManifest.xml:27:13-37
-74        <uses-library
-74-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/4c3c033952f461279a84d79f735a4dbf/transformed/window-1.0.0/AndroidManifest.xml:28:9-30:40
-75            android:name="androidx.window.sidecar"
-75-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/4c3c033952f461279a84d79f735a4dbf/transformed/window-1.0.0/AndroidManifest.xml:29:13-51
-76            android:required="false" />
-76-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/4c3c033952f461279a84d79f735a4dbf/transformed/window-1.0.0/AndroidManifest.xml:30:13-37
-77
-78        <receiver
-78-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:34:9-52:20
-79            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-79-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:35:13-76
-80            android:directBootAware="false"
-80-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:36:13-44
-81            android:enabled="true"
-81-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:37:13-35
-82            android:exported="true"
-82-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:38:13-36
-83            android:permission="android.permission.DUMP" >
-83-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:39:13-57
-84            <intent-filter>
-84-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:40:13-42:29
-85                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-85-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:17-91
-85-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:25-88
-86            </intent-filter>
-87            <intent-filter>
-87-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:43:13-45:29
-88                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-88-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:17-85
-88-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:25-82
-89            </intent-filter>
-90            <intent-filter>
-90-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:46:13-48:29
-91                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-91-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:17-88
-91-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:25-85
-92            </intent-filter>
-93            <intent-filter>
-93-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:49:13-51:29
-94                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-94-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:17-95
-94-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/be592d4e0501511f143081130aca70bf/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:25-92
-95            </intent-filter>
-96        </receiver>
+45            <data android:scheme="sms" />
+45-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:43:13-44
+45-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:43:19-41
+46        </intent>
+47        <intent>
+47-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:62:9-66:18
+48            <action android:name="android.intent.action.DIAL" />
+48-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:63:13-65
+48-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:63:21-62
+49
+50            <data android:path="tel:" />
+50-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:43:13-44
+51        </intent>
+52        <!-- End of MRAID capabilities -->
+53    </queries>
+54
+55    <uses-permission android:name="android.permission.WAKE_LOCK" />
+55-->[com.google.android.gms:play-services-measurement-sdk-api:20.1.2] /Users/np/.gradle/caches/transforms-4/8bd5367cfdc376bcec7f23bb1c49efac/transformed/play-services-measurement-sdk-api-20.1.2/AndroidManifest.xml:25:5-68
+55-->[com.google.android.gms:play-services-measurement-sdk-api:20.1.2] /Users/np/.gradle/caches/transforms-4/8bd5367cfdc376bcec7f23bb1c49efac/transformed/play-services-measurement-sdk-api-20.1.2/AndroidManifest.xml:25:22-65
+56
+57    <permission
+57-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/3f4d616b5ef15a6f41a8637159baa1bd/transformed/core-1.15.0/AndroidManifest.xml:22:5-24:47
+58        android:name="com.belaku.nplay.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+58-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/3f4d616b5ef15a6f41a8637159baa1bd/transformed/core-1.15.0/AndroidManifest.xml:23:9-81
+59        android:protectionLevel="signature" />
+59-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/3f4d616b5ef15a6f41a8637159baa1bd/transformed/core-1.15.0/AndroidManifest.xml:24:9-44
+60
+61    <uses-permission android:name="com.belaku.nplay.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+61-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/3f4d616b5ef15a6f41a8637159baa1bd/transformed/core-1.15.0/AndroidManifest.xml:26:5-97
+61-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/3f4d616b5ef15a6f41a8637159baa1bd/transformed/core-1.15.0/AndroidManifest.xml:26:22-94
+62
+63    <application
+63-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:10:5-44:19
+64        android:allowBackup="true"
+64-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:12:9-35
+65        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+65-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/3f4d616b5ef15a6f41a8637159baa1bd/transformed/core-1.15.0/AndroidManifest.xml:28:18-86
+66        android:dataExtractionRules="@xml/data_extraction_rules"
+66-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:13:9-65
+67        android:debuggable="true"
+68        android:extractNativeLibs="false"
+69        android:fullBackupContent="@xml/backup_rules"
+69-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:14:9-54
+70        android:hardwareAccelerated="true"
+70-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:11:9-43
+71        android:icon="@android:drawable/ic_media_play"
+71-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:15:9-55
+72        android:label="@string/app_name"
+72-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:16:9-41
+73        android:networkSecurityConfig="@xml/network_security_config"
+73-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:17:9-69
+74        android:roundIcon="@android:drawable/ic_media_play"
+74-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:18:9-60
+75        android:supportsRtl="true"
+75-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:19:9-35
+76        android:testOnly="true"
+77        android:theme="@style/Theme.NPlay" >
+77-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:20:9-43
+78        <meta-data
+78-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:22:9-24:51
+79            android:name="com.google.android.gms.ads.APPLICATION_ID"
+79-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:23:13-69
+80            android:value="@string/admob_app_id" />
+80-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:24:13-49
+81
+82        <activity
+82-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:25:9-27:40
+83            android:name="com.belaku.nplay.SettingsActivity"
+83-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:26:13-45
+84            android:exported="false" />
+84-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:27:13-37
+85
+86        <service
+86-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:29:9-32:69
+87            android:name="com.belaku.nplay.MusicService"
+87-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:30:13-41
+88            android:enabled="true"
+88-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:31:13-35
+89            android:foregroundServiceType="mediaPlayback" />
+89-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:32:13-58
+90
+91        <activity
+91-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:34:9-43:20
+92            android:name="com.belaku.nplay.MainActivity"
+92-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:35:13-41
+93            android:exported="true"
+93-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:36:13-36
+94            android:theme="@style/Theme.NPlay" >
+94-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:37:13-47
+95            <intent-filter>
+95-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:38:13-42:29
+96                <action android:name="android.intent.action.MAIN" />
+96-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:39:17-69
+96-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:39:25-66
 97
-98        <provider
-98-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/15d9bcfd7d95882a6262388beff91182/transformed/picasso-2.71828/AndroidManifest.xml:8:9-11:40
-99            android:name="com.squareup.picasso.PicassoProvider"
-99-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/15d9bcfd7d95882a6262388beff91182/transformed/picasso-2.71828/AndroidManifest.xml:9:13-64
-100            android:authorities="com.belaku.nplay.com.squareup.picasso"
-100-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/15d9bcfd7d95882a6262388beff91182/transformed/picasso-2.71828/AndroidManifest.xml:10:13-72
-101            android:exported="false" />
-101-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/15d9bcfd7d95882a6262388beff91182/transformed/picasso-2.71828/AndroidManifest.xml:11:13-37
-102    </application>
-103
-104</manifest>
+98                <category android:name="android.intent.category.LAUNCHER" />
+98-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:41:17-77
+98-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:41:27-74
+99            </intent-filter>
+100        </activity>
+101
+102        <uses-library
+102-->[androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] /Users/np/.gradle/caches/transforms-4/8ca8ce0feaf90c848bf0114111351d81/transformed/ads-adservices-1.0.0-beta05/AndroidManifest.xml:23:9-25:40
+103            android:name="android.ext.adservices"
+103-->[androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] /Users/np/.gradle/caches/transforms-4/8ca8ce0feaf90c848bf0114111351d81/transformed/ads-adservices-1.0.0-beta05/AndroidManifest.xml:24:13-50
+104            android:required="false" /> <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
+104-->[androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] /Users/np/.gradle/caches/transforms-4/8ca8ce0feaf90c848bf0114111351d81/transformed/ads-adservices-1.0.0-beta05/AndroidManifest.xml:25:13-37
+105        <activity
+105-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:73:9-78:43
+106            android:name="com.google.android.gms.ads.AdActivity"
+106-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:74:13-65
+107            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+107-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:75:13-122
+108            android:exported="false"
+108-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:76:13-37
+109            android:theme="@android:style/Theme.Translucent" />
+109-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:77:13-61
+110
+111        <provider
+111-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:80:9-85:43
+112            android:name="com.google.android.gms.ads.MobileAdsInitProvider"
+112-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:81:13-76
+113            android:authorities="com.belaku.nplay.mobileadsinitprovider"
+113-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:82:13-73
+114            android:exported="false"
+114-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:83:13-37
+115            android:initOrder="100" />
+115-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:84:13-36
+116
+117        <service
+117-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:87:9-91:43
+118            android:name="com.google.android.gms.ads.AdService"
+118-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:88:13-64
+119            android:enabled="true"
+119-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:89:13-35
+120            android:exported="false" />
+120-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:90:13-37
+121
+122        <activity
+122-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:93:9-97:43
+123            android:name="com.google.android.gms.ads.OutOfContextTestingActivity"
+123-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:94:13-82
+124            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+124-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:95:13-122
+125            android:exported="false" />
+125-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:96:13-37
+126        <activity
+126-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:98:9-105:43
+127            android:name="com.google.android.gms.ads.NotificationHandlerActivity"
+127-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:99:13-82
+128            android:excludeFromRecents="true"
+128-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:100:13-46
+129            android:exported="false"
+129-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:101:13-37
+130            android:launchMode="singleTask"
+130-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:102:13-44
+131            android:taskAffinity=""
+131-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:103:13-36
+132            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+132-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:104:13-72
+133
+134        <property
+134-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:107:9-109:62
+135            android:name="android.adservices.AD_SERVICES_CONFIG"
+135-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:108:13-65
+136            android:resource="@xml/gma_ad_services_config" />
+136-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/7cd2e0b7b8611bfc9b47d7142b35109b/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:109:13-59
+137
+138        <activity
+138-->[com.google.android.gms:play-services-base:18.0.0] /Users/np/.gradle/caches/transforms-4/862dac800034aa015f29ea4ab7e203b3/transformed/play-services-base-18.0.0/AndroidManifest.xml:20:9-22:45
+139            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+139-->[com.google.android.gms:play-services-base:18.0.0] /Users/np/.gradle/caches/transforms-4/862dac800034aa015f29ea4ab7e203b3/transformed/play-services-base-18.0.0/AndroidManifest.xml:20:19-85
+140            android:exported="false"
+140-->[com.google.android.gms:play-services-base:18.0.0] /Users/np/.gradle/caches/transforms-4/862dac800034aa015f29ea4ab7e203b3/transformed/play-services-base-18.0.0/AndroidManifest.xml:22:19-43
+141            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+141-->[com.google.android.gms:play-services-base:18.0.0] /Users/np/.gradle/caches/transforms-4/862dac800034aa015f29ea4ab7e203b3/transformed/play-services-base-18.0.0/AndroidManifest.xml:21:19-78
+142
+143        <meta-data
+143-->[com.google.android.gms:play-services-basement:18.4.0] /Users/np/.gradle/caches/transforms-4/eb0e15ad6cfecdcf16773f403d8725f9/transformed/play-services-basement-18.4.0/AndroidManifest.xml:6:9-122
+144            android:name="com.google.android.gms.version"
+144-->[com.google.android.gms:play-services-basement:18.4.0] /Users/np/.gradle/caches/transforms-4/eb0e15ad6cfecdcf16773f403d8725f9/transformed/play-services-basement-18.4.0/AndroidManifest.xml:6:20-65
+145            android:value="@integer/google_play_services_version" />
+145-->[com.google.android.gms:play-services-basement:18.4.0] /Users/np/.gradle/caches/transforms-4/eb0e15ad6cfecdcf16773f403d8725f9/transformed/play-services-basement-18.4.0/AndroidManifest.xml:6:66-119
+146
+147        <provider
+147-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/c6677a34eb401415ef7f005ef0a63767/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+148            android:name="androidx.startup.InitializationProvider"
+148-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/c6677a34eb401415ef7f005ef0a63767/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+149            android:authorities="com.belaku.nplay.androidx-startup"
+149-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/c6677a34eb401415ef7f005ef0a63767/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+150            android:exported="false" >
+150-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/c6677a34eb401415ef7f005ef0a63767/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+151            <meta-data
+151-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/c6677a34eb401415ef7f005ef0a63767/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+152                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+152-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/c6677a34eb401415ef7f005ef0a63767/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+153                android:value="androidx.startup" />
+153-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/c6677a34eb401415ef7f005ef0a63767/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+154            <meta-data
+154-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:36:13-38:52
+155                android:name="androidx.work.WorkManagerInitializer"
+155-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:37:17-68
+156                android:value="androidx.startup" />
+156-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:38:17-49
+157            <meta-data
+157-->[androidx.lifecycle:lifecycle-process:2.6.2] /Users/np/.gradle/caches/transforms-4/be67b8ade77e0987957d22276d9964b9/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:29:13-31:52
+158                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+158-->[androidx.lifecycle:lifecycle-process:2.6.2] /Users/np/.gradle/caches/transforms-4/be67b8ade77e0987957d22276d9964b9/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:30:17-78
+159                android:value="androidx.startup" />
+159-->[androidx.lifecycle:lifecycle-process:2.6.2] /Users/np/.gradle/caches/transforms-4/be67b8ade77e0987957d22276d9964b9/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:31:17-49
+160            <meta-data
+160-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:29:13-31:52
+161                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+161-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:30:17-85
+162                android:value="androidx.startup" />
+162-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:31:17-49
+163        </provider>
+164
+165        <service
+165-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:41:9-46:35
+166            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+166-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:42:13-88
+167            android:directBootAware="false"
+167-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:43:13-44
+168            android:enabled="@bool/enable_system_alarm_service_default"
+168-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:44:13-72
+169            android:exported="false" />
+169-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:45:13-37
+170        <service
+170-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:47:9-53:35
+171            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+171-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:48:13-84
+172            android:directBootAware="false"
+172-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:49:13-44
+173            android:enabled="@bool/enable_system_job_service_default"
+173-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:50:13-70
+174            android:exported="true"
+174-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:51:13-36
+175            android:permission="android.permission.BIND_JOB_SERVICE" />
+175-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:52:13-69
+176        <service
+176-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:54:9-59:35
+177            android:name="androidx.work.impl.foreground.SystemForegroundService"
+177-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:55:13-81
+178            android:directBootAware="false"
+178-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:56:13-44
+179            android:enabled="@bool/enable_system_foreground_service_default"
+179-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:57:13-77
+180            android:exported="false" />
+180-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:58:13-37
+181
+182        <receiver
+182-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:61:9-66:35
+183            android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
+183-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:62:13-88
+184            android:directBootAware="false"
+184-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:63:13-44
+185            android:enabled="true"
+185-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:64:13-35
+186            android:exported="false" />
+186-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:65:13-37
+187        <receiver
+187-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:67:9-77:20
+188            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
+188-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:68:13-106
+189            android:directBootAware="false"
+189-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:69:13-44
+190            android:enabled="false"
+190-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:70:13-36
+191            android:exported="false" >
+191-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:71:13-37
+192            <intent-filter>
+192-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:73:13-76:29
+193                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+193-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:74:17-87
+193-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:74:25-84
+194                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+194-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:75:17-90
+194-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:75:25-87
+195            </intent-filter>
+196        </receiver>
+197        <receiver
+197-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:78:9-88:20
+198            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
+198-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:79:13-104
+199            android:directBootAware="false"
+199-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:80:13-44
+200            android:enabled="false"
+200-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:81:13-36
+201            android:exported="false" >
+201-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:82:13-37
+202            <intent-filter>
+202-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:84:13-87:29
+203                <action android:name="android.intent.action.BATTERY_OKAY" />
+203-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:85:17-77
+203-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:85:25-74
+204                <action android:name="android.intent.action.BATTERY_LOW" />
+204-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:86:17-76
+204-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:86:25-73
+205            </intent-filter>
+206        </receiver>
+207        <receiver
+207-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:89:9-99:20
+208            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
+208-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:90:13-104
+209            android:directBootAware="false"
+209-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:91:13-44
+210            android:enabled="false"
+210-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:92:13-36
+211            android:exported="false" >
+211-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:93:13-37
+212            <intent-filter>
+212-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:95:13-98:29
+213                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
+213-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:96:17-83
+213-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:96:25-80
+214                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
+214-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:97:17-82
+214-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:97:25-79
+215            </intent-filter>
+216        </receiver>
+217        <receiver
+217-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:100:9-109:20
+218            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
+218-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:101:13-103
+219            android:directBootAware="false"
+219-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:102:13-44
+220            android:enabled="false"
+220-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:103:13-36
+221            android:exported="false" >
+221-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:104:13-37
+222            <intent-filter>
+222-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:106:13-108:29
+223                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+223-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:107:17-79
+223-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:107:25-76
+224            </intent-filter>
+225        </receiver>
+226        <receiver
+226-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:110:9-121:20
+227            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+227-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:111:13-88
+228            android:directBootAware="false"
+228-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:112:13-44
+229            android:enabled="false"
+229-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:113:13-36
+230            android:exported="false" >
+230-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:114:13-37
+231            <intent-filter>
+231-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:116:13-120:29
+232                <action android:name="android.intent.action.BOOT_COMPLETED" />
+232-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:117:17-79
+232-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:117:25-76
+233                <action android:name="android.intent.action.TIME_SET" />
+233-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:118:17-73
+233-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:118:25-70
+234                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+234-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:119:17-81
+234-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:119:25-78
+235            </intent-filter>
+236        </receiver>
+237        <receiver
+237-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:122:9-131:20
+238            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+238-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:123:13-99
+239            android:directBootAware="false"
+239-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:124:13-44
+240            android:enabled="@bool/enable_system_alarm_service_default"
+240-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:125:13-72
+241            android:exported="false" >
+241-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:126:13-37
+242            <intent-filter>
+242-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:128:13-130:29
+243                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies" />
+243-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:129:17-98
+243-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:129:25-95
+244            </intent-filter>
+245        </receiver>
+246        <receiver
+246-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:132:9-142:20
+247            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+247-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:133:13-78
+248            android:directBootAware="false"
+248-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:134:13-44
+249            android:enabled="true"
+249-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:135:13-35
+250            android:exported="true"
+250-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:136:13-36
+251            android:permission="android.permission.DUMP" >
+251-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:137:13-57
+252            <intent-filter>
+252-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:139:13-141:29
+253                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
+253-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:140:17-88
+253-->[androidx.work:work-runtime:2.7.0] /Users/np/.gradle/caches/transforms-4/3201111467a83d04053686d315fa9c71/transformed/work-runtime-2.7.0/AndroidManifest.xml:140:25-85
+254            </intent-filter>
+255        </receiver>
+256
+257        <uses-library
+257-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/7f2f8ccffd8c068d44208d8ab4a915d2/transformed/window-1.0.0/AndroidManifest.xml:25:9-27:40
+258            android:name="androidx.window.extensions"
+258-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/7f2f8ccffd8c068d44208d8ab4a915d2/transformed/window-1.0.0/AndroidManifest.xml:26:13-54
+259            android:required="false" />
+259-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/7f2f8ccffd8c068d44208d8ab4a915d2/transformed/window-1.0.0/AndroidManifest.xml:27:13-37
+260        <uses-library
+260-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/7f2f8ccffd8c068d44208d8ab4a915d2/transformed/window-1.0.0/AndroidManifest.xml:28:9-30:40
+261            android:name="androidx.window.sidecar"
+261-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/7f2f8ccffd8c068d44208d8ab4a915d2/transformed/window-1.0.0/AndroidManifest.xml:29:13-51
+262            android:required="false" />
+262-->[androidx.window:window:1.0.0] /Users/np/.gradle/caches/transforms-4/7f2f8ccffd8c068d44208d8ab4a915d2/transformed/window-1.0.0/AndroidManifest.xml:30:13-37
+263
+264        <receiver
+264-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:34:9-52:20
+265            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+265-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:35:13-76
+266            android:directBootAware="false"
+266-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:36:13-44
+267            android:enabled="true"
+267-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:37:13-35
+268            android:exported="true"
+268-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:38:13-36
+269            android:permission="android.permission.DUMP" >
+269-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:39:13-57
+270            <intent-filter>
+270-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:40:13-42:29
+271                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+271-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:17-91
+271-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:25-88
+272            </intent-filter>
+273            <intent-filter>
+273-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:43:13-45:29
+274                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+274-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:17-85
+274-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:25-82
+275            </intent-filter>
+276            <intent-filter>
+276-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:46:13-48:29
+277                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+277-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:17-88
+277-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:25-85
+278            </intent-filter>
+279            <intent-filter>
+279-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:49:13-51:29
+280                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+280-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:17-95
+280-->[androidx.profileinstaller:profileinstaller:1.4.0] /Users/np/.gradle/caches/transforms-4/492bdc2df1f3f67160d7f46d30d9109e/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:25-92
+281            </intent-filter>
+282        </receiver>
+283
+284        <service
+284-->[androidx.room:room-runtime:2.2.5] /Users/np/.gradle/caches/transforms-4/0b2ba8a6b5fc0c48a44d82eaf2df70cc/transformed/room-runtime-2.2.5/AndroidManifest.xml:25:9-28:40
+285            android:name="androidx.room.MultiInstanceInvalidationService"
+285-->[androidx.room:room-runtime:2.2.5] /Users/np/.gradle/caches/transforms-4/0b2ba8a6b5fc0c48a44d82eaf2df70cc/transformed/room-runtime-2.2.5/AndroidManifest.xml:26:13-74
+286            android:directBootAware="true"
+286-->[androidx.room:room-runtime:2.2.5] /Users/np/.gradle/caches/transforms-4/0b2ba8a6b5fc0c48a44d82eaf2df70cc/transformed/room-runtime-2.2.5/AndroidManifest.xml:27:13-43
+287            android:exported="false" />
+287-->[androidx.room:room-runtime:2.2.5] /Users/np/.gradle/caches/transforms-4/0b2ba8a6b5fc0c48a44d82eaf2df70cc/transformed/room-runtime-2.2.5/AndroidManifest.xml:28:13-37
+288
+289        <provider
+289-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/e06174c35d1949db743626e1818b4aec/transformed/picasso-2.71828/AndroidManifest.xml:8:9-11:40
+290            android:name="com.squareup.picasso.PicassoProvider"
+290-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/e06174c35d1949db743626e1818b4aec/transformed/picasso-2.71828/AndroidManifest.xml:9:13-64
+291            android:authorities="com.belaku.nplay.com.squareup.picasso"
+291-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/e06174c35d1949db743626e1818b4aec/transformed/picasso-2.71828/AndroidManifest.xml:10:13-72
+292            android:exported="false" />
+292-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/e06174c35d1949db743626e1818b4aec/transformed/picasso-2.71828/AndroidManifest.xml:11:13-37
+293    </application>
+294
+295</manifest>

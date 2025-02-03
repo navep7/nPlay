@@ -6,6 +6,12 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    
+    <string name="admob_app_id">ca-app-pub-6424332507659067~2148617812</string>
+    <string name="admob_intr_adunit_id_test">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="admob_intr_adunit_id_actual">ca-app-pub-6424332507659067/6649865957</string>
+    <string name="admob_native_test">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="admob_native_actual">ca-app-pub-6424332507659067/1700528279</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

@@ -72,7 +72,6 @@ class MusicAdapter(
         Picasso.get().load(songdata.album.cover).into(holder.imageView)
 
         holder.imageViewFavSong.setOnClickListener {
-         //   Toast.makeText(mContext, holder.sname.text, Toast.LENGTH_LONG).show()
             (mActivity as MainActivity).addToFavoriteSongs(holder.sname.text.toString())
         }
     }

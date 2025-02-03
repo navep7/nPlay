@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "nPlay"
 include(":app")
+include(":nativetemplates")

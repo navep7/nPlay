@@ -11,8 +11,8 @@ android {
         applicationId = "com.belaku.nplay"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -39,6 +39,10 @@ android {
 }
 
 dependencies {
+
+    //adding native templates
+    implementation(project(":nativetemplates"))
+    implementation(libs.play.services.ads)
 
     implementation("com.github.massoudss:waveformSeekBar:5.0.2")
     implementation("com.github.lincollincol:amplituda:2.2.2")

@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.belaku.nplay.app-mergeReleaseResources-57:/values-hdpi-v4/values-hdpi-v4.xml",
+            "map": [
+                {
+                    "source": "/Users/np/.gradle/caches/transforms-4/5653243b4934e59aef9f7e9a3317444c/transformed/appcompat-1.7.0/res/values-hdpi-v4/values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "13",
+                        "endOffsets": "327"
+                    }
+                }
+            ]
+        }
+    ]
+}
