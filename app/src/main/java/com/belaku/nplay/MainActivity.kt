@@ -143,6 +143,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        getTrending()
+
         nativeAdLoader = AdLoader.Builder(this, resources.getString(R.string.admob_native_actual))
             .forNativeAd(object : NativeAd.OnNativeAdLoadedListener {
                 private val background: ColorDrawable? = null
@@ -325,6 +327,49 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
 
+    }
+
+    private fun getTrending() {
+        val retrofitBuilder = Retrofit.Builder()
+            .baseUrl("https://deezerdevs-deezer.p.rapidapi.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiInterfaceTrends::class.java)
+
+        val retrofitData = retrofitBuilder.getTrending()
+
+        retrofitData.enqueue(object : Callback<MusicData?> {
+            override fun onResponse(call: Call<MusicData?>, response: Response<MusicData?>) {
+                dataList = ArrayList()
+                dataList = (response.body()?.data as ArrayList<Data>?)!!
+
+                if (dataList.size > 0) {
+                    imageButtonPlayAlbum.setImageResource(android.R.drawable.ic_media_play)
+                    imageButtonPlayAlbum.visibility = VISIBLE
+                    fabFavorite.visibility = VISIBLE
+                    textViewFeaturing.visibility = VISIBLE
+                }
+                songs.clear()
+                for (item in dataList)
+                    songs.add(item.preview + " - " + item.title + " - " +  item.album.cover)
+
+
+                var rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
+                recyclerview.adapter = rvAdapter
+                recyclerview.setLayoutManager(
+                    LinearLayoutManager(
+                        this@MainActivity,
+                        LinearLayoutManager.HORIZONTAL,false
+                    )
+                )
+
+            }
+
+            override fun onFailure(call: Call<MusicData?>, t: Throwable) {
+                Toast.makeText(applicationContext, "onF - ", Toast.LENGTH_LONG).show()
+            }
+
+        })
     }
 
     private fun showNativeAd() {
