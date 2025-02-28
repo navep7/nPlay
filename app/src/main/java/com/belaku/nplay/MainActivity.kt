@@ -143,8 +143,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        getTrending()
-
         nativeAdLoader = AdLoader.Builder(this, resources.getString(R.string.admob_native_actual))
             .forNativeAd(object : NativeAd.OnNativeAdLoadedListener {
                 private val background: ColorDrawable? = null
@@ -166,8 +164,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 }
             }).build()
 
-        showNativeAd()
-        showIntrAd()
+    //    showNativeAd()
+    //    showIntrAd()
 
 
         val backgroundScope = CoroutineScope(Dispatchers.IO)
@@ -183,6 +181,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         findViewByIds()
         initializeStuff()
 
+
         mSharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
          sharedPreferencesEditor = mSharedPreference.edit()
@@ -197,9 +196,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 textViewFeaturing.text = "Featuring,   ${tx.text.toString().strip()}"
                 wfs.progress = 0f
                 query = tx.text.toString()
-                makeToast("cprng - " + tx.text.toString().strip() + " vs " + "Favorites")
+            //    makeToast("cprng - " + tx.text.toString().strip() + " vs " + "Favorites")
                 if (!tx.text.toString().strip().equals("Favorites"))
-                Getdata()
+                    Getdata()
                 else {
                     getFavorites()
                 }
@@ -208,21 +207,17 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             linearLayoutFavs.addView(tx)
 
 
+
             if (!isMyServiceRunning(MusicService::class.java)) {
                 wfs.progress = 0f
                 if (isMyServiceRunning(MusicService::class.java)) {
                     stopService(Intent(this@MainActivity, MusicService::class.java))
                 }
 
-
-                if (item == arraylistFavorites.get(0)) {
-                    query = tx.text.toString()
-                    textViewFeaturing.text = "Featuring, " + tx.text.toString().strip()
-                    Getdata()
-
-                }
             }
         }
+
+
 
 
 
@@ -340,7 +335,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         retrofitData.enqueue(object : Callback<MusicData?> {
             override fun onResponse(call: Call<MusicData?>, response: Response<MusicData?>) {
-                dataList = ArrayList()
                 dataList = (response.body()?.data as ArrayList<Data>?)!!
 
                 if (dataList.size > 0) {
@@ -412,7 +406,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             }
 
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                makeToast("Ad was loaded.")
+            //    makeToast("Ad was loaded.")
                 mInterstitialAd = interstitialAd
                 mInterstitialAd?.show(this@MainActivity)
             }
@@ -420,6 +414,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
     private fun renderFavorites() {
+
+
         dataList.clear()
         for (i in arraylistFavoriteSongs.indices) {
             dataList.add(arraylistFavoriteSongs.get(i))
@@ -492,6 +488,15 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     private fun initializeStuff() {
         arrayListFavsAdded = ArrayList()
+        val txTrending = TextView(applicationContext)
+        txTrending.text = "Trending"
+        txTrending.setBackgroundResource(android.R.drawable.editbox_background)
+        txTrending.setOnClickListener(View.OnClickListener {
+            getTrending()
+        })
+        linearLayoutFavs.addView(txTrending)
+        getTrending()
+        textViewFeaturing.text = "Trending..,"
     }
 
 
@@ -515,6 +520,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     private fun findViewByIds() {
 
+        dataList = ArrayList()
         arraylistFavoriteSongs = ArrayList()
 
         relativeLayoutMain = findViewById(R.id.rl_main)
@@ -537,7 +543,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
     private fun makeToast(s: String) {
-    //    Toast.makeText(applicationContext, s, Toast.LENGTH_LONG).show()
+        Toast.makeText(applicationContext, s, Toast.LENGTH_LONG).show()
     }
 
     override fun onDestroy() {
@@ -572,7 +578,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             arrayItems = gson.fromJson<List<Data>>(serializedObject, type)
         }
 
-        makeToast(arrayItems.size.toString() + " fs")
+     //   makeToast(arrayItems.size.toString() + " fs")
         arraylistFavoriteSongs = arrayItems as ArrayList<Data>
         renderFavorites()
 
@@ -829,13 +835,20 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     fun addToFavoriteSongs(text: String) {
        for (i in dataList.indices) {
            if (dataList.get(i).title.equals(text)) {
-               makeToast("Yet2Add - " + dataList.get(i).title + " to Fav Songs")
 
                if (arraylistFavoriteSongs.size == 0) {
                    saveFav("Favorites")
                }
 
-               arraylistFavoriteSongs.add(dataList.get(i))
+               var arraylistFavoriteSongNames = ArrayList<String>()
+               for (item in arraylistFavoriteSongs) {
+                   arraylistFavoriteSongNames.add(item.title)
+               }
+
+               if (!arraylistFavoriteSongNames.contains(dataList.get(i).title)) {
+                   makeToast("Added - " + dataList.get(i).title + " to Fav Songs!")
+                   arraylistFavoriteSongs.add(dataList.get(i))
+               } else makeToast("Already exist in FavS")
            }
         }
 
