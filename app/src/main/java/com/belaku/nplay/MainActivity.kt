@@ -19,6 +19,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.View.INVISIBLE
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageButton
@@ -326,6 +327,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
     private fun getTrending() {
+        getFavorites()
         val retrofitBuilder = Retrofit.Builder()
             .baseUrl("https://deezerdevs-deezer.p.rapidapi.com/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -341,7 +343,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 if (dataList.size > 0) {
                     imageButtonPlayAlbum.setImageResource(android.R.drawable.ic_media_play)
                     imageButtonPlayAlbum.visibility = VISIBLE
-                    fabFavorite.visibility = VISIBLE
+                    fabFavorite.visibility = INVISIBLE
                     textViewFeaturing.visibility = VISIBLE
                 }
                 songs.clear()
