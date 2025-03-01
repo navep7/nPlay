@@ -66,6 +66,7 @@ import java.lang.reflect.Type
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 import java.util.TimeZone
 import kotlin.concurrent.fixedRateTimer
 import kotlin.properties.Delegates
@@ -189,14 +190,14 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         arraylistFavorites = populateFavorites("favorites")
         for (item in arraylistFavorites) {
             val tx: TextView =  TextView(applicationContext)
-            tx.text = item.substring(0, 1).toUpperCase() + item.substring(1) + "\t\t\t"
+            tx.text = item.substring(0, 1).uppercase(Locale.ROOT) + item.substring(1) + "\t\t\t"
             tx.setBackgroundResource(android.R.drawable.editbox_background)
 
             tx.setOnClickListener {
-                textViewFeaturing.text = "Featuring,   ${tx.text.toString().strip()}"
+                makeToast(tx.text.toString())
+                textViewFeaturing.text = "Featuring, " + tx.text.toString()
                 wfs.progress = 0f
                 query = tx.text.toString()
-            //    makeToast("cprng - " + tx.text.toString().strip() + " vs " + "Favorites")
                 if (!tx.text.toString().strip().equals("Favorites"))
                     Getdata()
                 else {
@@ -493,6 +494,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         txTrending.setBackgroundResource(android.R.drawable.editbox_background)
         txTrending.setOnClickListener(View.OnClickListener {
             getTrending()
+            textViewFeaturing.text = "Trending..,"
         })
         linearLayoutFavs.addView(txTrending)
         getTrending()

@@ -146,6 +146,9 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
 
         scontext = this;
+        songsUrlList.clear()
+        songsNameList.clear()
+        songsAlbumArtList.clear()
 
         if (intent.extras?.get("1") != null)
         for (i in 0 until 30) {
