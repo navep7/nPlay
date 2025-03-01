@@ -76,8 +76,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_below="@+id/imgbtn_PlayAlbum"
-        android:layout_marginStart="35dp"
-        android:layout_alignParentStart="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

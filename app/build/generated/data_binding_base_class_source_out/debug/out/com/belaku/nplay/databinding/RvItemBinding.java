@@ -32,18 +32,13 @@ public final class RvItemBinding implements ViewBinding {
   @NonNull
   public final TextView txAname;
 
-  @NonNull
-  public final TextView txDuration;
-
   private RvItemBinding(@NonNull RelativeLayout rootView, @NonNull ImageView imgvArt,
-      @NonNull ImageView imgvFavSong, @NonNull TextView rvTxSname, @NonNull TextView txAname,
-      @NonNull TextView txDuration) {
+      @NonNull ImageView imgvFavSong, @NonNull TextView rvTxSname, @NonNull TextView txAname) {
     this.rootView = rootView;
     this.imgvArt = imgvArt;
     this.imgvFavSong = imgvFavSong;
     this.rvTxSname = rvTxSname;
     this.txAname = txAname;
-    this.txDuration = txDuration;
   }
 
   @Override
@@ -97,14 +92,7 @@ public final class RvItemBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.tx_duration;
-      TextView txDuration = ViewBindings.findChildViewById(rootView, id);
-      if (txDuration == null) {
-        break missingId;
-      }
-
-      return new RvItemBinding((RelativeLayout) rootView, imgvArt, imgvFavSong, rvTxSname, txAname,
-          txDuration);
+      return new RvItemBinding((RelativeLayout) rootView, imgvArt, imgvFavSong, rvTxSname, txAname);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

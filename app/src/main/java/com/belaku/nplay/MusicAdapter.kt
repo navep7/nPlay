@@ -29,7 +29,6 @@ class MusicAdapter(
     inner class ItemViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
         val sname: TextView = view.findViewById(R.id.rv_tx_sname)
         val aname: TextView = view.findViewById(R.id.tx_aname)
-        val dur: TextView = view.findViewById(R.id.tx_duration)
         val imageView: ImageView = view.findViewById(R.id.imgv_art)
         val imageViewFavSong: ImageView = view.findViewById(R.id.imgv_fav_song)
 
@@ -68,7 +67,7 @@ class MusicAdapter(
         val df: SimpleDateFormat = SimpleDateFormat("mm:ss") // HH for 0-23
         df.setTimeZone(TimeZone.getTimeZone("GMT"))
         val time: kotlin.String = df.format(d)
-        holder.dur.text = time
+        
         Picasso.get().load(songdata.album.cover).into(holder.imageView)
 
         holder.imageViewFavSong.setOnClickListener {

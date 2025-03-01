@@ -3804,7 +3804,6 @@ int id transition_transform 0x7f080217
 int id triangle 0x7f080218
 int id tx_aname 0x7f080219
 int id tx_current_time 0x7f08021a
-int id tx_duration 0x7f08021b
 int id tx_featuring 0x7f08021c
 int id tx_sname 0x7f08021d
 int id unchecked 0x7f08021e

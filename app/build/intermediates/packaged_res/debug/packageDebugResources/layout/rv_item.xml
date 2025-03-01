@@ -2,22 +2,22 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="250dp"
+    android:layout_width="375dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="250dp"
+        android:layout_width="375dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="25dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_margin="1dp">
-            
+
             <ImageView
                 android:id="@+id/imgv_art"
                 android:layout_width="100dp"
@@ -49,15 +49,6 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 tools:ignore="HardcodedText" />
-
-            <TextView
-                android:id="@+id/tx_duration"
-                android:text="0:00"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/fab_margin"
-                android:layout_below="@+id/tx_aname"
-                android:layout_toRightOf="@+id/imgv_art"/>
 
             <ImageView
                 android:id="@+id/imgv_fav_song"

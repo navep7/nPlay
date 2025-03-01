@@ -345,7 +345,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                     Log.d("updateUI exception - ", e.toString())
                 }
             }.start()
-            MainActivity.recyclerview.scrollToPosition(songIndex)
+            MainActivity.recyclerview.smoothScrollToPosition(songIndex)
       //      updateActivity()
     } else {
             super.stopSelf()
