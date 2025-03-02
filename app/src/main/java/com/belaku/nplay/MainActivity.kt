@@ -71,13 +71,13 @@ import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.Random
 import java.util.TimeZone
 import kotlin.concurrent.fixedRateTimer
 import kotlin.properties.Delegates
 
 
 class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
-
 
 
     private lateinit var nativeAdLoader: AdLoader
@@ -179,8 +179,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 }
             }).build()
 
-        //    showNativeAd()
-        //    showIntrAd()
+        showNativeAd()
+        showIntrAd()
 
 
         val backgroundScope = CoroutineScope(Dispatchers.IO)
@@ -208,6 +208,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             tx.setBackgroundResource(android.R.drawable.editbox_background)
 
             tx.setOnClickListener {
+
+                showIntrAd()
+
                 onClickPos = 0
                 makeToast(tx.text.toString())
                 textViewFeaturing.text = "Featuring, " + tx.text.toString()
@@ -256,6 +259,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
         fabFavorite.setOnClickListener {
+
+            showIntrAd()
 
             fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_on))
             if (textViewFeaturing.text.length > 0)
@@ -417,24 +422,25 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     private fun showIntrAd() {
 
-        val adRequest = AdRequest.Builder().build()
+        if (Random().nextInt() % 2 == 0) {
+            val adRequest = AdRequest.Builder().build()
+            InterstitialAd.load(
+                this,
+                resources.getString(R.string.admob_intr_adunit_id_actual),
+                adRequest,
+                object : InterstitialAdLoadCallback() {
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
+                        adError?.toString()?.let { makeToast(it) }
+                        mInterstitialAd = null
+                    }
 
-        InterstitialAd.load(
-            this,
-            resources.getString(R.string.admob_intr_adunit_id_actual),
-            adRequest,
-            object : InterstitialAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    adError?.toString()?.let { makeToast(it) }
-                    mInterstitialAd = null
-                }
-
-                override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                    //    makeToast("Ad was loaded.")
-                    mInterstitialAd = interstitialAd
-                    mInterstitialAd?.show(this@MainActivity)
-                }
-            })
+                    override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                        //    makeToast("Ad was loaded.")
+                        mInterstitialAd = interstitialAd
+                        mInterstitialAd?.show(this@MainActivity)
+                    }
+                })
+        }
     }
 
     private fun renderFavorites() {
@@ -570,7 +576,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
     private fun makeToast(s: String) {
-        Toast.makeText(applicationContext, s, Toast.LENGTH_LONG).show()
+     //   Toast.makeText(applicationContext, s, Toast.LENGTH_LONG).show()
     }
 
     override fun onDestroy() {
@@ -690,8 +696,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         val threadSeek = Thread {
             try {
 
-                    wfs.setSampleFrom(dataList[what].preview)
-                } catch (e: Exception) {
+                wfs.setSampleFrom(dataList[what].preview)
+            } catch (e: Exception) {
                 Log.d("ExcpSeek - ", e.toString())
                 e.printStackTrace()
             }
@@ -848,6 +854,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     @RequiresApi(Build.VERSION_CODES.O)
     override
     fun onItemClick(position: Int) {
+
         onClickPos = position
         if (isMyServiceRunning(MusicService::class.java))
             stopService(playIntent)
@@ -861,7 +868,11 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         for (i in dataList.indices) {
             if (dataList.get(i).title.equals(dataList[position].title)) {
                 for (j in i until dataList.size) {
-                    songs.add(dataList.get(j).preview + " - " + dataList.get(j).title + " - " + dataList.get(j).album.cover)
+                    songs.add(
+                        dataList.get(j).preview + " - " + dataList.get(j).title + " - " + dataList.get(
+                            j
+                        ).album.cover
+                    )
                 }
             }
         }

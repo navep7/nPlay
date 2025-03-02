@@ -112,10 +112,6 @@
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-61:/mipmap-xhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.belaku.nplay.app-debug-59:/layout_rv_item.xml.flat",
-        "source": "com.belaku.nplay.app-main-61:/layout/rv_item.xml"
-    },
-    {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-59:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-61:/mipmap-xxxhdpi/ic_launcher_round.webp"
     },
@@ -130,6 +126,10 @@
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-59:/layout_notification_push.xml.flat",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-61:/layout/notification_push.xml"
+    },
+    {
+        "merged": "com.belaku.nplay.app-debug-59:/layout_content_main.xml.flat",
+        "source": "com.belaku.nplay.app-main-61:/layout/content_main.xml"
     },
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-59:/layout_activity_main.xml.flat",

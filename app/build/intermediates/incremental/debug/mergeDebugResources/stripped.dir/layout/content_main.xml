@@ -104,8 +104,8 @@
         android:textSize="35sp"
         android:gravity="center"
         android:layout_below="@+id/rv"
-        android:layout_centerHorizontal="true"
-        android:layout_width="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <com.masoudss.lib.WaveformSeekBar
@@ -133,8 +133,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/wfsb"/>
+        android:layout_above="@+id/wfsb"
+        android:layout_toRightOf="@+id/tx_sname"
+        />
 
     <!-- Template View for native ad -->
     <com.google.android.ads.nativetemplates.TemplateView
