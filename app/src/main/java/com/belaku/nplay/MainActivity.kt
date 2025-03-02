@@ -79,9 +79,7 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
-    private lateinit var aSongWave: String
-    private lateinit var aSongName: String
-    private var aSong: Boolean = false
+
     private lateinit var nativeAdLoader: AdLoader
     private lateinit var template: TemplateView
     private var adLoaded: Boolean = false
@@ -115,27 +113,28 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     @SuppressLint("StaticFieldLeak")
     companion object {
+        var onClickPos: Int = 0
         lateinit var linearLayoutManager: LinearLayoutManager
         lateinit var rvAdapter: MusicAdapter
         var screenDimens by Delegates.notNull<Int>()
         lateinit var fabPlayPause: FloatingActionButton
         lateinit var dataList: ArrayList<Data>
-        lateinit var wfs:WaveformSeekBar
+        lateinit var wfs: WaveformSeekBar
         lateinit var txSongName: TextView
         lateinit var txNow: TextView
         lateinit var contentView: RemoteViews
         lateinit var imageArtAlbum: BitmapDrawable
         lateinit var relativeLayoutMain: RelativeLayout
-        lateinit var recyclerview : RecyclerView
+        lateinit var recyclerview: RecyclerView
         lateinit var arraylistFavoriteSongs: ArrayList<Data>
 
     }
+
     private lateinit var query: String
     private lateinit var binding: ActivityMainBinding
 
     private var mInterstitialAd: InterstitialAd? = null
     private final val TAG = "MainActivity"
-
 
 
     var receiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -180,8 +179,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 }
             }).build()
 
-    //    showNativeAd()
-    //    showIntrAd()
+        //    showNativeAd()
+        //    showIntrAd()
 
 
         val backgroundScope = CoroutineScope(Dispatchers.IO)
@@ -200,15 +199,16 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         mSharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
-         sharedPreferencesEditor = mSharedPreference.edit()
+        sharedPreferencesEditor = mSharedPreference.edit()
 
         arraylistFavorites = populateFavorites("favorites")
         for (item in arraylistFavorites) {
-            val tx: TextView =  TextView(applicationContext)
+            val tx: TextView = TextView(applicationContext)
             tx.text = item.substring(0, 1).uppercase(Locale.ROOT) + item.substring(1) + "\t\t\t"
             tx.setBackgroundResource(android.R.drawable.editbox_background)
 
             tx.setOnClickListener {
+                onClickPos = 0
                 makeToast(tx.text.toString())
                 textViewFeaturing.text = "Featuring, " + tx.text.toString()
                 wfs.progress = 0f
@@ -240,7 +240,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         editTextSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_SEND) {
-                textViewFeaturing.text = "Featuring, " + editTextSearch.text.substring(0, 1).toUpperCase() + editTextSearch.text.substring(1)
+                textViewFeaturing.text = "Featuring, " + editTextSearch.text.substring(0, 1)
+                    .toUpperCase() + editTextSearch.text.substring(1)
                 query = editTextSearch.getText().toString()
                 Getdata()
                 handled = true
@@ -259,12 +260,16 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_on))
             if (textViewFeaturing.text.length > 0)
                 if (saveFav(textViewFeaturing.text.toString().split(",").get(1)))
-                    makeToast("Added " + (textViewFeaturing.text.toString().split(",").get(1)) + " to Favs!")
+                    makeToast(
+                        "Added " + (textViewFeaturing.text.toString().split(",")
+                            .get(1)) + " to Favs!"
+                    )
                 else makeToast("Already in Favs!")
 
         }
 
         imageButtonPlayAlbum.setOnClickListener {
+            onClickPos = 0
             if (isMyServiceRunning(MusicService::class.java)) {
 
                 stopService(playIntent)
@@ -277,7 +282,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     i++
                 }
 
-                updateFirstUI()
                 startForegroundService(playIntent)
 
 
@@ -290,7 +294,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     playIntent.putExtra(i.toString(), item)
                     i++
                 }
-                updateFirstUI()
+
                 startForegroundService(playIntent)
             }
         }
@@ -299,23 +303,20 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         fabPlayPause.setOnClickListener { view ->
 
 
-                if(isMyServiceRunning(MusicService::class.java))  {
-                    if (mediaPlayer.isPlaying) {
-                        fabPlayPause.setImageResource(android.R.drawable.ic_media_play)
-                        mediaPlayer.pause()
+            if (isMyServiceRunning(MusicService::class.java)) {
+                if (mediaPlayer.isPlaying) {
+                    fabPlayPause.setImageResource(android.R.drawable.ic_media_play)
+                    mediaPlayer.pause()
 
-                    } else {
-                        fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
-                        mediaPlayer.start()
+                } else {
+                    fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
+                    mediaPlayer.start()
 
-                    }
                 }
+            }
 
 
         }
-
-
-
 
 
         //BR
@@ -326,16 +327,16 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 playingSeekDuration = intent.getIntExtra("seek_duration", 0)
                 playingSeekUpdate = intent.getIntExtra("seek_update", 0)
 
+                makeToast("Uing - " + playingSongIndex)
                 updateUI(playingSongIndex)
 
                 Log.d("BR21", "Got message: $playingSongIndex - $playingSeekUpdate")
             }
         }
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-             IntentFilter("nPlay_Events")
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            mMessageReceiver,
+            IntentFilter("nPlay_Events")
         );
-
-
 
 
     }
@@ -362,14 +363,14 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 }
                 songs.clear()
                 for (item in dataList)
-                    songs.add(item.preview + " - " + item.title + " - " +  item.album.cover)
+                    songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
 
 
 
                 rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
                 linearLayoutManager = LinearLayoutManager(
                     this@MainActivity,
-                    LinearLayoutManager.HORIZONTAL,false
+                    LinearLayoutManager.HORIZONTAL, false
                 )
                 recyclerview.adapter = rvAdapter
                 recyclerview.setLayoutManager(
@@ -418,18 +419,22 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         val adRequest = AdRequest.Builder().build()
 
-        InterstitialAd.load(this,resources.getString(R.string.admob_intr_adunit_id_actual), adRequest, object : InterstitialAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-                adError?.toString()?.let { makeToast(it) }
-                mInterstitialAd = null
-            }
+        InterstitialAd.load(
+            this,
+            resources.getString(R.string.admob_intr_adunit_id_actual),
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    adError?.toString()?.let { makeToast(it) }
+                    mInterstitialAd = null
+                }
 
-            override fun onAdLoaded(interstitialAd: InterstitialAd) {
-            //    makeToast("Ad was loaded.")
-                mInterstitialAd = interstitialAd
-                mInterstitialAd?.show(this@MainActivity)
-            }
-        })
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    //    makeToast("Ad was loaded.")
+                    mInterstitialAd = interstitialAd
+                    mInterstitialAd?.show(this@MainActivity)
+                }
+            })
     }
 
     private fun renderFavorites() {
@@ -448,38 +453,41 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         }
         songs.clear()
         for (item in dataList)
-            songs.add(item.preview + " - " + item.title + " - " +  item.album.cover)
+            songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
 
         var rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
         recyclerview.adapter = rvAdapter
         recyclerview.setLayoutManager(
             LinearLayoutManager(
                 this@MainActivity,
-                LinearLayoutManager.HORIZONTAL,false
+                LinearLayoutManager.HORIZONTAL, false
             )
         )
 
     }
 
-    private fun updateFirstUI() {
-
-
-
-    }
 
     private fun PermissionCheck() {
 
-        var permission_array=arrayOf(android.Manifest.permission.POST_NOTIFICATIONS)
-        if((ContextCompat.checkSelfPermission(this,permission_array[0]))==PackageManager.PERMISSION_DENIED){
-            requestPermissions(permission_array,0)
+        var permission_array = arrayOf(android.Manifest.permission.POST_NOTIFICATIONS)
+        if ((ContextCompat.checkSelfPermission(
+                this,
+                permission_array[0]
+            )) == PackageManager.PERMISSION_DENIED
+        ) {
+            requestPermissions(permission_array, 0)
         }
 
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if(requestCode==0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+        if (requestCode == 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
             //Do Your Operations Here
 
@@ -520,7 +528,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
 
-    fun saveFav(str: String) : Boolean {
+    fun saveFav(str: String): Boolean {
 
         if (!arraylistFavorites.contains(str.strip())) {
             arraylistFavorites.add(str.strip())
@@ -561,7 +569,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
 
-
     private fun makeToast(s: String) {
         Toast.makeText(applicationContext, s, Toast.LENGTH_LONG).show()
     }
@@ -571,15 +578,16 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         saveFavorites(arraylistFavoriteSongs)
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         if (isMyServiceRunning(MusicService::class.java))
-        if (!mediaPlayer.isPlaying) {
-            stopService(Intent(this@MainActivity, MusicService::class.java))
-            MusicService.notificationManager.cancelAll();
-        }
+            if (!mediaPlayer.isPlaying) {
+                stopService(Intent(this@MainActivity, MusicService::class.java))
+                MusicService.notificationManager.cancelAll();
+            }
         super.onDestroy()
-     }
+    }
 
     private fun saveFavorites(arraylistFavoriteSongs: ArrayList<Data>) {
-        val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val sharedPreferences: SharedPreferences =
+            PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val editor = sharedPreferences.edit()
         val gson = Gson()
         val json = gson.toJson(arraylistFavoriteSongs)
@@ -590,7 +598,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     private fun getFavorites(): List<Data> {
         var arrayItems: List<Data> = ArrayList()
-        val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val sharedPreferences: SharedPreferences =
+            PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val serializedObject = sharedPreferences.getString("arraylistFavoriteSongs", null)
         if (serializedObject != null) {
             val gson = Gson()
@@ -598,7 +607,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             arrayItems = gson.fromJson<List<Data>>(serializedObject, type)
         }
 
-     //   makeToast(arrayItems.size.toString() + " fs")
+        //   makeToast(arrayItems.size.toString() + " fs")
         arraylistFavoriteSongs = arrayItems as ArrayList<Data>
         renderFavorites()
 
@@ -639,7 +648,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
             fabPlayPause.visibility = VISIBLE
             if (mediaPlayer.isPlaying)
-            fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
+                fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
             else fabPlayPause.setImageResource(android.R.drawable.ic_media_play)
 
             sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
@@ -650,30 +659,27 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             recyclerview.setLayoutManager(
                 LinearLayoutManager(
                     this@MainActivity,
-                    LinearLayoutManager.HORIZONTAL,false
+                    LinearLayoutManager.HORIZONTAL, false
                 )
             )
 
 
-           updateUI(songIndex)
+            updateUI(songIndex)
 
         }
 
     }
 
 
-
-
     @SuppressLint("ResourceAsColor")
     private fun updateUI(what: Int) {
 
         for (item in dataList)
-            songs.add(item.preview + " - " + item.title + " - " +  item.album.cover)
+            songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
 
 
-        if (!aSong)
+
         txSongName.text = dataList[what].title
-        else txSongName.text = aSongName
 
         template.visibility = View.INVISIBLE
         wfs.visibility = View.VISIBLE
@@ -681,13 +687,11 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         txNow.visibility = View.VISIBLE
 
 
-
         val threadSeek = Thread {
             try {
-                if (!aSong)
-                wfs.setSampleFrom(dataList[what].preview)
-                else wfs.setSampleFrom(aSongWave)
-            } catch (e: Exception) {
+
+                    wfs.setSampleFrom(dataList[what].preview)
+                } catch (e: Exception) {
                 Log.d("ExcpSeek - ", e.toString())
                 e.printStackTrace()
             }
@@ -701,15 +705,16 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 imageArtAlbum = BitmapDrawable(applicationContext.resources, bitmapAlbum)
 
                 relativeLayoutMain.background = imageArtAlbum
-            //    noteContentView.setImageViewBitmap(com.belaku.nplay.R.id.note_image, imageArtAlbum.bitmap)
-
+                //    noteContentView.setImageViewBitmap(com.belaku.nplay.R.id.note_image, imageArtAlbum.bitmap)
 
 
                 Palette.from(imageArtAlbum.bitmap).generate { palette ->
                     // Do something with colors...
                     if (palette != null) {
-                        wfs.waveBackgroundColor = palette.getLightMutedColor(com.belaku.nplay.R.color.white)
-                        wfs.waveProgressColor = palette.getDarkMutedColor(com.belaku.nplay.R.color.black)
+                        wfs.waveBackgroundColor =
+                            palette.getLightMutedColor(com.belaku.nplay.R.color.white)
+                        wfs.waveProgressColor =
+                            palette.getDarkMutedColor(com.belaku.nplay.R.color.black)
                     }
                 }
 
@@ -723,7 +728,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             threadSeek.start()
 
 
-      //  wfs.setSampleFrom(R.raw.abc)
+        //  wfs.setSampleFrom(R.raw.abc)
         wfs.apply {
             onProgressChanged = object : SeekBarOnProgressChanged {
                 override fun onProgressChanged(
@@ -743,25 +748,25 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
         if (MusicService.isMPInitialised()) {
-        wfs.maxProgress = mediaPlayer.duration.toFloat()
+            wfs.maxProgress = mediaPlayer.duration.toFloat()
 
-        fixedRateTimer("timer", false, 0L, 1000) {
-            this@MainActivity.runOnUiThread {
-                if(isMyServiceRunning(MusicService::class.java))
-                 if (MusicService.isMPInitialised())
-                if(mediaPlayer.isPlaying) {
-                    wfs.progress = mediaPlayer.currentPosition.toFloat()
-                    Log.d("Time21 ", mediaPlayer.currentPosition.toString())
-                    val duration = mediaPlayer.currentPosition
-                    val d: Date = Date(duration.toLong())
-                    val df: SimpleDateFormat = SimpleDateFormat("mm:ss") // HH for 0-23
-                    df.setTimeZone(TimeZone.getTimeZone("GMT"))
-                    val time: kotlin.String = df.format(d)
-                    txNow.setText(time)
+            fixedRateTimer("timer", false, 0L, 1000) {
+                this@MainActivity.runOnUiThread {
+                    if (isMyServiceRunning(MusicService::class.java))
+                        if (MusicService.isMPInitialised())
+                            if (mediaPlayer.isPlaying) {
+                                wfs.progress = mediaPlayer.currentPosition.toFloat()
+                                Log.d("Time21 ", mediaPlayer.currentPosition.toString())
+                                val duration = mediaPlayer.currentPosition
+                                val d: Date = Date(duration.toLong())
+                                val df: SimpleDateFormat = SimpleDateFormat("mm:ss") // HH for 0-23
+                                df.setTimeZone(TimeZone.getTimeZone("GMT"))
+                                val time: kotlin.String = df.format(d)
+                                txNow.setText(time)
+                            }
                 }
             }
         }
-            }
 
     }
 
@@ -790,7 +795,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 }
                 songs.clear()
                 for (item in dataList)
-                    songs.add(item.preview + " - " + item.title + " - " +  item.album.cover)
+                    songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
 
                 for (item in dataList)
                     Log.d("DATA7", "p - " + item.preview + "\n l - " + item.link)
@@ -801,7 +806,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 recyclerview.setLayoutManager(
                     LinearLayoutManager(
                         this@MainActivity,
-                        LinearLayoutManager.HORIZONTAL,false
+                        LinearLayoutManager.HORIZONTAL, false
                     )
                 )
 
@@ -813,7 +818,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         })
 
-       checkFavoritesIcon()
+        checkFavoritesIcon()
 
     }
 
@@ -842,7 +847,35 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override
-    fun onItemClick(position: Int)  {
+    fun onItemClick(position: Int) {
+        onClickPos = position
+        if (isMyServiceRunning(MusicService::class.java))
+            stopService(playIntent)
+
+        imageButtonPlayAlbum.visibility = View.INVISIBLE
+        fabPlayPause.visibility = View.VISIBLE
+        fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
+
+        makeToast("Yet2Play - " + dataList[position].title)
+        songs.clear()
+        for (i in dataList.indices) {
+            if (dataList.get(i).title.equals(dataList[position].title)) {
+                for (j in i until dataList.size) {
+                    songs.add(dataList.get(j).preview + " - " + dataList.get(j).title + " - " + dataList.get(j).album.cover)
+                }
+            }
+        }
+
+        var i = 0;
+        for (item in songs) {
+            playIntent.putExtra(i.toString(), item)
+            i++
+        }
+
+        startForegroundService(playIntent)
+
+
+    } /*{
 
         aSong = true
         aSongName = dataList.get(position).title
@@ -861,7 +894,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         startForegroundService(playIntent)
 
-    }/*{
+    }*//*{
 
         if (isMyServiceRunning(MusicService::class.java))
             stopService(playIntent)
@@ -875,23 +908,23 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }*/
 
     fun addToFavoriteSongs(text: String) {
-       for (i in dataList.indices) {
-           if (dataList.get(i).title.equals(text)) {
+        for (i in dataList.indices) {
+            if (dataList.get(i).title.equals(text)) {
 
-               if (arraylistFavoriteSongs.size == 0) {
-                   saveFav("Favorites")
-               }
+                if (arraylistFavoriteSongs.size == 0) {
+                    saveFav("Favorites")
+                }
 
-               var arraylistFavoriteSongNames = ArrayList<String>()
-               for (item in arraylistFavoriteSongs) {
-                   arraylistFavoriteSongNames.add(item.title)
-               }
+                var arraylistFavoriteSongNames = ArrayList<String>()
+                for (item in arraylistFavoriteSongs) {
+                    arraylistFavoriteSongNames.add(item.title)
+                }
 
-               if (!arraylistFavoriteSongNames.contains(dataList.get(i).title)) {
-                   makeToast("Added - " + dataList.get(i).title + " to Fav Songs!")
-                   arraylistFavoriteSongs.add(dataList.get(i))
-               } else makeToast("Already exist in FavS")
-           }
+                if (!arraylistFavoriteSongNames.contains(dataList.get(i).title)) {
+                    makeToast("Added - " + dataList.get(i).title + " to Fav Songs!")
+                    arraylistFavoriteSongs.add(dataList.get(i))
+                } else makeToast("Already exist in FavS")
+            }
         }
 
         saveFavorites(arraylistFavoriteSongs)

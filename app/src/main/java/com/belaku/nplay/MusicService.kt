@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.media.MediaPlayer.OnCompletionListener
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
@@ -19,6 +20,7 @@ import android.os.IBinder
 import android.text.Html
 import android.util.Log
 import android.view.View
+import android.view.View.OnClickListener
 import android.widget.RemoteViews
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
@@ -28,6 +30,7 @@ import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.belaku.nplay.MainActivity.Companion.dataList
 import com.belaku.nplay.MainActivity.Companion.imageArtAlbum
+import com.belaku.nplay.MainActivity.Companion.onClickPos
 import com.belaku.nplay.MainActivity.Companion.relativeLayoutMain
 import com.belaku.nplay.MainActivity.Companion.txNow
 import com.belaku.nplay.MainActivity.Companion.txSongName
@@ -198,7 +201,12 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
               //      startFadeIn()
                     saveIndex(songIndex)
                 }
+                if (onClickPos == 0)
                 mediaPlayer.setOnCompletionListener(this)
+                else mediaPlayer.setOnCompletionListener { OnCompletionListener {
+                    txSongName.text = "Finished playing"
+                }
+                }
                 mediaPlayer.setOnErrorListener(this)
             } catch (e: Exception) {
                 println(e.toString())
@@ -289,7 +297,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
         val intent = Intent("nPlay_Events")
 
         // You can also include some extra data.
-        intent.putExtra("song_index", songIndex)
+        intent.putExtra("song_index", songIndex + MainActivity.onClickPos)
 
         Log.d("BR21", "sending")
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
@@ -321,7 +329,12 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 saveIndex(songIndex)
             }
 
+            if (onClickPos == 0)
             mediaPlayer.setOnCompletionListener(this)
+            else mediaPlayer.setOnCompletionListener { OnCompletionListener {
+                txSongName.text = "Finished playing"
+            }
+            }
             mediaPlayer.setOnErrorListener(this)
         }
 
