@@ -79,6 +79,9 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
+    private lateinit var aSongWave: String
+    private lateinit var aSongName: String
+    private var aSong: Boolean = false
     private lateinit var nativeAdLoader: AdLoader
     private lateinit var template: TemplateView
     private var adLoaded: Boolean = false
@@ -668,7 +671,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             songs.add(item.preview + " - " + item.title + " - " +  item.album.cover)
 
 
+        if (!aSong)
         txSongName.text = dataList[what].title
+        else txSongName.text = aSongName
 
         template.visibility = View.INVISIBLE
         wfs.visibility = View.VISIBLE
@@ -679,7 +684,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         val threadSeek = Thread {
             try {
+                if (!aSong)
                 wfs.setSampleFrom(dataList[what].preview)
+                else wfs.setSampleFrom(aSongWave)
             } catch (e: Exception) {
                 Log.d("ExcpSeek - ", e.toString())
                 e.printStackTrace()
@@ -837,11 +844,22 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     override
     fun onItemClick(position: Int)  {
 
+        aSong = true
+        aSongName = dataList.get(position).title
+        aSongWave = dataList.get(position).preview
         makeToast("onItemClick - " + dataList.get(position).title)
 
         if (isMyServiceRunning(MusicService::class.java))
             stopService(playIntent)
 
+        playIntent = Intent(
+            this,
+            MusicService::class.java
+        )
+
+        playIntent.putExtra("0", dataList[position].preview + " - " + dataList[position].title + " - " + dataList[position].album.cover)
+
+        startForegroundService(playIntent)
 
     }/*{
 

@@ -154,8 +154,9 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
         songsNameList.clear()
         songsAlbumArtList.clear()
 
-        if (intent.extras?.get("1") != null)
-        for (i in 0 until 30) {
+        var size: Int = intent.extras?.size()!!.toInt()
+
+        for (i in 0 until size) {
             if (intent.extras?.get(i.toString()) != null) {
                 var splits = intent.extras?.get(i.toString()).toString().split(" - ")
                 songsUrlList.add(splits[0])
@@ -163,17 +164,19 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 songsAlbumArtList.add(splits.get(2))
             } else break
         }
-        else  songsUrlList.add(intent.extras?.get("0").toString())
 
      //   serviceNotify(MainActivity.dataList[songIndex].title)
 
 
 
-        if (songsUrlList.size > 0) {
 
+            if (songsUrlList.size > 1)
             for (i in dataList.indices) {
                 if (dataList[i].preview.equals(songsUrlList[0]))
                     notifySong(i)
+            }
+            else {
+                notifySong(0)
             }
          //   notifySong(songIndex)
 
@@ -182,8 +185,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 wfs.visibility = View.VISIBLE
                 txSongName.visibility = View.VISIBLE
                 txNow.visibility = View.VISIBLE
-                txSongName.text = dataList[songIndex].title
-         //       MainActivity.wfs.setSampleFrom(songsUrlList[songIndex])
                 mediaPlayer = MediaPlayer().apply {
                     setAudioAttributes(
                         AudioAttributes.Builder()
@@ -204,9 +205,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 Toast.makeText(applicationContext, "P ex - " + e, Toast.LENGTH_LONG).show()
             }
 
-
-
-        }
 
         if (intent != null) {
             sendIntent = intent
