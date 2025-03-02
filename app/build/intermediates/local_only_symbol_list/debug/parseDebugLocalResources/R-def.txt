@@ -29,6 +29,7 @@ id nav_graph
 id note_song_name
 id rl_main
 id rv
+id rv_item_layout
 id rv_tx_sname
 id ss_dynamic
 id textview_first

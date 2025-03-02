@@ -27,16 +27,21 @@ public final class RvItemBinding implements ViewBinding {
   public final ImageView imgvFavSong;
 
   @NonNull
+  public final RelativeLayout rvItemLayout;
+
+  @NonNull
   public final TextView rvTxSname;
 
   @NonNull
   public final TextView txAname;
 
   private RvItemBinding(@NonNull RelativeLayout rootView, @NonNull ImageView imgvArt,
-      @NonNull ImageView imgvFavSong, @NonNull TextView rvTxSname, @NonNull TextView txAname) {
+      @NonNull ImageView imgvFavSong, @NonNull RelativeLayout rvItemLayout,
+      @NonNull TextView rvTxSname, @NonNull TextView txAname) {
     this.rootView = rootView;
     this.imgvArt = imgvArt;
     this.imgvFavSong = imgvFavSong;
+    this.rvItemLayout = rvItemLayout;
     this.rvTxSname = rvTxSname;
     this.txAname = txAname;
   }
@@ -80,6 +85,8 @@ public final class RvItemBinding implements ViewBinding {
         break missingId;
       }
 
+      RelativeLayout rvItemLayout = (RelativeLayout) rootView;
+
       id = R.id.rv_tx_sname;
       TextView rvTxSname = ViewBindings.findChildViewById(rootView, id);
       if (rvTxSname == null) {
@@ -92,7 +99,8 @@ public final class RvItemBinding implements ViewBinding {
         break missingId;
       }
 
-      return new RvItemBinding((RelativeLayout) rootView, imgvArt, imgvFavSong, rvTxSname, txAname);
+      return new RvItemBinding((RelativeLayout) rootView, imgvArt, imgvFavSong, rvItemLayout,
+          rvTxSname, txAname);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -29,10 +30,12 @@ class MusicAdapter(
     inner class ItemViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
         val sname: TextView = view.findViewById(R.id.rv_tx_sname)
         val aname: TextView = view.findViewById(R.id.tx_aname)
+        var rvItemLayout: RelativeLayout = view.findViewById(R.id.rv_item_layout)
         val imageView: ImageView = view.findViewById(R.id.imgv_art)
         val imageViewFavSong: ImageView = view.findViewById(R.id.imgv_fav_song)
 
         init {
+            rvItemLayout.layoutParams = RelativeLayout.LayoutParams(MainActivity.screenDimens - 135, RelativeLayout.LayoutParams.WRAP_CONTENT)
             view.setOnClickListener(this)
 
         }
@@ -67,7 +70,7 @@ class MusicAdapter(
         val df: SimpleDateFormat = SimpleDateFormat("mm:ss") // HH for 0-23
         df.setTimeZone(TimeZone.getTimeZone("GMT"))
         val time: kotlin.String = df.format(d)
-        
+
         Picasso.get().load(songdata.album.cover).into(holder.imageView)
 
         holder.imageViewFavSong.setOnClickListener {

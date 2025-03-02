@@ -24,9 +24,12 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.palette.graphics.Palette
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.belaku.nplay.MainActivity.Companion.dataList
 import com.belaku.nplay.MainActivity.Companion.imageArtAlbum
 import com.belaku.nplay.MainActivity.Companion.relativeLayoutMain
+import com.belaku.nplay.MainActivity.Companion.txNow
 import com.belaku.nplay.MainActivity.Companion.txSongName
 import com.belaku.nplay.MainActivity.Companion.wfs
 import java.net.URL
@@ -46,6 +49,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
         lateinit var timerInService: Timer
         var songIndex: Int = 0
         lateinit var mediaPlayer: MediaPlayer
+        fun isMPInitialised() = ::mediaPlayer.isInitialized
         lateinit var notificationManager: NotificationManager
         lateinit var noteContentView: RemoteViews
         var songsUrlList: ArrayList<String> = ArrayList()
@@ -55,11 +59,11 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
 
 
-
-
     override fun onCreate() {
         super.onCreate()
         serviceNotify("")
+
+
     //    notifySong(0)
     }
 
@@ -167,18 +171,18 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
         if (songsUrlList.size > 0) {
 
-            for (i in MainActivity.dataList.indices) {
-                if (MainActivity.dataList[i].preview.equals(songsUrlList[0]))
+            for (i in dataList.indices) {
+                if (dataList[i].preview.equals(songsUrlList[0]))
                     notifySong(i)
             }
          //   notifySong(songIndex)
 
             try {
                 val uri = Uri.parse(songsUrlList[songIndex])
-                MainActivity.wfs.visibility = View.VISIBLE
-                MainActivity.txSongName.visibility = View.VISIBLE
-                MainActivity.txNow.visibility = View.VISIBLE
-                MainActivity.txSongName.text = MainActivity.dataList[songIndex].title
+                wfs.visibility = View.VISIBLE
+                txSongName.visibility = View.VISIBLE
+                txNow.visibility = View.VISIBLE
+                txSongName.text = dataList[songIndex].title
          //       MainActivity.wfs.setSampleFrom(songsUrlList[songIndex])
                 mediaPlayer = MediaPlayer().apply {
                     setAudioAttributes(
@@ -323,7 +327,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
             mediaPlayer.setOnErrorListener(this)
         }
 
-            MainActivity.txSongName.text = songsNameList[songIndex]
+            txSongName.text = songsNameList[songIndex]
             Thread {
                 try {
                     // Your code goes here
@@ -349,7 +353,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 }
             }.start()
             MainActivity.recyclerview.smoothScrollToPosition(songIndex)
-      //      updateActivity()
+
+        //    updateActivity()
     } else {
             super.stopSelf()
             txSongName.text = "Finished Playing!"

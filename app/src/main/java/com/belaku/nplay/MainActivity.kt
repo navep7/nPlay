@@ -15,6 +15,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -36,7 +37,9 @@ import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.belaku.nplay.MusicService.Companion.mediaPlayer
 import com.belaku.nplay.databinding.ActivityMainBinding
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
@@ -109,6 +112,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     @SuppressLint("StaticFieldLeak")
     companion object {
+        lateinit var linearLayoutManager: LinearLayoutManager
+        lateinit var rvAdapter: MusicAdapter
+        var screenDimens by Delegates.notNull<Int>()
         lateinit var fabPlayPause: FloatingActionButton
         lateinit var dataList: ArrayList<Data>
         lateinit var wfs:WaveformSeekBar
@@ -144,6 +150,11 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        screenDimens = displayMetrics.widthPixels
+
 
         nativeAdLoader = AdLoader.Builder(this, resources.getString(R.string.admob_native_actual))
             .forNativeAd(object : NativeAd.OnNativeAdLoadedListener {
@@ -351,13 +362,15 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     songs.add(item.preview + " - " + item.title + " - " +  item.album.cover)
 
 
-                var rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
+
+                rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
+                linearLayoutManager = LinearLayoutManager(
+                    this@MainActivity,
+                    LinearLayoutManager.HORIZONTAL,false
+                )
                 recyclerview.adapter = rvAdapter
                 recyclerview.setLayoutManager(
-                    LinearLayoutManager(
-                        this@MainActivity,
-                        LinearLayoutManager.HORIZONTAL,false
-                    )
+                    linearLayoutManager
                 )
 
             }
@@ -655,7 +668,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             songs.add(item.preview + " - " + item.title + " - " +  item.album.cover)
 
 
-        txSongName.text = MusicService.songsNameList[what]
+        txSongName.text = dataList[what].title
 
         template.visibility = View.INVISIBLE
         wfs.visibility = View.VISIBLE
@@ -666,8 +679,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         val threadSeek = Thread {
             try {
-                wfs.setSampleFrom(MusicService.songsUrlList[what].split(" - ").get(0))
-            // Your code goes here
+                wfs.setSampleFrom(dataList[what].preview)
             } catch (e: Exception) {
                 Log.d("ExcpSeek - ", e.toString())
                 e.printStackTrace()
@@ -676,7 +688,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         Thread {
             try {
-                // Your code goes here
                 val url = URL(MusicService.songsAlbumArtList[what])
                 var bitmapAlbum =
                     BitmapFactory.decodeStream(url.openConnection().getInputStream())
@@ -724,11 +735,13 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         recyclerview.scrollToPosition(what)
 
 
+        if (MusicService.isMPInitialised()) {
         wfs.maxProgress = mediaPlayer.duration.toFloat()
 
         fixedRateTimer("timer", false, 0L, 1000) {
             this@MainActivity.runOnUiThread {
                 if(isMyServiceRunning(MusicService::class.java))
+                 if (MusicService.isMPInitialised())
                 if(mediaPlayer.isPlaying) {
                     wfs.progress = mediaPlayer.currentPosition.toFloat()
                     Log.d("Time21 ", mediaPlayer.currentPosition.toString())
@@ -741,6 +754,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 }
             }
         }
+            }
 
     }
 
@@ -822,6 +836,12 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     @RequiresApi(Build.VERSION_CODES.O)
     override
     fun onItemClick(position: Int)  {
+
+        makeToast("onItemClick - " + dataList.get(position).title)
+
+        if (isMyServiceRunning(MusicService::class.java))
+            stopService(playIntent)
+
 
     }/*{
 

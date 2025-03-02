@@ -4,10 +4,6 @@
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-61:/layout/activity_main.xml"
     },
     {
-        "merged": "com.belaku.nplay.app-mergeDebugResources-58:/layout/content_main.xml",
-        "source": "com.belaku.nplay.app-main-61:/layout/content_main.xml"
-    },
-    {
         "merged": "com.belaku.nplay.app-mergeDebugResources-58:/layout/rv_item.xml",
         "source": "com.belaku.nplay.app-main-61:/layout/rv_item.xml"
     },
