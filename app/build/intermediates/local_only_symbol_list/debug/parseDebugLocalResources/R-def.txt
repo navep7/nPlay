@@ -18,7 +18,7 @@ id button_first
 id button_second
 id edtx_search_query
 id fab_favorite
-id fab_play_all
+id fab_play_pause
 id imgbtn_PlayAlbum
 id imgv_art
 id imgv_fav_song

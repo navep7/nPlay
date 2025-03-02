@@ -1,6 +1,7 @@
 package com.belaku.nplay
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.ActivityManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -9,6 +10,7 @@ import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -37,9 +39,7 @@ import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.belaku.nplay.MusicService.Companion.mediaPlayer
 import com.belaku.nplay.databinding.ActivityMainBinding
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
@@ -170,17 +170,14 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     template.setNativeAd(nativeAd)
                     adLoaded = true
                     // Showing a simple Toast message to user when Native an ad is Loaded and ready to show
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Native Ad is loaded, now you can show the native ad",
-                        Toast.LENGTH_LONG
-                    ).show()
+                   makeToast(
+                        "Native Ad is loaded, now you can show the native ad")
                     template.setVisibility(VISIBLE)
                 }
             }).build()
 
-        showNativeAd()
-        showIntrAd()
+   //     showNativeAd()
+     //   showIntrAd()
 
 
         val backgroundScope = CoroutineScope(Dispatchers.IO)
@@ -265,11 +262,10 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_on))
             if (textViewFeaturing.text.length > 0)
                 if (saveFav(textViewFeaturing.text.toString().split(",").get(1)))
-                    makeToast(
+                    Toast.makeText(applicationContext,
                         "Added " + (textViewFeaturing.text.toString().split(",")
-                            .get(1)) + " to Favs!"
-                    )
-                else makeToast("Already in Favs!")
+                            .get(1)) + " to Favs!", Toast.LENGTH_LONG).show()
+                else Toast.makeText(applicationContext, "Already in Favs!", Toast.LENGTH_LONG).show()
 
         }
 
@@ -312,10 +308,12 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 if (mediaPlayer.isPlaying) {
                     fabPlayPause.setImageResource(android.R.drawable.ic_media_play)
                     mediaPlayer.pause()
+                    showNativeAd()
 
                 } else {
                     fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
                     mediaPlayer.start()
+                    template.visibility = INVISIBLE
 
                 }
             }
@@ -395,17 +393,15 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         if (adLoaded) {
             template.setVisibility(VISIBLE)
             // Showing a simple Toast message to user when an Native ad is shown to the user
-            Toast.makeText(
-                this@MainActivity,
+            makeToast(
                 "Native Ad  is loaded and Now showing ad  ",
-                Toast.LENGTH_LONG
-            ).show()
+            )
         } else {
             //Load the Native ad if it is not loaded
             loadNativeAd()
 
             // Showing a simple Toast message to user when Native ad is not loaded
-            Toast.makeText(this@MainActivity, "Native Ad is not Loaded ", Toast.LENGTH_LONG).show()
+            makeToast("Native Ad is not Loaded ")
         }
     }
 
@@ -417,7 +413,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         nativeAdLoader.loadAd(adRequest)
 
         // Showing a simple Toast message to user when Native an ad is Loading
-        Toast.makeText(this@MainActivity, "Native Ad is loading ", Toast.LENGTH_LONG).show()
+       makeToast("Native Ad is loading ")
     }
 
     private fun showIntrAd() {
@@ -567,7 +563,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         textViewFeaturing = findViewById(R.id.tx_featuring)
         txNow = findViewById(R.id.tx_current_time)
-        fabPlayPause = findViewById(R.id.fab_play_all)
+        fabPlayPause = findViewById(R.id.fab_play_pause)
         imageButtonPlayAlbum = findViewById(R.id.imgbtn_PlayAlbum)
         fabFavorite = findViewById(R.id.fab_favorite)
         template = findViewById(R.id.nativeTemplateView)
@@ -677,6 +673,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
     private fun updateUI(what: Int) {
 
@@ -718,9 +715,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     // Do something with colors...
                     if (palette != null) {
                         wfs.waveBackgroundColor =
-                            palette.getLightMutedColor(com.belaku.nplay.R.color.white)
+                            palette.getLightMutedColor(R.color.white)
                         wfs.waveProgressColor =
-                            palette.getDarkMutedColor(com.belaku.nplay.R.color.black)
+                            palette.getDarkMutedColor(R.color.black)
                     }
                 }
 
@@ -932,9 +929,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 }
 
                 if (!arraylistFavoriteSongNames.contains(dataList.get(i).title)) {
-                    makeToast("Added - " + dataList.get(i).title + " to Fav Songs!")
+                    Toast.makeText(applicationContext, "Added - " + dataList.get(i).title + " to Fav Songs!", Toast.LENGTH_LONG).show()
                     arraylistFavoriteSongs.add(dataList.get(i))
-                } else makeToast("Already exist in FavS")
+                } else Toast.makeText(applicationContext, "Already exist in FavS", Toast.LENGTH_LONG).show()
             }
         }
 

@@ -9,6 +9,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.media.AudioAttributes
 import android.media.MediaPlayer
@@ -20,15 +21,14 @@ import android.os.IBinder
 import android.text.Html
 import android.util.Log
 import android.view.View
-import android.view.View.OnClickListener
 import android.widget.RemoteViews
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.palette.graphics.Palette
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.belaku.nplay.MainActivity.Companion.dataList
+import com.belaku.nplay.MainActivity.Companion.fabPlayPause
 import com.belaku.nplay.MainActivity.Companion.imageArtAlbum
 import com.belaku.nplay.MainActivity.Companion.onClickPos
 import com.belaku.nplay.MainActivity.Companion.relativeLayoutMain
@@ -36,6 +36,7 @@ import com.belaku.nplay.MainActivity.Companion.txNow
 import com.belaku.nplay.MainActivity.Companion.txSongName
 import com.belaku.nplay.MainActivity.Companion.wfs
 import java.net.URL
+import java.util.Random
 import java.util.Timer
 import java.util.TimerTask
 
@@ -355,6 +356,17 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                         if (palette != null) {
                             wfs.waveBackgroundColor = palette.getLightMutedColor(com.belaku.nplay.R.color.white)
                             wfs.waveProgressColor = palette.getDarkMutedColor(com.belaku.nplay.R.color.black)
+
+                            val rnd: Random = Random()
+                            val color = Color.argb(
+                                255,
+                                rnd.nextInt(256),
+                                rnd.nextInt(256),
+                                rnd.nextInt(256)
+                            )
+
+                        //    txSongName.setTextColor(color)
+
                         }
                     }
 

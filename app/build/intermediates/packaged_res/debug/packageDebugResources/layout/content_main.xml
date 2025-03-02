@@ -104,8 +104,9 @@
         android:textSize="35sp"
         android:gravity="center"
         android:layout_below="@+id/rv"
-        android:layout_alignParentStart="true"
-        android:layout_width="wrap_content"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_toRightOf="@+id/fab_play_pause"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <com.masoudss.lib.WaveformSeekBar
@@ -127,14 +128,15 @@
         app:wave_width="3dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_play_all"
+        android:id="@+id/fab_play_pause"
         android:visibility="invisible"
+        app:backgroundTint="@color/gnt_gray"
         android:src="@android:drawable/ic_media_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:layout_above="@+id/wfsb"
-        android:layout_toRightOf="@+id/tx_sname"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_below="@+id/rv"
+        android:layout_alignParentStart="true"
         />
 
     <!-- Template View for native ad -->

@@ -3474,7 +3474,7 @@ id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
 id fab_favorite
-id fab_play_all
+id fab_play_pause
 id fade
 id fill
 id fill_horizontal

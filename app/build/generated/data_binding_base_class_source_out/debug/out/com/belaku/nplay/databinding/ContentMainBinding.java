@@ -34,7 +34,7 @@ public final class ContentMainBinding implements ViewBinding {
   public final FloatingActionButton fabFavorite;
 
   @NonNull
-  public final FloatingActionButton fabPlayAll;
+  public final FloatingActionButton fabPlayPause;
 
   @NonNull
   public final ImageButton imgbtnPlayAlbum;
@@ -67,7 +67,7 @@ public final class ContentMainBinding implements ViewBinding {
   public final WaveformSeekBar wfsb;
 
   private ContentMainBinding(@NonNull RelativeLayout rootView, @NonNull EditText edtxSearchQuery,
-      @NonNull FloatingActionButton fabFavorite, @NonNull FloatingActionButton fabPlayAll,
+      @NonNull FloatingActionButton fabFavorite, @NonNull FloatingActionButton fabPlayPause,
       @NonNull ImageButton imgbtnPlayAlbum, @NonNull LinearLayout llDynamic,
       @NonNull TemplateView nativeTemplateView, @NonNull RelativeLayout rlMain,
       @NonNull RecyclerView rv, @NonNull HorizontalScrollView ssDynamic,
@@ -76,7 +76,7 @@ public final class ContentMainBinding implements ViewBinding {
     this.rootView = rootView;
     this.edtxSearchQuery = edtxSearchQuery;
     this.fabFavorite = fabFavorite;
-    this.fabPlayAll = fabPlayAll;
+    this.fabPlayPause = fabPlayPause;
     this.imgbtnPlayAlbum = imgbtnPlayAlbum;
     this.llDynamic = llDynamic;
     this.nativeTemplateView = nativeTemplateView;
@@ -128,9 +128,9 @@ public final class ContentMainBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.fab_play_all;
-      FloatingActionButton fabPlayAll = ViewBindings.findChildViewById(rootView, id);
-      if (fabPlayAll == null) {
+      id = R.id.fab_play_pause;
+      FloatingActionButton fabPlayPause = ViewBindings.findChildViewById(rootView, id);
+      if (fabPlayPause == null) {
         break missingId;
       }
 
@@ -191,7 +191,7 @@ public final class ContentMainBinding implements ViewBinding {
       }
 
       return new ContentMainBinding((RelativeLayout) rootView, edtxSearchQuery, fabFavorite,
-          fabPlayAll, imgbtnPlayAlbum, llDynamic, nativeTemplateView, rlMain, rv, ssDynamic,
+          fabPlayPause, imgbtnPlayAlbum, llDynamic, nativeTemplateView, rlMain, rv, ssDynamic,
           txCurrentTime, txFeaturing, txSname, wfsb);
     }
     String missingId = rootView.getResources().getResourceName(id);
