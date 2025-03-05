@@ -176,8 +176,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 }
             }).build()
 
-   //     showNativeAd()
-     //   showIntrAd()
+        showNativeAd()
+        showIntrAd()
 
 
         val backgroundScope = CoroutineScope(Dispatchers.IO)
@@ -852,6 +852,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     override
     fun onItemClick(position: Int) {
 
+        showIntrAd()
         onClickPos = position
         if (isMyServiceRunning(MusicService::class.java))
             stopService(playIntent)
