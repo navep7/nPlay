@@ -25,6 +25,7 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.palette.graphics.Palette
+import com.belaku.nplay.MainActivity.Companion.clickPos
 import com.belaku.nplay.MainActivity.Companion.imageArtAlbum
 
 import com.belaku.nplay.MainActivity.Companion.relativeLayoutMain
@@ -188,7 +189,9 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
         }
 
         sendIntent = intent
+        if (clickPos == 0)
         updateActivity(0)
+        else updateActivity(clickPos)
 
 
         return START_STICKY

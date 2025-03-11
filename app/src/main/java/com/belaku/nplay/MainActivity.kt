@@ -111,6 +111,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     @SuppressLint("StaticFieldLeak")
     companion object {
+        var clickPos: Int = 0
         lateinit var linearLayoutManager: LinearLayoutManager
         lateinit var rvAdapter: MusicAdapter
         var screenDimens by Delegates.notNull<Int>()
@@ -847,9 +848,50 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     @RequiresApi(Build.VERSION_CODES.O)
     override
     fun onItemClick(position: Int) {
+        Toast.makeText(applicationContext, songs[position], Toast.LENGTH_LONG).show()
+
+        clickPos = position
+        var pos = position
+        Log.d("dBuggNOW", songs[position])
+
+        if (isMyServiceRunning(MusicService::class.java)) {
+
+            stopService(playIntent)
+            imageButtonPlayAlbum.visibility = View.INVISIBLE
+            fabPlayPause.visibility = View.VISIBLE
+            fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
+
+            var init = 0;
+            while (true) {
+                if (pos < songs.size) {
+                    playIntent.putExtra(init.toString(), songs[pos])
+                    init++
+                    pos++
+                } else break
+            }
+
+            startForegroundService(playIntent)
 
 
+        } else {
+            imageButtonPlayAlbum.visibility = View.INVISIBLE
+            fabPlayPause.visibility = View.VISIBLE
+            fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
+
+            var init = 0;
+            while (true) {
+                if (pos < songs.size) {
+                    playIntent.putExtra(init.toString(), songs[pos])
+                    init++
+                    pos++
+                } else break
+            }
+            
+
+            startForegroundService(playIntent)
+        }
     }
+
     fun addToFavoriteSongs(text: String) {
         for (i in dataList.indices) {
             if (dataList.get(i).title.equals(text)) {
