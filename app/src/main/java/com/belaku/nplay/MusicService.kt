@@ -26,6 +26,7 @@ import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.palette.graphics.Palette
 import com.belaku.nplay.MainActivity.Companion.clickPos
+import com.belaku.nplay.MainActivity.Companion.dataList
 import com.belaku.nplay.MainActivity.Companion.imageArtAlbum
 
 import com.belaku.nplay.MainActivity.Companion.relativeLayoutMain
@@ -361,6 +362,17 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
             mediaPlayer.setOnCompletionListener(this)
             mediaPlayer.setOnErrorListener(this)
         }
+
+
+            Thread {
+                try {
+
+                    wfs.setSampleFrom(dataList[songIndex].preview)
+                } catch (e: Exception) {
+                    Log.d("ExcpSeek - ", e.toString())
+                    e.printStackTrace()
+                }
+            }.start()
 
             txSongName.text = songsNameList[songIndex]
             Thread {

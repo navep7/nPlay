@@ -679,7 +679,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
 
-        txSongName.text = dataList[what].title
+        txSongName.text = MusicService.songsNameList[what]
 
         template.visibility = View.INVISIBLE
         wfs.visibility = View.VISIBLE
@@ -687,7 +687,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         txNow.visibility = View.VISIBLE
 
 
-        val threadSeek = Thread {
+        Thread {
             try {
 
                 wfs.setSampleFrom(dataList[what].preview)
@@ -695,7 +695,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 Log.d("ExcpSeek - ", e.toString())
                 e.printStackTrace()
             }
-        }
+        }.start()
 
         Thread {
             try {
@@ -724,8 +724,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             }
         }.start()
 
-        if (songs.size > 0)
-            threadSeek.start()
 
 
         //  wfs.setSampleFrom(R.raw.abc)
