@@ -4083,10 +4083,8 @@ string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string action_settings
 string admob_app_id
-string admob_intr_adunit_id_actual
-string admob_intr_adunit_id_test
-string admob_native_actual
-string admob_native_test
+string admob_intr_adunit_id
+string admob_native_adunit_id
 string androidx_startup
 string app_name
 string appbar_scrolling_view_behavior

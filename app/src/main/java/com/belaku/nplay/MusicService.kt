@@ -13,7 +13,6 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.media.AudioAttributes
 import android.media.MediaPlayer
-import android.media.MediaPlayer.OnCompletionListener
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
@@ -24,13 +23,10 @@ import android.view.View
 import android.widget.RemoteViews
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.palette.graphics.Palette
-import com.belaku.nplay.MainActivity.Companion.dataList
-import com.belaku.nplay.MainActivity.Companion.fabPlayPause
 import com.belaku.nplay.MainActivity.Companion.imageArtAlbum
-import com.belaku.nplay.MainActivity.Companion.onClickPos
+
 import com.belaku.nplay.MainActivity.Companion.relativeLayoutMain
 import com.belaku.nplay.MainActivity.Companion.txNow
 import com.belaku.nplay.MainActivity.Companion.txSongName
@@ -42,6 +38,7 @@ import java.util.TimerTask
 
 
 class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
+
 
     var handler: Handler = Handler()
     private lateinit var serviceNotification: Notification
@@ -67,8 +64,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
         super.onCreate()
         serviceNotify("")
 
-
-    //    notifySong(0)
     }
 
     private fun serviceNotify(str:String) {
@@ -152,6 +147,54 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        scontext = this;
+        songsUrlList.clear()
+        songsNameList.clear()
+        songsAlbumArtList.clear()
+        songIndex = 0
+        var size: Int = intent.extras?.size()!!.toInt()
+        for (i in 0 until size) {
+                var splits = intent.extras?.get(i.toString()).toString().split(" - ")
+                songsUrlList.add(splits[0])
+                songsNameList.add(splits.get(1))
+                songsAlbumArtList.add(splits.get(2))
+        }
+        notifySong(songIndex)
+        Toast.makeText(scontext, "P - " + songsNameList[0], Toast.LENGTH_LONG).show()
+
+        try {
+            val uri = Uri.parse(songsUrlList[songIndex])
+            wfs.visibility = View.VISIBLE
+            txSongName.visibility = View.VISIBLE
+            txNow.visibility = View.VISIBLE
+            mediaPlayer = MediaPlayer().apply {
+                setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build()
+                )
+                setDataSource(applicationContext, uri)
+                prepare() // might take long! (for buffering, etc)
+                start()
+                //      startFadeIn()
+                //       saveIndex(0)
+            }
+            mediaPlayer.setOnCompletionListener(this)
+            mediaPlayer.setOnErrorListener(this)
+        } catch (e: Exception) {
+            println(e.toString())
+            Toast.makeText(applicationContext, "P ex - " + e, Toast.LENGTH_LONG).show()
+        }
+
+        sendIntent = intent
+        updateActivity(0)
+
+
+        return START_STICKY
+
+
+    }/*{
 
         scontext = this;
         songsUrlList.clear()
@@ -169,23 +212,10 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
             } else break
         }
 
-     //   serviceNotify(MainActivity.dataList[songIndex].title)
-
-
-
-
-            if (songsUrlList.size > 1)
-            for (i in dataList.indices) {
-                if (dataList[i].preview.equals(songsUrlList[0]))
-                    notifySong(i)
-            }
-            else {
-                notifySong(0)
-            }
-         //   notifySong(songIndex)
+        notifySong(0)
 
             try {
-                val uri = Uri.parse(songsUrlList[songIndex])
+                val uri = Uri.parse(songsUrlList[0])
                 wfs.visibility = View.VISIBLE
                 txSongName.visibility = View.VISIBLE
                 txNow.visibility = View.VISIBLE
@@ -200,14 +230,9 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                     prepare() // might take long! (for buffering, etc)
                     start()
               //      startFadeIn()
-                    saveIndex(songIndex)
+             //       saveIndex(0)
                 }
-                if (onClickPos == 0)
                 mediaPlayer.setOnCompletionListener(this)
-                else mediaPlayer.setOnCompletionListener { OnCompletionListener {
-                    txSongName.text = "Finished playing"
-                }
-                }
                 mediaPlayer.setOnErrorListener(this)
             } catch (e: Exception) {
                 println(e.toString())
@@ -223,7 +248,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
 
         return START_STICKY
-    }
+    }*/
 
     var volume: Float = 0f
 
@@ -293,12 +318,12 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
     }
 
 
-    private fun updateActivity() {
+    private fun updateActivity(sIn: Int) {
         Log.d("BR21", "Broadcasting message")
         val intent = Intent("nPlay_Events")
 
         // You can also include some extra data.
-        intent.putExtra("song_index", songIndex + MainActivity.onClickPos)
+        intent.putExtra("song_index", sIn )
 
         Log.d("BR21", "sending")
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
@@ -330,12 +355,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 saveIndex(songIndex)
             }
 
-            if (onClickPos == 0)
             mediaPlayer.setOnCompletionListener(this)
-            else mediaPlayer.setOnCompletionListener { OnCompletionListener {
-                txSongName.text = "Finished playing"
-            }
-            }
             mediaPlayer.setOnErrorListener(this)
         }
 

@@ -83,9 +83,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     private lateinit var nativeAdLoader: AdLoader
     private lateinit var template: TemplateView
     private var adLoaded: Boolean = false
-    private val PERMISSIONS_REQUEST_POST_N: Int = 0
-    private val notePlay: Boolean = true
-    private lateinit var notePlayPauseEvent: Intent
+
     private var gson: Gson = Gson()
     private lateinit var linearLayoutFavs: LinearLayout
     private lateinit var arrayListFavsAdded: ArrayList<String>
@@ -113,7 +111,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     @SuppressLint("StaticFieldLeak")
     companion object {
-        var onClickPos: Int = 0
         lateinit var linearLayoutManager: LinearLayoutManager
         lateinit var rvAdapter: MusicAdapter
         var screenDimens by Delegates.notNull<Int>()
@@ -158,7 +155,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         screenDimens = displayMetrics.widthPixels
 
 
-        nativeAdLoader = AdLoader.Builder(this, resources.getString(R.string.admob_native_actual))
+        nativeAdLoader = AdLoader.Builder(this, resources.getString(R.string.admob_native_adunit_id))
             .forNativeAd(object : NativeAd.OnNativeAdLoadedListener {
                 private val background: ColorDrawable? = null
 
@@ -208,7 +205,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
                 showIntrAd()
 
-                onClickPos = 0
                 makeToast(tx.text.toString())
                 textViewFeaturing.text = "Featuring, " + tx.text.toString()
                 wfs.progress = 0f
@@ -270,7 +266,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         }
 
         imageButtonPlayAlbum.setOnClickListener {
-            onClickPos = 0
             if (isMyServiceRunning(MusicService::class.java)) {
 
                 stopService(playIntent)
@@ -422,7 +417,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             val adRequest = AdRequest.Builder().build()
             InterstitialAd.load(
                 this,
-                resources.getString(R.string.admob_intr_adunit_id_actual),
+                resources.getString(R.string.admob_intr_adunit_id),
                 adRequest,
                 object : InterstitialAdLoadCallback() {
                     override fun onAdFailedToLoad(adError: LoadAdError) {
@@ -639,6 +634,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         return false
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
 
@@ -852,70 +848,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     override
     fun onItemClick(position: Int) {
 
-        showIntrAd()
-        onClickPos = position
-        if (isMyServiceRunning(MusicService::class.java))
-            stopService(playIntent)
 
-        imageButtonPlayAlbum.visibility = View.INVISIBLE
-        fabPlayPause.visibility = View.VISIBLE
-        fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
-
-        makeToast("Yet2Play - " + dataList[position].title)
-        songs.clear()
-        for (i in dataList.indices) {
-            if (dataList.get(i).title.equals(dataList[position].title)) {
-                for (j in i until dataList.size) {
-                    songs.add(
-                        dataList.get(j).preview + " - " + dataList.get(j).title + " - " + dataList.get(
-                            j
-                        ).album.cover
-                    )
-                }
-            }
-        }
-
-        var i = 0;
-        for (item in songs) {
-            playIntent.putExtra(i.toString(), item)
-            i++
-        }
-
-        startForegroundService(playIntent)
-
-
-    } /*{
-
-        aSong = true
-        aSongName = dataList.get(position).title
-        aSongWave = dataList.get(position).preview
-        makeToast("onItemClick - " + dataList.get(position).title)
-
-        if (isMyServiceRunning(MusicService::class.java))
-            stopService(playIntent)
-
-        playIntent = Intent(
-            this,
-            MusicService::class.java
-        )
-
-        playIntent.putExtra("0", dataList[position].preview + " - " + dataList[position].title + " - " + dataList[position].album.cover)
-
-        startForegroundService(playIntent)
-
-    }*//*{
-
-        if (isMyServiceRunning(MusicService::class.java))
-            stopService(playIntent)
-
-            fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
-            playIntent.putExtra("0", songs[position])
-            startForegroundService(playIntent)
-
-            handlerForBG.postDelayed(Runnable { updateUI(position) }, 1000)
-
-    }*/
-
+    }
     fun addToFavoriteSongs(text: String) {
         for (i in dataList.indices) {
             if (dataList.get(i).title.equals(text)) {
