@@ -111,6 +111,11 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     @SuppressLint("StaticFieldLeak")
     companion object {
+        fun makeToast(s: String) {
+            Toast.makeText(appContext, s, Toast.LENGTH_LONG).show()
+        }
+
+        lateinit var appContext: Context
         var clickPos: Int = 0
         lateinit var linearLayoutManager: LinearLayoutManager
         lateinit var rvAdapter: MusicAdapter
@@ -151,28 +156,31 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        appContext = applicationContext
+
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         screenDimens = displayMetrics.widthPixels
 
 
-        nativeAdLoader = AdLoader.Builder(this, resources.getString(R.string.admob_native_adunit_id))
-            .forNativeAd(object : NativeAd.OnNativeAdLoadedListener {
-                private val background: ColorDrawable? = null
+        nativeAdLoader =
+            AdLoader.Builder(this, resources.getString(R.string.admob_native_adunit_id))
+                .forNativeAd(object : NativeAd.OnNativeAdLoadedListener {
+                    private val background: ColorDrawable? = null
 
-                override fun onNativeAdLoaded(nativeAd: NativeAd) {
-                    val styles =
-                        NativeTemplateStyle.Builder().withMainBackgroundColor(background).build()
+                    override fun onNativeAdLoaded(nativeAd: NativeAd) {
+                        val styles =
+                            NativeTemplateStyle.Builder().withMainBackgroundColor(background)
+                                .build()
 
-                    template.setStyles(styles)
-                    template.setNativeAd(nativeAd)
-                    adLoaded = true
-                    // Showing a simple Toast message to user when Native an ad is Loaded and ready to show
-                   makeToast(
-                        "Native Ad is loaded, now you can show the native ad")
-                    template.setVisibility(VISIBLE)
-                }
-            }).build()
+                        template.setStyles(styles)
+                        template.setNativeAd(nativeAd)
+                        adLoaded = true
+                        // Showing a simple Toast message to user when Native an ad is Loaded and ready to show
+
+                        template.setVisibility(VISIBLE)
+                    }
+                }).build()
 
         showNativeAd()
         showIntrAd()
@@ -206,7 +214,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
                 showIntrAd()
 
-                makeToast(tx.text.toString())
                 textViewFeaturing.text = "Featuring, " + tx.text.toString()
                 wfs.progress = 0f
                 query = tx.text.toString()
@@ -259,43 +266,34 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_on))
             if (textViewFeaturing.text.length > 0)
                 if (saveFav(textViewFeaturing.text.toString().split(",").get(1)))
-                    Toast.makeText(applicationContext,
+                    Toast.makeText(
+                        applicationContext,
                         "Added " + (textViewFeaturing.text.toString().split(",")
-                            .get(1)) + " to Favs!", Toast.LENGTH_LONG).show()
-                else Toast.makeText(applicationContext, "Already in Favs!", Toast.LENGTH_LONG).show()
+                            .get(1)) + " to Favs!", Toast.LENGTH_LONG
+                    ).show()
+                else Toast.makeText(applicationContext, "Already in Favs!", Toast.LENGTH_LONG)
+                    .show()
 
         }
 
         imageButtonPlayAlbum.setOnClickListener {
-            if (isMyServiceRunning(MusicService::class.java)) {
-
+            if (isMyServiceRunning(MusicService::class.java))
                 stopService(playIntent)
-                imageButtonPlayAlbum.visibility = View.INVISIBLE
-                fabPlayPause.visibility = View.VISIBLE
-                fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
-                var i = 0;
-                for (item in songs) {
-                    playIntent.putExtra(i.toString(), item)
-                    i++
-                }
-
-                startForegroundService(playIntent)
 
 
-            } else {
-                imageButtonPlayAlbum.visibility = View.INVISIBLE
-                fabPlayPause.visibility = View.VISIBLE
-                fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
-                var i = 0;
-                for (item in songs) {
-                    playIntent.putExtra(i.toString(), item)
-                    i++
-                }
-
-                startForegroundService(playIntent)
+            imageButtonPlayAlbum.visibility = View.INVISIBLE
+            fabPlayPause.visibility = View.VISIBLE
+            fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
+            var i = 0;
+            for (item in songs) {
+                playIntent.putExtra(i.toString(), item)
+                i++
             }
-        }
 
+            startForegroundService(playIntent)
+
+
+        }
 
         fabPlayPause.setOnClickListener { view ->
 
@@ -326,7 +324,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 playingSeekDuration = intent.getIntExtra("seek_duration", 0)
                 playingSeekUpdate = intent.getIntExtra("seek_update", 0)
 
-                makeToast("Uing - " + playingSongIndex)
                 updateUI(playingSongIndex)
 
                 Log.d("BR21", "Got message: $playingSongIndex - $playingSeekUpdate")
@@ -389,15 +386,10 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         if (adLoaded) {
             template.setVisibility(VISIBLE)
             // Showing a simple Toast message to user when an Native ad is shown to the user
-            makeToast(
-                "Native Ad  is loaded and Now showing ad  ",
-            )
+
         } else {
             //Load the Native ad if it is not loaded
             loadNativeAd()
-
-            // Showing a simple Toast message to user when Native ad is not loaded
-            makeToast("Native Ad is not Loaded ")
         }
     }
 
@@ -408,8 +400,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         // load Native Ad with the Request
         nativeAdLoader.loadAd(adRequest)
 
-        // Showing a simple Toast message to user when Native an ad is Loading
-       makeToast("Native Ad is loading ")
     }
 
     private fun showIntrAd() {
@@ -422,12 +412,11 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 adRequest,
                 object : InterstitialAdLoadCallback() {
                     override fun onAdFailedToLoad(adError: LoadAdError) {
-                        adError?.toString()?.let { makeToast(it) }
+                        adError?.toString()?.let { }
                         mInterstitialAd = null
                     }
 
                     override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                        //    makeToast("Ad was loaded.")
                         mInterstitialAd = interstitialAd
                         mInterstitialAd?.show(this@MainActivity)
                     }
@@ -567,10 +556,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
 
-    private fun makeToast(s: String) {
-     //   Toast.makeText(applicationContext, s, Toast.LENGTH_LONG).show()
-    }
-
     override fun onDestroy() {
 
         saveFavorites(arraylistFavoriteSongs)
@@ -605,7 +590,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             arrayItems = gson.fromJson<List<Data>>(serializedObject, type)
         }
 
-        //   makeToast(arrayItems.size.toString() + " fs")
         arraylistFavoriteSongs = arrayItems as ArrayList<Data>
         renderFavorites()
 
@@ -725,7 +709,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         }.start()
 
 
-
         //  wfs.setSampleFrom(R.raw.abc)
         wfs.apply {
             onProgressChanged = object : SeekBarOnProgressChanged {
@@ -742,7 +725,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             }
         }
 
-        recyclerview.scrollToPosition(what)
 
 
         if (MusicService.isMPInitialised()) {
@@ -846,48 +828,24 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     @RequiresApi(Build.VERSION_CODES.O)
     override
     fun onItemClick(position: Int) {
-        Toast.makeText(applicationContext, songs[position], Toast.LENGTH_LONG).show()
 
-        clickPos = position
-        var pos = position
-        Log.d("dBuggNOW", songs[position])
+        makeToast(dataList[position].title)
 
-        if (isMyServiceRunning(MusicService::class.java)) {
 
+        if (isMyServiceRunning(MusicService::class.java))
             stopService(playIntent)
-            imageButtonPlayAlbum.visibility = View.INVISIBLE
-            fabPlayPause.visibility = View.VISIBLE
-            fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
-
-            var init = 0;
-            while (true) {
-                if (pos < songs.size) {
-                    playIntent.putExtra(init.toString(), songs[pos])
-                    init++
-                    pos++
-                } else break
-            }
-
-            startForegroundService(playIntent)
 
 
-        } else {
-            imageButtonPlayAlbum.visibility = View.INVISIBLE
-            fabPlayPause.visibility = View.VISIBLE
-            fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
+        imageButtonPlayAlbum.visibility = View.INVISIBLE
+        fabPlayPause.visibility = View.VISIBLE
+        fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
+        var i = 0
 
-            var init = 0;
-            while (true) {
-                if (pos < songs.size) {
-                    playIntent.putExtra(init.toString(), songs[pos])
-                    init++
-                    pos++
-                } else break
-            }
-            
+        for (init in position until songs.size)
+            playIntent.putExtra(i++.toString(), songs.get(init))
 
-            startForegroundService(playIntent)
-        }
+        startForegroundService(playIntent)
+
     }
 
     fun addToFavoriteSongs(text: String) {
@@ -904,9 +862,17 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 }
 
                 if (!arraylistFavoriteSongNames.contains(dataList.get(i).title)) {
-                    Toast.makeText(applicationContext, "Added - " + dataList.get(i).title + " to Fav Songs!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        applicationContext,
+                        "Added - " + dataList.get(i).title + " to Fav Songs!",
+                        Toast.LENGTH_LONG
+                    ).show()
                     arraylistFavoriteSongs.add(dataList.get(i))
-                } else Toast.makeText(applicationContext, "Already exist in FavS", Toast.LENGTH_LONG).show()
+                } else Toast.makeText(
+                    applicationContext,
+                    "Already exist in FavS",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
 

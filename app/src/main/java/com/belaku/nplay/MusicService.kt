@@ -410,7 +410,10 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                     Log.d("updateUI exception - ", e.toString())
                 }
             }.start()
+
+            if (dataList[songIndex].title.equals(songsNameList.get(songIndex)))
             MainActivity.recyclerview.smoothScrollToPosition(songIndex)
+         //   else MainActivity.makeToast(dataList[songIndex].title + " vs " + (songsNameList.get(songIndex)))
 
         //    updateActivity()
     } else {
