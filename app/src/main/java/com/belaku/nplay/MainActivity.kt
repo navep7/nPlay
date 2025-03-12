@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         }
 
         lateinit var appContext: Context
-        var clickPos: Int = 0
+
         lateinit var linearLayoutManager: LinearLayoutManager
         lateinit var rvAdapter: MusicAdapter
         var screenDimens by Delegates.notNull<Int>()
@@ -182,8 +182,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     }
                 }).build()
 
-        showNativeAd()
-        showIntrAd()
 
 
         val backgroundScope = CoroutineScope(Dispatchers.IO)
@@ -649,6 +647,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
             updateUI(songIndex)
 
+        } else {
+            showNativeAd()
+            showIntrAd()
         }
 
     }
@@ -665,7 +666,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         txSongName.text = MusicService.songsNameList[what]
 
-        template.visibility = View.INVISIBLE
+        template.visibility = INVISIBLE
         wfs.visibility = View.VISIBLE
         txSongName.visibility = VISIBLE
         txNow.visibility = View.VISIBLE
@@ -673,8 +674,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         Thread {
             try {
-
-                wfs.setSampleFrom(dataList[what].preview)
+                wfs.setSampleFrom(MusicService.songsUrlList[what])
             } catch (e: Exception) {
                 Log.d("ExcpSeek - ", e.toString())
                 e.printStackTrace()

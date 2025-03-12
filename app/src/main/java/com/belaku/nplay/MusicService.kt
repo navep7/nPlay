@@ -25,7 +25,6 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.palette.graphics.Palette
-import com.belaku.nplay.MainActivity.Companion.clickPos
 import com.belaku.nplay.MainActivity.Companion.dataList
 import com.belaku.nplay.MainActivity.Companion.imageArtAlbum
 
@@ -179,6 +178,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 setDataSource(applicationContext, uri)
                 prepare() // might take long! (for buffering, etc)
                 start()
+                saveIndex(songIndex)
                 //      startFadeIn()
                 //       saveIndex(0)
             }
@@ -190,69 +190,12 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
         }
 
         sendIntent = intent
-        if (clickPos == 0)
+
         updateActivity(0)
-        else updateActivity(clickPos)
-
 
         return START_STICKY
 
-
-    }/*{
-
-        scontext = this;
-        songsUrlList.clear()
-        songsNameList.clear()
-        songsAlbumArtList.clear()
-
-        var size: Int = intent.extras?.size()!!.toInt()
-
-        for (i in 0 until size) {
-            if (intent.extras?.get(i.toString()) != null) {
-                var splits = intent.extras?.get(i.toString()).toString().split(" - ")
-                songsUrlList.add(splits[0])
-                songsNameList.add(splits.get(1))
-                songsAlbumArtList.add(splits.get(2))
-            } else break
-        }
-
-        notifySong(0)
-
-            try {
-                val uri = Uri.parse(songsUrlList[0])
-                wfs.visibility = View.VISIBLE
-                txSongName.visibility = View.VISIBLE
-                txNow.visibility = View.VISIBLE
-                mediaPlayer = MediaPlayer().apply {
-                    setAudioAttributes(
-                        AudioAttributes.Builder()
-                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                            .setUsage(AudioAttributes.USAGE_MEDIA)
-                            .build()
-                    )
-                    setDataSource(applicationContext, uri)
-                    prepare() // might take long! (for buffering, etc)
-                    start()
-              //      startFadeIn()
-             //       saveIndex(0)
-                }
-                mediaPlayer.setOnCompletionListener(this)
-                mediaPlayer.setOnErrorListener(this)
-            } catch (e: Exception) {
-                println(e.toString())
-                Toast.makeText(applicationContext, "P ex - " + e, Toast.LENGTH_LONG).show()
-            }
-
-
-        if (intent != null) {
-            sendIntent = intent
-        }
-
-        updateActivity()
-
-
-        return START_STICKY
-    }*/
+    }
 
     var volume: Float = 0f
 
