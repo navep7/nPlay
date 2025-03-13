@@ -383,6 +383,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     private fun showNativeAd() {
         if (adLoaded) {
             template.setVisibility(VISIBLE)
+            adLoaded = false
             // Showing a simple Toast message to user when an Native ad is shown to the user
 
         } else {
@@ -397,6 +398,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         // load Native Ad with the Request
         nativeAdLoader.loadAd(adRequest)
+        adLoaded = true
 
     }
 
@@ -647,9 +649,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
             updateUI(songIndex)
 
-        } else {
-            showNativeAd()
-            showIntrAd()
         }
 
     }

@@ -3258,6 +3258,7 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable nplay_icon
 drawable offline_dialog_background
 drawable offline_dialog_default_icon_42dp
 drawable progress_fill
@@ -4083,10 +4084,8 @@ string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string action_settings
 string admob_app_id
-string admob_intr_adunit_id_actual
-string admob_intr_adunit_id_test
-string admob_native_actual
-string admob_native_test
+string admob_intr_adunit_id
+string admob_native_adunit_id
 string androidx_startup
 string app_name
 string appbar_scrolling_view_behavior

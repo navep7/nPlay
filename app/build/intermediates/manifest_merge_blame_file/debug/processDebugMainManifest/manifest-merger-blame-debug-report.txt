@@ -1,8 +1,8 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="com.belaku.nplay"
-4    android:versionCode="6"
-5    android:versionName="6.0" >
+4    android:versionCode="1"
+5    android:versionName="1.0" >
 6
 7    <uses-sdk
 8        android:minSdkVersion="24"
@@ -123,14 +123,14 @@
 69-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:14:9-54
 70        android:hardwareAccelerated="true"
 70-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:11:9-43
-71        android:icon="@android:drawable/ic_media_play"
-71-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:15:9-55
+71        android:icon="@drawable/nplay_icon"
+71-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:15:9-44
 72        android:label="@string/app_name"
 72-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:16:9-41
 73        android:networkSecurityConfig="@xml/network_security_config"
 73-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:17:9-69
-74        android:roundIcon="@android:drawable/ic_media_play"
-74-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:18:9-60
+74        android:roundIcon="@drawable/nplay_icon"
+74-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:18:9-49
 75        android:supportsRtl="true"
 75-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:19:9-35
 76        android:testOnly="true"

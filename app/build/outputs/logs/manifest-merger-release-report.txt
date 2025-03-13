@@ -180,11 +180,11 @@ MERGED from [com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/tran
 	android:fullBackupContent
 		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:14:9-54
 	android:roundIcon
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:18:9-60
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:18:9-49
 	tools:targetApi
 		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:21:9-29
 	android:icon
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:15:9-55
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:15:9-44
 	android:allowBackup
 		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:12:9-35
 	android:theme

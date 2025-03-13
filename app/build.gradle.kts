@@ -11,8 +11,8 @@ android {
         applicationId = "com.belaku.nplay"
         minSdk = 24
         targetSdk = 35
-        versionCode = 6
-        versionName = "6.0"
+        versionCode = 1
+        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -6,6 +6,7 @@ dimen fab_margin
 drawable background_fill
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable nplay_icon
 drawable progress_fill
 drawable seekprogress
 drawable thumb

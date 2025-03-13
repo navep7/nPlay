@@ -6,6 +6,7 @@ dimen fab_margin
 drawable background_fill
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable nplay_icon
 drawable progress_fill
 drawable seekprogress
 drawable thumb
@@ -59,10 +60,8 @@ raw d
 raw e
 string action_settings
 string admob_app_id
-string admob_intr_adunit_id_actual
-string admob_intr_adunit_id_test
-string admob_native_actual
-string admob_native_test
+string admob_intr_adunit_id
+string admob_native_adunit_id
 string app_name
 string first_fragment_label
 string lorem_ipsum
