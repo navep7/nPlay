@@ -112,7 +112,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     @SuppressLint("StaticFieldLeak")
     companion object {
         fun makeToast(s: String) {
-            Toast.makeText(appContext, s, Toast.LENGTH_LONG).show()
+        Log.d("Toast7ing", s)
+           Toast.makeText(appContext, s, Toast.LENGTH_SHORT).show()
         }
 
         lateinit var appContext: Context

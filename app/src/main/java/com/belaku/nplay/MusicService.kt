@@ -17,6 +17,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.text.Html
 import android.util.Log
 import android.view.View
@@ -27,7 +28,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.palette.graphics.Palette
 import com.belaku.nplay.MainActivity.Companion.dataList
 import com.belaku.nplay.MainActivity.Companion.imageArtAlbum
-
+import com.belaku.nplay.MainActivity.Companion.makeToast
 import com.belaku.nplay.MainActivity.Companion.relativeLayoutMain
 import com.belaku.nplay.MainActivity.Companion.txNow
 import com.belaku.nplay.MainActivity.Companion.txSongName
@@ -35,7 +36,6 @@ import com.belaku.nplay.MainActivity.Companion.wfs
 import java.net.URL
 import java.util.Random
 import java.util.Timer
-import java.util.TimerTask
 
 
 class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
@@ -178,6 +178,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 setDataSource(applicationContext, uri)
                 prepare() // might take long! (for buffering, etc)
                 start()
+                fade()
                 saveIndex(songIndex)
                 //      startFadeIn()
                 //       saveIndex(0)
@@ -197,71 +198,28 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
     }
 
-    var volume: Float = 0f
+    private fun fade() {
 
+        var vl = 1
+        var vr = 1
 
-    private fun startFadeOut() {
-        volume = 1f
-        val FADE_DURATION = 15000 //The duration of the fade
-        //The amount of time between volume changes. The smaller this is, the smoother the fade
-        val FADE_INTERVAL = 100
-        val MIN_VOLUME = 0 //The volume will increase from 0 to 1
-        val numberOfSteps = FADE_DURATION / FADE_INTERVAL //Calculate the number of fade steps
-        //Calculate by how much the volume changes each step
-        val deltaVolume = MIN_VOLUME / numberOfSteps.toFloat()
-
-        //Create a new Timer and Timer task to run the fading outside the main UI thread
-        timerInService = Timer(true)
-        val timerTask: TimerTask = object : TimerTask() {
+        val handlerIN = Handler(Looper.getMainLooper())
+        val runnableIN: Runnable = object : Runnable {
             override fun run() {
-                fadeOutStep(deltaVolume) //Do a fade step
-                //Cancel and Purge the Timer if the desired volume has been reached
-                if (volume <= 0f) {
-                    mediaPlayer.setVolume(1f, 1f)
-                    timerInService.cancel()
-                    timerInService.purge()
+                //do something here
+                if (vl < 10) {
+                    mediaPlayer.setVolume(vl++/10f, vr++/10f)
+                    handlerIN.postDelayed(this, 1000)
+                } else {
+                    makeToast("MAXnow")
+                    handlerIN.removeCallbacks(this)
                 }
             }
         }
+        handlerIN.post(runnableIN)
 
-        timerInService.schedule(timerTask, FADE_INTERVAL.toLong(), FADE_INTERVAL.toLong())
-    }
 
-    private fun fadeOutStep(deltaVolume: Float) {
-        mediaPlayer.setVolume(volume, volume)
-        volume -= deltaVolume
-    }
 
-    private fun startFadeIn() {
-        volume = 0f
-        val FADE_DURATION = 15000 //The duration of the fade
-        //The amount of time between volume changes. The smaller this is, the smoother the fade
-        val FADE_INTERVAL = 100
-        val MAX_VOLUME = 1 //The volume will increase from 0 to 1
-        val numberOfSteps = FADE_DURATION / FADE_INTERVAL //Calculate the number of fade steps
-        //Calculate by how much the volume changes each step
-        val deltaVolume = MAX_VOLUME / numberOfSteps.toFloat()
-
-        //Create a new Timer and Timer task to run the fading outside the main UI thread
-        timerInService = Timer(true)
-        val timerTask: TimerTask = object : TimerTask() {
-            override fun run() {
-                fadeInStep(deltaVolume) //Do a fade step
-                //Cancel and Purge the Timer if the desired volume has been reached
-                if (volume >= 1f) {
-                    timerInService.cancel()
-                    timerInService.purge()
-                    startFadeOut()
-                }
-            }
-        }
-
-        timerInService.schedule(timerTask, FADE_INTERVAL.toLong(), FADE_INTERVAL.toLong())
-    }
-
-    private fun fadeInStep(deltaVolume: Float) {
-        mediaPlayer.setVolume(volume, volume)
-        volume += deltaVolume
     }
 
 
@@ -298,7 +256,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 setDataSource(applicationContext, uri)
                 prepare() // might take long! (for buffering, etc)
                 start()
-                //    startFadeIn()
+                fade()
                 saveIndex(songIndex)
             }
 
