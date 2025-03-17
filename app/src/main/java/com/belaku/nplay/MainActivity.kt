@@ -16,6 +16,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.preference.PreferenceManager
 import android.util.DisplayMetrics
 import android.util.Log
@@ -743,10 +744,37 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                                 df.setTimeZone(TimeZone.getTimeZone("GMT"))
                                 val time: kotlin.String = df.format(d)
                                 txNow.setText(time)
+
+                                if (time.equals("00:17"))
+                                    fadeOUT()
                             }
                 }
             }
         }
+
+    }
+
+    private fun fadeOUT() {
+
+        var vl = 10
+        var vr = 10
+
+        val handlerIN = Handler(Looper.getMainLooper())
+        val runnableIN: Runnable = object : Runnable {
+            override fun run() {
+                //do something here
+                if (vl > 0) {
+                    mediaPlayer.setVolume(vl--/10f, vr--/10f)
+                    handlerIN.postDelayed(this, 1000)
+                } else {
+                    makeToast("MINnow")
+                    handlerIN.removeCallbacks(this)
+                }
+            }
+        }
+        handlerIN.post(runnableIN)
+
+
 
     }
 

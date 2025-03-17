@@ -178,7 +178,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 setDataSource(applicationContext, uri)
                 prepare() // might take long! (for buffering, etc)
                 start()
-                fade()
+                fadeIN()
                 saveIndex(songIndex)
                 //      startFadeIn()
                 //       saveIndex(0)
@@ -198,7 +198,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
     }
 
-    private fun fade() {
+    private fun fadeIN() {
 
         var vl = 1
         var vr = 1
@@ -256,7 +256,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 setDataSource(applicationContext, uri)
                 prepare() // might take long! (for buffering, etc)
                 start()
-                fade()
+                fadeIN()
                 saveIndex(songIndex)
             }
 
