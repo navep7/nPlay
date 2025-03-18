@@ -745,12 +745,41 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                                 val time: kotlin.String = df.format(d)
                                 txNow.setText(time)
 
-                                if (time.equals("00:17"))
+                                if (time.equals("00:00"))
+                                    fadeIN()
+                                if (time.equals("00:22"))
                                     fadeOUT()
                             }
                 }
             }
         }
+
+    }
+
+
+    private fun fadeIN() {
+
+        var vl = 1
+        var vr = 1
+
+        val handlerIN = Handler(Looper.getMainLooper())
+        val runnableIN: Runnable = object : Runnable {
+            override fun run() {
+                //do something here
+                if (vl < 12) {
+                    vl++
+                    vr++
+                    mediaPlayer.setVolume(vl++/10f, vr++/10f)
+                    handlerIN.postDelayed(this, 1000)
+                } else {
+                    makeToast("MAXnow")
+                    handlerIN.removeCallbacks(this)
+                }
+            }
+        }
+        handlerIN.post(runnableIN)
+
+
 
     }
 
@@ -763,7 +792,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         val runnableIN: Runnable = object : Runnable {
             override fun run() {
                 //do something here
-                if (vl > 0) {
+                if (vl > -1) {
+                    vl--
+                    vr--
                     mediaPlayer.setVolume(vl--/10f, vr--/10f)
                     handlerIN.postDelayed(this, 1000)
                 } else {

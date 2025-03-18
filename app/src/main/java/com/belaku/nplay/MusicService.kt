@@ -178,7 +178,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 setDataSource(applicationContext, uri)
                 prepare() // might take long! (for buffering, etc)
                 start()
-                fadeIN()
+            //    fadeIN()
                 saveIndex(songIndex)
                 //      startFadeIn()
                 //       saveIndex(0)
@@ -198,29 +198,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
     }
 
-    private fun fadeIN() {
-
-        var vl = 1
-        var vr = 1
-
-        val handlerIN = Handler(Looper.getMainLooper())
-        val runnableIN: Runnable = object : Runnable {
-            override fun run() {
-                //do something here
-                if (vl < 10) {
-                    mediaPlayer.setVolume(vl++/10f, vr++/10f)
-                    handlerIN.postDelayed(this, 1000)
-                } else {
-                    makeToast("MAXnow")
-                    handlerIN.removeCallbacks(this)
-                }
-            }
-        }
-        handlerIN.post(runnableIN)
-
-
-
-    }
 
 
     private fun updateActivity(sIn: Int) {
@@ -256,7 +233,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
                 setDataSource(applicationContext, uri)
                 prepare() // might take long! (for buffering, etc)
                 start()
-                fadeIN()
+          //      fadeIN()
                 saveIndex(songIndex)
             }
 
