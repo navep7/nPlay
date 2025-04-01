@@ -10,13 +10,14 @@ import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
+import android.media.AudioAttributes
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
 import android.preference.PreferenceManager
 import android.util.DisplayMetrics
 import android.util.Log
@@ -24,12 +25,15 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.INVISIBLE
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.RemoteViews
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import android.widget.TextView.VISIBLE
@@ -41,7 +45,13 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.belaku.nplay.MusicService.Companion.mediaPlayer
+import com.belaku.nplay.MusicService.Companion.mediaPlayer1
+import com.belaku.nplay.MusicService.Companion.mediaPlayer2
+import com.belaku.nplay.MusicService.Companion.notifySong
+import com.belaku.nplay.MusicService.Companion.saveIndex
+import com.belaku.nplay.MusicService.Companion.songIndex
+import com.belaku.nplay.MusicService.Companion.songsNameList
+import com.belaku.nplay.MusicService.Companion.songsUrlList
 import com.belaku.nplay.databinding.ActivityMainBinding
 import com.google.android.ads.nativetemplates.NativeTemplateStyle
 import com.google.android.ads.nativetemplates.TemplateView
@@ -53,6 +63,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.masoudss.lib.SeekBarOnProgressChanged
@@ -82,7 +93,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
     private lateinit var nativeAdLoader: AdLoader
-    private lateinit var template: TemplateView
+
     private var adLoaded: Boolean = false
 
     private var gson: Gson = Gson()
@@ -104,7 +115,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     private var arraylistFavorites = ArrayList<String>()
 
     private lateinit var playIntent: Intent
-    private var songs: ArrayList<String> = ArrayList()
     private lateinit var handlerForBG: Handler
     private var songIndex: Int = 0
     private lateinit var imageButtonPlayAlbum: ImageButton
@@ -113,12 +123,368 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     @SuppressLint("StaticFieldLeak")
     companion object {
         fun makeToast(s: String) {
-        Log.d("Toast7ing", s)
-           Toast.makeText(appContext, s, Toast.LENGTH_SHORT).show()
+            Log.d("Toast7ing", s)
+            //    Toast.makeText(appContext, s, Toast.LENGTH_SHORT).show()
         }
 
+        @SuppressLint("ResourceAsColor")
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun initializeMPs() {
+            songIndex++
+            makeToast("plaYing - " + songsNameList[songIndex])
+            txSongName.text = songsNameList[songIndex]
+            Thread {
+                try {
+                    wfs.setSampleFrom(MusicService.songsUrlList[songIndex])
+                } catch (e: Exception) {
+                    Log.d("ExcpSeek - ", e.toString())
+                    e.printStackTrace()
+                }
+            }.start()
+
+            Thread {
+                try {
+                    val url = URL(MusicService.songsAlbumArtList[songIndex])
+                    var bitmapAlbum =
+                        BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                    imageArtAlbum = BitmapDrawable(appContext.resources, bitmapAlbum)
+
+                    mainActivity.runOnUiThread {
+                        relativeLayoutMain.background = imageArtAlbum
+
+                    }
+                    //    noteContentView.setImageViewBitmap(com.belaku.nplay.R.id.note_image, imageArtAlbum.bitmap)
+
+
+                    Palette.from(imageArtAlbum.bitmap).generate { palette ->
+                        // Do something with colors...
+                        if (palette != null) {
+                            wfs.waveBackgroundColor =
+                                palette.getLightMutedColor(R.color.white)
+                            wfs.waveProgressColor =
+                                palette.getDarkMutedColor(R.color.black)
+                        }
+                    }
+
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                    Log.d("updateUI exception - ", e.toString())
+                }
+            }.start()
+            //   updateUI(songIndex)
+            try {
+                val uri = Uri.parse(songsUrlList[songIndex])
+                wfs.visibility = View.VISIBLE
+                txSongName.visibility = View.VISIBLE
+                txNow.visibility = View.VISIBLE
+                mediaPlayer1 = MediaPlayer().apply {
+                    setAudioAttributes(
+                        AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .build()
+                    )
+                    setDataSource(appContext, uri)
+                    prepare() // might take long! (for buffering, etc)
+                    start()
+                    //   saveIndex(songIndex)
+                }
+
+
+                //   mediaPlayer1.setOnErrorListener(this)
+            } catch (e: Exception) {
+                println(e.toString())
+                Toast.makeText(appContext, "P ex - " + e, Toast.LENGTH_LONG).show()
+            }
+
+            try {
+
+                val uri = Uri.parse(songsUrlList[songIndex])
+                wfs.visibility = View.VISIBLE
+                txSongName.visibility = View.VISIBLE
+                txNow.visibility = View.VISIBLE
+                mediaPlayer2 = MediaPlayer().apply {
+                    setAudioAttributes(
+                        AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .build()
+                    )
+                    setDataSource(appContext, uri)
+                    prepare() // might take long! (for buffering, etc)
+                    //     saveIndex(songIndex)
+                }
+
+            } catch (e: Exception) {
+                println(e.toString())
+                Toast.makeText(appContext, "P ex - " + e, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        @SuppressLint("ResourceAsColor")
+        private fun updateUI(what: Int) {
+
+            makeToast("updateUI")
+            for (item in dataList)
+                songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
+
+
+
+            txSongName.text = songsNameList[what]
+
+            template.visibility = INVISIBLE
+            wfs.visibility = View.VISIBLE
+            txSongName.visibility = VISIBLE
+            txNow.visibility = View.VISIBLE
+
+
+            Thread {
+                try {
+                    wfs.setSampleFrom(MusicService.songsUrlList[what])
+                } catch (e: Exception) {
+                    Log.d("ExcpSeek - ", e.toString())
+                    e.printStackTrace()
+                }
+            }.start()
+
+            Thread {
+                try {
+                    val url = URL(MusicService.songsAlbumArtList[what])
+                    var bitmapAlbum =
+                        BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                    imageArtAlbum = BitmapDrawable(appContext.resources, bitmapAlbum)
+
+                    mainActivity.runOnUiThread {
+                        relativeLayoutMain.background = imageArtAlbum
+                    }
+                    //    noteContentView.setImageViewBitmap(com.belaku.nplay.R.id.note_image, imageArtAlbum.bitmap)
+
+
+                    Palette.from(imageArtAlbum.bitmap).generate { palette ->
+                        // Do something with colors...
+                        if (palette != null) {
+                            wfs.waveBackgroundColor =
+                                palette.getLightMutedColor(R.color.white)
+                            wfs.waveProgressColor =
+                                palette.getDarkMutedColor(R.color.black)
+                        }
+                    }
+
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                    Log.d("updateUI exception - ", e.toString())
+                }
+            }.start()
+
+
+
+            if (MusicService.isMP1Initialised() || MusicService.isMP2Initialised()) {
+                try {
+                    wfs.maxProgress = mediaPlayer1.duration.toFloat()
+                } catch (ex: Exception) {
+                    wfs.maxProgress = mediaPlayer2.duration.toFloat()
+                }
+                fixedRateTimer("timer", false, 0L, 1000) {
+                    mainActivity.runOnUiThread {
+                        if (isMyServiceRunning(MusicService::class.java))
+                            try {
+                                if (mediaPlayer1.isPlaying) {
+                                    wfs.apply {
+                                        onProgressChanged = object : SeekBarOnProgressChanged {
+                                            override fun onProgressChanged(
+                                                waveformSeekBar: WaveformSeekBar,
+                                                progress: Float,
+                                                fromUser: Boolean
+                                            ) {
+                                                if (mediaPlayer1 != null)
+                                                    if (fromUser) {
+                                                        try {
+                                                            mediaPlayer1?.seekTo(progress.toInt())
+                                                        } catch (ex: Exception) {
+                                                            mediaPlayer2?.seekTo(progress.toInt())
+                                                        }
+                                                    }
+                                            }
+                                        }
+                                    }
+                                    wfs.progress = mediaPlayer1.currentPosition.toFloat()
+                                    Log.d("Time21 ", mediaPlayer1.currentPosition.toString())
+                                    val duration = mediaPlayer1.currentPosition
+                                    val d: Date = Date(duration.toLong())
+                                    val df: SimpleDateFormat =
+                                        SimpleDateFormat("mm:ss") // HH for 0-23
+                                    df.setTimeZone(TimeZone.getTimeZone("GMT"))
+                                    val time: kotlin.String = df.format(d)
+                                    txNow.setText(time)
+
+
+                                    if (time.equals("00:25")) {
+                                        if (crossFadeNeeded) {
+                                            initializeMPs()
+                                            crossFade(mediaPlayer1, mediaPlayer2)
+                                            notifySong(songIndex)
+                                            saveIndex(songIndex)
+                                        }
+                                    }
+                                } else if (mediaPlayer2.isPlaying) {
+                                    wfs.apply {
+                                        onProgressChanged = object : SeekBarOnProgressChanged {
+                                            override fun onProgressChanged(
+                                                waveformSeekBar: WaveformSeekBar,
+                                                progress: Float,
+                                                fromUser: Boolean
+                                            ) {
+                                                if (mediaPlayer1 != null)
+                                                    if (fromUser) {
+                                                        try {
+                                                            mediaPlayer2?.seekTo(progress.toInt())
+                                                        } catch (ex: Exception) {
+                                                            mediaPlayer1?.seekTo(progress.toInt())
+                                                        }
+                                                    }
+                                            }
+                                        }
+                                    }
+                                    wfs.progress = mediaPlayer2.currentPosition.toFloat()
+                                    Log.d(
+                                        "Time21 ",
+                                        mediaPlayer2.currentPosition.toString()
+                                    )
+                                    val duration = mediaPlayer2.currentPosition
+                                    val d: Date = Date(duration.toLong())
+                                    val df: SimpleDateFormat =
+                                        SimpleDateFormat("mm:ss") // HH for 0-23
+                                    df.setTimeZone(TimeZone.getTimeZone("GMT"))
+                                    val time: kotlin.String = df.format(d)
+                                    txNow.setText(time)
+
+
+                                    if (time.equals("00:25")) {
+                                        if (crossFadeNeeded) {
+                                            initializeMPs()
+                                            crossFade(mediaPlayer2, mediaPlayer1)
+                                            notifySong(songIndex)
+                                            saveIndex(songIndex)
+                                        }
+                                    }
+                                }
+                            } catch (ex: Exception) {
+                                try {
+
+
+                                    if (mediaPlayer2.isPlaying) {
+                                        wfs.progress = mediaPlayer2.currentPosition.toFloat()
+                                        Log.d(
+                                            "Time21 ",
+                                            mediaPlayer2.currentPosition.toString()
+                                        )
+                                        val duration = mediaPlayer2.currentPosition
+                                        val d: Date = Date(duration.toLong())
+                                        val df: SimpleDateFormat =
+                                            SimpleDateFormat("mm:ss") // HH for 0-23
+                                        df.setTimeZone(TimeZone.getTimeZone("GMT"))
+                                        val time: kotlin.String = df.format(d)
+                                        txNow.setText(time)
+
+
+                                        if (time.equals("00:25")) {
+                                            if (crossFadeNeeded) {
+                                                initializeMPs()
+                                                crossFade(mediaPlayer2, mediaPlayer1)
+                                            }
+                                        }
+                                    }
+                                } catch (ex: Exception) {
+                                    txSongName.text = "End of Playback!"
+                                    appContext.stopService(
+                                        Intent(
+                                            mainActivity,
+                                            MusicService::class.java
+                                        )
+                                    )
+                                }
+                            }
+                    }
+                }
+            }
+
+        }
+
+        private fun crossFade(musicPlayerOut: MediaPlayer, musicPlayerIn: MediaPlayer) {
+
+            if (dataList[songIndex].title.equals(songsNameList[songIndex]))
+                recyclerview.smoothScrollToPosition(songIndex)
+
+            val CROSSFADE_DURATION = 5000
+            fadeOut(musicPlayerOut, CROSSFADE_DURATION)
+
+            fadeIn(musicPlayerIn, CROSSFADE_DURATION)
+
+        }
+
+        fun fadeOut(_player: MediaPlayer, duration: Int) {
+            val deviceVolume: Float = 1.0f
+            val h = Handler()
+            h.postDelayed(object : Runnable {
+                private var time = duration.toFloat()
+                private var volume = 0.0f
+
+                override fun run() {
+                    // can call h again after work!
+                    time -= 100f
+                    volume = (deviceVolume * time) / duration
+                    try {
+                        if (_player.isPlaying)
+                            _player.setVolume(volume, volume)
+                    } catch (ex: Exception) {
+
+                    }
+                    if (time > 0) h.postDelayed(this, 100)
+                    else {
+                        _player.stop()
+                        _player.release()
+                    }
+                }
+            }, 100) // delay (takes millis)
+        }
+
+        fun fadeIn(_player: MediaPlayer, duration: Int) {
+            val deviceVolume: Float = 1.0f
+            val h = Handler()
+            h.postDelayed(object : Runnable {
+                private var time = 0.0f
+                private var volume = 0.0f
+
+                override fun run() {
+                    if (!_player.isPlaying) _player.start()
+                    time += 100f
+                    volume = (deviceVolume * time) / duration
+                    _player.setVolume(volume, volume)
+                    if (time < duration) h.postDelayed(this, 100)
+                }
+            }, 100) // delay (takes millis)
+
+
+        }
+
+        private fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
+            val manager = appContext.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+            for (service in manager.getRunningServices(Int.MAX_VALUE)) {
+                if (serviceClass.name == service.service.className) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        var crossFadeNeeded: Boolean = false
+        lateinit var mainActivity: Activity
+        private lateinit var template: TemplateView
+        private var songs: ArrayList<String> = ArrayList()
         lateinit var appContext: Context
 
+        lateinit var swCrossFade: MaterialSwitch
         lateinit var linearLayoutManager: LinearLayoutManager
         lateinit var rvAdapter: MusicAdapter
         var screenDimens by Delegates.notNull<Int>()
@@ -142,14 +508,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     private final val TAG = "MainActivity"
 
 
-    var receiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            //do something based on the intent's action
-            // UPDATE YOUR UI FROM HERE
-        }
-    }
-
-
     @SuppressLint("ResourceAsColor", "SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -159,6 +517,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         setContentView(binding.root)
 
         appContext = applicationContext
+        mainActivity = this@MainActivity
 
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -185,7 +544,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 }).build()
 
 
-
         val backgroundScope = CoroutineScope(Dispatchers.IO)
         backgroundScope.launch {
             // Initialize the Google Mobile Ads SDK on a background thread.
@@ -199,6 +557,10 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         findViewByIds()
         initializeStuff()
 
+        swCrossFade.setOnCheckedChangeListener { _, isChecked ->
+            makeToast("crossFade - " + isChecked)
+            crossFadeNeeded = isChecked
+        }
 
         mSharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
@@ -295,23 +657,43 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         }
 
+        var mp1: Boolean = true
         fabPlayPause.setOnClickListener { view ->
 
-
-            if (isMyServiceRunning(MusicService::class.java)) {
-                if (mediaPlayer.isPlaying) {
+            try {
+                if (mediaPlayer1.isPlaying) {
+                    mp1 = true
                     fabPlayPause.setImageResource(android.R.drawable.ic_media_play)
-                    mediaPlayer.pause()
-                    showNativeAd()
-
+                    mediaPlayer1.pause()
+                } else if (mediaPlayer2.isPlaying) {
+                    mp1 = false
+                    fabPlayPause.setImageResource(android.R.drawable.ic_media_play)
+                    mediaPlayer2.pause()
                 } else {
                     fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
-                    mediaPlayer.start()
-                    template.visibility = INVISIBLE
+                    if (mp1)
+                        mediaPlayer1.start()
+                    else mediaPlayer2.start()
 
                 }
-            }
+            } catch (ex: Exception) {
+                try {
+                    if (mediaPlayer2.isPlaying) {
+                        mp1 = false
+                        fabPlayPause.setImageResource(android.R.drawable.ic_media_play)
+                        mediaPlayer2.pause()
+                    } else {
+                        fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
+                        if (mp1)
+                            mediaPlayer1.start()
+                        else mediaPlayer2.start()
 
+                    }
+                } catch (ex: Exception) {
+                    stopService(Intent(this@MainActivity, MusicService::class.java))
+                    txSongName.text = "End of Playback!"
+                }
+            }
 
         }
 
@@ -324,6 +706,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 playingSeekDuration = intent.getIntExtra("seek_duration", 0)
                 playingSeekUpdate = intent.getIntExtra("seek_update", 0)
 
+                makeToast("playingSongIndex - " + playingSongIndex)
                 updateUI(playingSongIndex)
 
                 Log.d("BR21", "Got message: $playingSongIndex - $playingSeekUpdate")
@@ -420,7 +803,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
                     override fun onAdLoaded(interstitialAd: InterstitialAd) {
                         mInterstitialAd = interstitialAd
-                        mInterstitialAd?.show(this@MainActivity)
+                        //     mInterstitialAd?.show(this@MainActivity)
                     }
                 })
         }
@@ -537,6 +920,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     private fun findViewByIds() {
 
+        swCrossFade = findViewById(R.id.sw_crossfade)
         dataList = ArrayList()
         arraylistFavoriteSongs = ArrayList()
 
@@ -563,10 +947,18 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         saveFavorites(arraylistFavoriteSongs)
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         if (isMyServiceRunning(MusicService::class.java))
-            if (!mediaPlayer.isPlaying) {
-                stopService(Intent(this@MainActivity, MusicService::class.java))
-                MusicService.notificationManager.cancelAll();
+            try {
+                if (!(mediaPlayer1.isPlaying || mediaPlayer2.isPlaying)) {
+                    stopService(Intent(this@MainActivity, MusicService::class.java))
+                    MusicService.notificationManager.cancelAll();
+                }
+            }catch (ex: Exception) {
+                if (!mediaPlayer2.isPlaying) {
+                    stopService(Intent(this@MainActivity, MusicService::class.java))
+                    MusicService.notificationManager.cancelAll();
+                }
             }
+
         super.onDestroy()
     }
 
@@ -611,15 +1003,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         sharedPreferencesEditor.commit()
     }
 
-    private fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
-        val manager = getSystemService(ACTIVITY_SERVICE) as ActivityManager
-        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
-            if (serviceClass.name == service.service.className) {
-                return true
-            }
-        }
-        return false
-    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
@@ -632,13 +1015,12 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         if (isMyServiceRunning(MusicService::class.java)) {
 
             fabPlayPause.visibility = VISIBLE
-            if (mediaPlayer.isPlaying)
-                fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
-            else fabPlayPause.setImageResource(android.R.drawable.ic_media_play)
-
+            fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
             sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
 
             songIndex = sharedPreferences.getInt("playingIndex", 0)
+
+            Toast.makeText(appContext, "onRplayinG - " + songsNameList[songIndex], Toast.LENGTH_LONG).show()
             var rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
             recyclerview.adapter = rvAdapter
             recyclerview.setLayoutManager(
@@ -655,159 +1037,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("ResourceAsColor")
-    private fun updateUI(what: Int) {
-
-        for (item in dataList)
-            songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
-
-
-
-        txSongName.text = MusicService.songsNameList[what]
-
-        template.visibility = INVISIBLE
-        wfs.visibility = View.VISIBLE
-        txSongName.visibility = VISIBLE
-        txNow.visibility = View.VISIBLE
-
-
-        Thread {
-            try {
-                wfs.setSampleFrom(MusicService.songsUrlList[what])
-            } catch (e: Exception) {
-                Log.d("ExcpSeek - ", e.toString())
-                e.printStackTrace()
-            }
-        }.start()
-
-        Thread {
-            try {
-                val url = URL(MusicService.songsAlbumArtList[what])
-                var bitmapAlbum =
-                    BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                imageArtAlbum = BitmapDrawable(applicationContext.resources, bitmapAlbum)
-
-                relativeLayoutMain.background = imageArtAlbum
-                //    noteContentView.setImageViewBitmap(com.belaku.nplay.R.id.note_image, imageArtAlbum.bitmap)
-
-
-                Palette.from(imageArtAlbum.bitmap).generate { palette ->
-                    // Do something with colors...
-                    if (palette != null) {
-                        wfs.waveBackgroundColor =
-                            palette.getLightMutedColor(R.color.white)
-                        wfs.waveProgressColor =
-                            palette.getDarkMutedColor(R.color.black)
-                    }
-                }
-
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-                Log.d("updateUI exception - ", e.toString())
-            }
-        }.start()
-
-
-        //  wfs.setSampleFrom(R.raw.abc)
-        wfs.apply {
-            onProgressChanged = object : SeekBarOnProgressChanged {
-                override fun onProgressChanged(
-                    waveformSeekBar: WaveformSeekBar,
-                    progress: Float,
-                    fromUser: Boolean
-                ) {
-                    if (mediaPlayer != null)
-                        if (fromUser) {
-                            mediaPlayer?.seekTo(progress.toInt())
-                        }
-                }
-            }
-        }
-
-
-
-        if (MusicService.isMPInitialised()) {
-            wfs.maxProgress = mediaPlayer.duration.toFloat()
-
-            fixedRateTimer("timer", false, 0L, 1000) {
-                this@MainActivity.runOnUiThread {
-                    if (isMyServiceRunning(MusicService::class.java))
-                        if (MusicService.isMPInitialised())
-                            if (mediaPlayer.isPlaying) {
-                                wfs.progress = mediaPlayer.currentPosition.toFloat()
-                                Log.d("Time21 ", mediaPlayer.currentPosition.toString())
-                                val duration = mediaPlayer.currentPosition
-                                val d: Date = Date(duration.toLong())
-                                val df: SimpleDateFormat = SimpleDateFormat("mm:ss") // HH for 0-23
-                                df.setTimeZone(TimeZone.getTimeZone("GMT"))
-                                val time: kotlin.String = df.format(d)
-                                txNow.setText(time)
-
-                                if (time.equals("00:00"))
-                                    fadeIN()
-                                if (time.equals("00:22"))
-                                    fadeOUT()
-                            }
-                }
-            }
-        }
-
-    }
-
-
-    private fun fadeIN() {
-
-        var vl = 1
-        var vr = 1
-
-        val handlerIN = Handler(Looper.getMainLooper())
-        val runnableIN: Runnable = object : Runnable {
-            override fun run() {
-                //do something here
-                if (vl < 12) {
-                    vl++
-                    vr++
-                    mediaPlayer.setVolume(vl++/10f, vr++/10f)
-                    handlerIN.postDelayed(this, 1000)
-                } else {
-                    makeToast("MAXnow")
-                    handlerIN.removeCallbacks(this)
-                }
-            }
-        }
-        handlerIN.post(runnableIN)
-
-
-
-    }
-
-    private fun fadeOUT() {
-
-        var vl = 10
-        var vr = 10
-
-        val handlerIN = Handler(Looper.getMainLooper())
-        val runnableIN: Runnable = object : Runnable {
-            override fun run() {
-                //do something here
-                if (vl > -1) {
-                    vl--
-                    vr--
-                    mediaPlayer.setVolume(vl--/10f, vr--/10f)
-                    handlerIN.postDelayed(this, 1000)
-                } else {
-                    makeToast("MINnow")
-                    handlerIN.removeCallbacks(this)
-                }
-            }
-        }
-        handlerIN.post(runnableIN)
-
-
-
-    }
 
     private fun Getdata() {
         val retrofitBuilder = Retrofit.Builder()
@@ -941,3 +1170,4 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
 }
+

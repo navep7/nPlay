@@ -18,6 +18,7 @@ import androidx.viewbinding.ViewBindings;
 import com.belaku.nplay.R;
 import com.google.android.ads.nativetemplates.TemplateView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import com.masoudss.lib.WaveformSeekBar;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -55,6 +56,9 @@ public final class ContentMainBinding implements ViewBinding {
   public final HorizontalScrollView ssDynamic;
 
   @NonNull
+  public final MaterialSwitch swCrossfade;
+
+  @NonNull
   public final TextView txCurrentTime;
 
   @NonNull
@@ -71,8 +75,8 @@ public final class ContentMainBinding implements ViewBinding {
       @NonNull ImageButton imgbtnPlayAlbum, @NonNull LinearLayout llDynamic,
       @NonNull TemplateView nativeTemplateView, @NonNull RelativeLayout rlMain,
       @NonNull RecyclerView rv, @NonNull HorizontalScrollView ssDynamic,
-      @NonNull TextView txCurrentTime, @NonNull TextView txFeaturing, @NonNull TextView txSname,
-      @NonNull WaveformSeekBar wfsb) {
+      @NonNull MaterialSwitch swCrossfade, @NonNull TextView txCurrentTime,
+      @NonNull TextView txFeaturing, @NonNull TextView txSname, @NonNull WaveformSeekBar wfsb) {
     this.rootView = rootView;
     this.edtxSearchQuery = edtxSearchQuery;
     this.fabFavorite = fabFavorite;
@@ -83,6 +87,7 @@ public final class ContentMainBinding implements ViewBinding {
     this.rlMain = rlMain;
     this.rv = rv;
     this.ssDynamic = ssDynamic;
+    this.swCrossfade = swCrossfade;
     this.txCurrentTime = txCurrentTime;
     this.txFeaturing = txFeaturing;
     this.txSname = txSname;
@@ -166,6 +171,12 @@ public final class ContentMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.sw_crossfade;
+      MaterialSwitch swCrossfade = ViewBindings.findChildViewById(rootView, id);
+      if (swCrossfade == null) {
+        break missingId;
+      }
+
       id = R.id.tx_current_time;
       TextView txCurrentTime = ViewBindings.findChildViewById(rootView, id);
       if (txCurrentTime == null) {
@@ -192,7 +203,7 @@ public final class ContentMainBinding implements ViewBinding {
 
       return new ContentMainBinding((RelativeLayout) rootView, edtxSearchQuery, fabFavorite,
           fabPlayPause, imgbtnPlayAlbum, llDynamic, nativeTemplateView, rlMain, rv, ssDynamic,
-          txCurrentTime, txFeaturing, txSname, wfsb);
+          swCrossfade, txCurrentTime, txFeaturing, txSname, wfsb);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

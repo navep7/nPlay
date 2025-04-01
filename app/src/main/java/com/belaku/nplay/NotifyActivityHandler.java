@@ -24,11 +24,11 @@ public class NotifyActivityHandler extends Activity {
         if (action != null) {
             if (action.equals("notePlay")) {
                 Toast.makeText(this, "PlayNOTE", Toast.LENGTH_SHORT).show();
-                MusicService.mediaPlayer.pause();
+                MusicService.mediaPlayer1.pause();
                 // for example play a music
             } else if (action.equals("notePause")) {
                 // close current notification
-                MusicService.mediaPlayer.start();
+                MusicService.mediaPlayer1.start();
             }
         }
 

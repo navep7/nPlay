@@ -33,6 +33,7 @@ id rv
 id rv_item_layout
 id rv_tx_sname
 id ss_dynamic
+id sw_crossfade
 id textview_first
 id textview_second
 id tx_aname

@@ -22,7 +22,7 @@ class NotificationIntentService
                         baseContext,
                         "You clicked the Play button", Toast.LENGTH_LONG
                     ).show()
-                    MusicService.mediaPlayer.pause()
+                    MusicService.mediaPlayer1.pause()
                 }
             }
 
@@ -34,7 +34,7 @@ class NotificationIntentService
                         "You clicked the Pause button",
                         Toast.LENGTH_LONG
                     ).show()
-                    MusicService.mediaPlayer.start()
+                    MusicService.mediaPlayer1.start()
 
                 }
             }
