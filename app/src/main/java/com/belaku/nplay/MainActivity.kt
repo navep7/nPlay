@@ -3,14 +3,16 @@ package com.belaku.nplay
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
+import android.app.WallpaperManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
+import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.TransitionDrawable
@@ -221,6 +223,23 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             }
         }
 
+        fun getResizedBitmap(bm: Bitmap, newWidth: Int, newHeight: Int): Bitmap {
+            val width = bm.width
+            val height = bm.height
+            val scaleWidth = (newWidth.toFloat()) / width
+            val scaleHeight = (newHeight.toFloat()) / height
+            // CREATE A MATRIX FOR THE MANIPULATION
+            val matrix: Matrix = Matrix()
+            // RESIZE THE BIT MAP
+            matrix.postScale(scaleWidth, scaleHeight)
+
+            // "RECREATE" THE NEW BITMAP
+            val resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false
+            )
+            return resizedBitmap
+        }
+
         @RequiresApi(Build.VERSION_CODES.O)
         @SuppressLint("ResourceAsColor")
         private fun updateUI(what: Int) {
@@ -267,6 +286,10 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
                         Handler().postDelayed(Runnable { relativeLayoutMain.background = imageArtAlbum }, 500)
 
+                //        WallpaperManager.getInstance(this)
+                  //          .setBitmap(imageArtAlbum, null, true, WallpaperManager.FLAG_LOCK)
+
+                        WallpaperManager.getInstance(appContext).setBitmap(getResizedBitmap(imageArtAlbum.bitmap, screenDimens, screenDimens), null, true, WallpaperManager.FLAG_LOCK)
 
                     }
 
@@ -1055,7 +1078,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
             songIndex = sharedPreferences.getInt("playingIndex", 0)
 
-            Toast.makeText(appContext, "onRplayinG - " + songsNameList[songIndex], Toast.LENGTH_LONG).show()
+        //    Toast.makeText(appContext, "onRplayinG - " + songsNameList[songIndex], Toast.LENGTH_LONG).show()
             var rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
             recyclerview.adapter = rvAdapter
             recyclerview.setLayoutManager(

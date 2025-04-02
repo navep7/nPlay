@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:2:1-46:12
-INJECTED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:2:1-46:12
-INJECTED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:2:1-46:12
-INJECTED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:2:1-46:12
+ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:2:1-48:12
+INJECTED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:2:1-48:12
+INJECTED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:2:1-48:12
+INJECTED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:2:1-48:12
 MERGED from [androidx.databinding:viewbinding:8.6.0] /Users/np/.gradle/caches/transforms-4/94b6290ac0acdf8a15adae12936f51aa/transformed/viewbinding-8.6.0/AndroidManifest.xml:2:1-7:12
 MERGED from [com.github.massoudss:waveformSeekBar:5.0.2] /Users/np/.gradle/caches/transforms-4/dbd1f736de8166134ee8d7106f7a2f14/transformed/waveformSeekBar-5.0.2/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.navigation:navigation-common:2.8.5] /Users/np/.gradle/caches/transforms-4/55c8819818d0b12e6be368a45313215e/transformed/navigation-common-2.8.5/AndroidManifest.xml:17:1-22:12
@@ -120,9 +120,13 @@ uses-permission#android.permission.POST_NOTIFICATIONS
 ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:8:5-77
 	android:name
 		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:8:22-74
+uses-permission#android.permission.SET_WALLPAPER
+ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:10:5-72
+	android:name
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:10:22-69
 application
-ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:10:5-44:19
-INJECTED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:10:5-44:19
+ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:12:5-46:19
+INJECTED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:12:5-46:19
 MERGED from [com.google.android.material:material:1.12.0] /Users/np/.gradle/caches/transforms-4/99ddaf8e458be17a6dd376abb680be2c/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] /Users/np/.gradle/caches/transforms-4/99ddaf8e458be17a6dd376abb680be2c/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [:nativetemplates] /Users/np/ASPs/nPlayG/nativetemplates/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:7:5-8:19
@@ -172,65 +176,65 @@ MERGED from [com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/tran
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/3f4d616b5ef15a6f41a8637159baa1bd/transformed/core-1.15.0/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:19:9-35
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:21:9-35
 	android:label
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:16:9-41
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:18:9-41
 	android:hardwareAccelerated
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:11:9-43
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:13:9-43
 	android:fullBackupContent
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:14:9-54
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:16:9-54
 	android:roundIcon
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:18:9-49
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:20:9-49
 	tools:targetApi
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:21:9-29
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:23:9-29
 	android:icon
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:15:9-44
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:17:9-44
 	android:allowBackup
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:12:9-35
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:14:9-35
 	android:theme
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:20:9-43
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:22:9-43
 	android:networkSecurityConfig
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:17:9-69
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:19:9-69
 	android:dataExtractionRules
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:13:9-65
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:15:9-65
 meta-data#com.google.android.gms.ads.APPLICATION_ID
-ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:22:9-24:51
+ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:24:9-26:51
 	android:value
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:24:13-49
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:26:13-49
 	android:name
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:23:13-69
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:25:13-69
 activity#com.belaku.nplay.SettingsActivity
-ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:25:9-27:40
+ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:27:9-29:40
 	android:exported
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:27:13-37
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:29:13-37
 	android:name
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:26:13-45
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:28:13-45
 service#com.belaku.nplay.MusicService
-ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:29:9-32:69
+ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:31:9-34:69
 	android:enabled
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:31:13-35
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:33:13-35
 	android:foregroundServiceType
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:32:13-58
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:34:13-58
 	android:name
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:30:13-41
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:32:13-41
 activity#com.belaku.nplay.MainActivity
-ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:34:9-43:20
+ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:36:9-45:20
 	android:exported
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:36:13-36
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:38:13-36
 	android:theme
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:37:13-47
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:39:13-47
 	android:name
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:35:13-41
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:37:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:38:13-42:29
+ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:40:13-44:29
 action#android.intent.action.MAIN
-ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:39:17-69
+ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:41:17-69
 	android:name
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:39:25-66
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:41:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:41:17-77
+ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:43:17-77
 	android:name
-		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:41:27-74
+		ADDED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:43:27-74
 uses-sdk
 INJECTED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml

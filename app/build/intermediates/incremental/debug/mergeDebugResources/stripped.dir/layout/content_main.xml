@@ -11,6 +11,8 @@
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/sw_crossfade"
+        android:textStyle="bold"
+        android:background="#75ffffff"
         android:text="Crossfade Songs?"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -20,7 +22,9 @@
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/sw_previews"
+        android:background="#75ffffff"
         android:text="Previews Only?"
+        android:textStyle="bold"
         android:enabled="false"
         android:checked="true"
         android:layout_alignParentTop="true"
