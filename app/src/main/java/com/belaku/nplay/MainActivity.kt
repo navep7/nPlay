@@ -276,23 +276,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     imageArtAlbum = BitmapDrawable(appContext.resources, bitmapAlbum)
 
                     mainActivity.runOnUiThread {
-                        val colorDrawables = arrayOf(
-                            ColorDrawable(imageArtAlbum.bitmap.getPixel(25, 25)),
-                            ColorDrawable(imageArtAlbum.bitmap.getPixel(100, 100))
-                        )
-                        val transitionDrawable = TransitionDrawable(colorDrawables)
-                        relativeLayoutMain.setBackground(transitionDrawable)
-                        transitionDrawable.startTransition(500)
-
                         Handler().postDelayed(Runnable { relativeLayoutMain.background = imageArtAlbum }, 500)
-
-                //        WallpaperManager.getInstance(this)
-                  //          .setBitmap(imageArtAlbum, null, true, WallpaperManager.FLAG_LOCK)
-
                         WallpaperManager.getInstance(appContext).setBitmap(getResizedBitmap(imageArtAlbum.bitmap, screenDimens, screenDimens), null, true, WallpaperManager.FLAG_LOCK)
-
                     }
-
 
                     Palette.from(imageArtAlbum.bitmap).generate { palette ->
                         // Do something with colors...
@@ -517,8 +503,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         private var songs: ArrayList<String> = ArrayList()
         lateinit var appContext: Context
 
-        lateinit var swCrossFade: MaterialSwitch
-        lateinit var swPreview: MaterialSwitch
+    //    lateinit var swCrossFade: MaterialSwitch
+    //    lateinit var swPreview: MaterialSwitch
         lateinit var linearLayoutManager: LinearLayoutManager
         lateinit var rvAdapter: MusicAdapter
         var screenDimens by Delegates.notNull<Int>()
@@ -590,15 +576,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         findViewByIds()
         initializeStuff()
-
-        swCrossFade.setOnCheckedChangeListener { _, isChecked ->
-            makeToast("crossFade - " + isChecked)
-            crossFadeNeeded = isChecked
-        }
-
-        swPreview.setOnCheckedChangeListener { _, isChecked ->
-            playOnlyPreviews = isChecked
-        }
 
         mSharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
@@ -773,6 +750,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
     }
+
 
     private fun getTrending() {
         getFavorites()
@@ -977,8 +955,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     private fun findViewByIds() {
 
-        swCrossFade = findViewById(R.id.sw_crossfade)
-        swPreview = findViewById(R.id.sw_previews)
         dataList = ArrayList()
         arraylistFavoriteSongs = ArrayList()
 
@@ -1165,7 +1141,10 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
+    </string-array>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <dimen name="fab_margin">16dp</dimen>
@@ -8,6 +16,10 @@
     <string name="admob_intr_adunit_id">ca-app-pub-6424332507659067/6649865957</string>
     <string name="admob_native_adunit_id">ca-app-pub-6424332507659067/1700528279</string>
     <string name="app_name">nPlay</string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_title">Download incoming attachments</string>
     <string name="first_fragment_label">First Fragment</string>
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
@@ -45,10 +57,16 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="messages_header">Messages</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="reply_title">Default reply action</string>
     <string name="second_fragment_label">Second Fragment</string>
-    <style name="Base.Theme.NPlay" parent="Theme.Material3.DayNight.NoActionBar">
+    <string name="signature_title">Your signature</string>
+    <string name="sync_header">Sync</string>
+    <string name="sync_title">Sync email periodically</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <style name="Base.Theme.NPlay" parent="Theme.Material3.DayNight">
         
         
     </style>

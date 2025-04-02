@@ -76,13 +76,14 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/Theme.NPlay" >
+        <activity
+            android:name="com.belaku.nplay.SettingsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.NPlay" />
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id" />
-
-        <activity
-            android:name="com.belaku.nplay.SettingsActivity"
-            android:exported="false" />
 
         <service
             android:name="com.belaku.nplay.MusicService"
@@ -102,6 +103,12 @@
 
         <uses-library
             android:name="android.ext.adservices"
+            android:required="false" />
+        <uses-library
+            android:name="androidx.window.extensions"
+            android:required="false" />
+        <uses-library
+            android:name="androidx.window.sidecar"
             android:required="false" /> <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
@@ -254,14 +261,6 @@
                 <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
             </intent-filter>
         </receiver>
-
-        <uses-library
-            android:name="androidx.window.extensions"
-            android:required="false" />
-        <uses-library
-            android:name="androidx.window.sidecar"
-            android:required="false" />
-
         <receiver
             android:name="androidx.profileinstaller.ProfileInstallReceiver"
             android:directBootAware="false"

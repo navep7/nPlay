@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+       android:id="@+id/sw_crossfade"
+       android:textStyle="bold"
+       android:background="#75ffffff"
+       android:text="Crossfade Songs - "
+       android:layout_margin="@dimen/fab_margin"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"/>
+
+   <com.google.android.material.materialswitch.MaterialSwitch
+       android:id="@+id/sw_previews"
+       android:background="#75ffffff"
+       android:text="Play 30s Only - "
+       android:textStyle="bold"
+       android:enabled="false"
+       android:checked="true"
+       android:layout_margin="@dimen/fab_margin"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"/>
+
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/set_lock_wall"
+        android:background="#75ffffff"
+        android:text="Set Album art as Lock screen wallpaper - "
+        android:textStyle="bold"
+        android:checked="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
