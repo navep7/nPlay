@@ -10,8 +10,10 @@ import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.TransitionDrawable
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
@@ -25,15 +27,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.INVISIBLE
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.RemoteViews
-import android.widget.Switch
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import android.widget.TextView.VISIBLE
@@ -50,6 +49,7 @@ import com.belaku.nplay.MusicService.Companion.mediaPlayer2
 import com.belaku.nplay.MusicService.Companion.notifySong
 import com.belaku.nplay.MusicService.Companion.saveIndex
 import com.belaku.nplay.MusicService.Companion.songIndex
+import com.belaku.nplay.MusicService.Companion.songsAlbumArtList
 import com.belaku.nplay.MusicService.Companion.songsNameList
 import com.belaku.nplay.MusicService.Companion.songsUrlList
 import com.belaku.nplay.databinding.ActivityMainBinding
@@ -187,7 +187,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     setDataSource(appContext, uri)
                     prepare() // might take long! (for buffering, etc)
                     start()
-                    //   saveIndex(songIndex)
+                    saveIndex(songIndex)
                 }
 
 
@@ -227,8 +227,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
             makeToast("updateUI")
             for (item in dataList)
+                if (playOnlyPreviews)
                 songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
-
+                else songs.add(item.link + " - " + item.title + " - " + item.album.cover)
 
 
             txSongName.text = songsNameList[what]
@@ -241,7 +242,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
             Thread {
                 try {
-                    wfs.setSampleFrom(MusicService.songsUrlList[what])
+                    wfs.setSampleFrom(songsUrlList[what])
                 } catch (e: Exception) {
                     Log.d("ExcpSeek - ", e.toString())
                     e.printStackTrace()
@@ -250,15 +251,24 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
             Thread {
                 try {
-                    val url = URL(MusicService.songsAlbumArtList[what])
+                    val url = URL(songsAlbumArtList[what])
                     var bitmapAlbum =
                         BitmapFactory.decodeStream(url.openConnection().getInputStream())
                     imageArtAlbum = BitmapDrawable(appContext.resources, bitmapAlbum)
 
                     mainActivity.runOnUiThread {
-                        relativeLayoutMain.background = imageArtAlbum
+                        val colorDrawables = arrayOf(
+                            ColorDrawable(imageArtAlbum.bitmap.getPixel(25, 25)),
+                            ColorDrawable(imageArtAlbum.bitmap.getPixel(100, 100))
+                        )
+                        val transitionDrawable = TransitionDrawable(colorDrawables)
+                        relativeLayoutMain.setBackground(transitionDrawable)
+                        transitionDrawable.startTransition(500)
+
+                        Handler().postDelayed(Runnable { relativeLayoutMain.background = imageArtAlbum }, 500)
+
+
                     }
-                    //    noteContentView.setImageViewBitmap(com.belaku.nplay.R.id.note_image, imageArtAlbum.bitmap)
 
 
                     Palette.from(imageArtAlbum.bitmap).generate { palette ->
@@ -372,7 +382,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                             } catch (ex: Exception) {
                                 try {
 
-
                                     if (mediaPlayer2.isPlaying) {
                                         wfs.progress = mediaPlayer2.currentPosition.toFloat()
                                         Log.d(
@@ -396,7 +405,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                                         }
                                     }
                                 } catch (ex: Exception) {
-                                    txSongName.text = "End of Playback!"
+                               //     txSongName.text = "End! - " + ex.getStackTrace()[0].getLineNumber();
                                     appContext.stopService(
                                         Intent(
                                             mainActivity,
@@ -479,12 +488,14 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         }
 
         var crossFadeNeeded: Boolean = false
+        var playOnlyPreviews: Boolean = true
         lateinit var mainActivity: Activity
         private lateinit var template: TemplateView
         private var songs: ArrayList<String> = ArrayList()
         lateinit var appContext: Context
 
         lateinit var swCrossFade: MaterialSwitch
+        lateinit var swPreview: MaterialSwitch
         lateinit var linearLayoutManager: LinearLayoutManager
         lateinit var rvAdapter: MusicAdapter
         var screenDimens by Delegates.notNull<Int>()
@@ -560,6 +571,10 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         swCrossFade.setOnCheckedChangeListener { _, isChecked ->
             makeToast("crossFade - " + isChecked)
             crossFadeNeeded = isChecked
+        }
+
+        swPreview.setOnCheckedChangeListener { _, isChecked ->
+            playOnlyPreviews = isChecked
         }
 
         mSharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
@@ -691,7 +706,23 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     }
                 } catch (ex: Exception) {
                     stopService(Intent(this@MainActivity, MusicService::class.java))
-                    txSongName.text = "End of Playback!"
+                //    txSongName.text = "End of Playback - " + ex.getStackTrace()[0].getLineNumber();
+                    try {
+                        if (mediaPlayer1.isPlaying) {
+                            mp1 = false
+                            fabPlayPause.setImageResource(android.R.drawable.ic_media_play)
+                            mediaPlayer1.pause()
+                        } else {
+                            fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
+                            if (mp1)
+                                mediaPlayer1.start()
+                            else mediaPlayer2.start()
+
+                        }
+                    } catch (ex: Exception) {
+                        stopService(Intent(this@MainActivity, MusicService::class.java))
+                        txSongName.text = "Didn't see this Com!ng" + ex.getStackTrace()[0].getLineNumber();
+                    }
                 }
             }
 
@@ -742,8 +773,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 }
                 songs.clear()
                 for (item in dataList)
-                    songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
-
+                    if (playOnlyPreviews)
+                        songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
+                    else songs.add(item.link + " - " + item.title + " - " + item.album.cover)
 
 
                 rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
@@ -825,7 +857,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         }
         songs.clear()
         for (item in dataList)
-            songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
+            if (playOnlyPreviews)
+                songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
+            else songs.add(item.link + " - " + item.title + " - " + item.album.cover)
 
         var rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
         recyclerview.adapter = rvAdapter
@@ -921,6 +955,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     private fun findViewByIds() {
 
         swCrossFade = findViewById(R.id.sw_crossfade)
+        swPreview = findViewById(R.id.sw_previews)
         dataList = ArrayList()
         arraylistFavoriteSongs = ArrayList()
 
@@ -1063,10 +1098,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 }
                 songs.clear()
                 for (item in dataList)
-                    songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
-
-                for (item in dataList)
-                    Log.d("DATA7", "p - " + item.preview + "\n l - " + item.link)
+                    if (playOnlyPreviews)
+                        songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
+                    else songs.add(item.link + " - " + item.title + " - " + item.album.cover)
 
 
                 var rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)

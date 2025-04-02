@@ -3754,6 +3754,7 @@ int id submenuarrow 0x7f0801e4
 int id submit_area 0x7f0801e5
 int id supportScrollUp 0x7f0801e6
 int id sw_crossfade 0x7f080238
+int id sw_previews 0x7f080239
 int id tabMode 0x7f0801e7
 int id tag_accessibility_actions 0x7f0801e8
 int id tag_accessibility_clickable_spans 0x7f0801e9

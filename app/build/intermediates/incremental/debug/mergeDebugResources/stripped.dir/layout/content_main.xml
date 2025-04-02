@@ -11,8 +11,21 @@
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/sw_crossfade"
+        android:text="Crossfade Songs?"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/sw_previews"
+        android:text="Previews Only?"
+        android:enabled="false"
+        android:checked="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/fab_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
