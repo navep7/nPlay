@@ -1,5 +1,6 @@
 package com.belaku.nplay
 
+
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
@@ -15,13 +16,14 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.TransitionDrawable
+import android.graphics.drawable.Drawable
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.preference.PreferenceManager
 import android.util.DisplayMetrics
 import android.util.Log
@@ -46,6 +48,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.belaku.nplay.MusicService.Companion
 import com.belaku.nplay.MusicService.Companion.mediaPlayer1
 import com.belaku.nplay.MusicService.Companion.mediaPlayer2
 import com.belaku.nplay.MusicService.Companion.notifySong
@@ -65,7 +68,6 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.masoudss.lib.SeekBarOnProgressChanged
@@ -94,6 +96,11 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
+    private lateinit var runnablePics: Runnable
+    private lateinit var handlerPics: Handler
+    private lateinit var layers: Array<Drawable?>
+    private lateinit var bitmapAlbum: Bitmap
+    private var songArts: java.util.ArrayList<String> = ArrayList()
     private lateinit var nativeAdLoader: AdLoader
 
     private var adLoaded: Boolean = false
@@ -126,7 +133,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     companion object {
         fun makeToast(s: String) {
             Log.d("Toast7ing", s)
-            //    Toast.makeText(appContext, s, Toast.LENGTH_SHORT).show()
+                Toast.makeText(appContext, s, Toast.LENGTH_SHORT).show()
         }
 
         @SuppressLint("ResourceAsColor")
@@ -277,7 +284,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
                     mainActivity.runOnUiThread {
                         Handler().postDelayed(Runnable { relativeLayoutMain.background = imageArtAlbum }, 500)
-                        WallpaperManager.getInstance(appContext).setBitmap(getResizedBitmap(imageArtAlbum.bitmap, screenDimens, screenDimens), null, true, WallpaperManager.FLAG_LOCK)
+                        WallpaperManager.getInstance(appContext).setBitmap(getResizedBitmap(imageArtAlbum.bitmap, displayMetrics.widthPixels, displayMetrics.heightPixels), null, true, WallpaperManager.FLAG_LOCK)
                     }
 
                     Palette.from(imageArtAlbum.bitmap).generate { palette ->
@@ -292,7 +299,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
-                    Log.d("updateUI exception - ", e.toString())
+                    Log.d("updateBGexception - ", e.toString())
                 }
             }.start()
 
@@ -507,7 +514,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     //    lateinit var swPreview: MaterialSwitch
         lateinit var linearLayoutManager: LinearLayoutManager
         lateinit var rvAdapter: MusicAdapter
-        var screenDimens by Delegates.notNull<Int>()
+      //  var screenDimens by Delegates.notNull<Int>()
+        lateinit var displayMetrics: DisplayMetrics
         lateinit var fabPlayPause: FloatingActionButton
         lateinit var dataList: ArrayList<Data>
         lateinit var wfs: WaveformSeekBar
@@ -539,9 +547,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         appContext = applicationContext
         mainActivity = this@MainActivity
 
-        val displayMetrics = DisplayMetrics()
+        displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
-        screenDimens = displayMetrics.widthPixels
+       // screenDimens = displayMetrics.widthPixels
 
 
         nativeAdLoader =
@@ -654,6 +662,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         }
 
         imageButtonPlayAlbum.setOnClickListener {
+
+            handlerPics.removeCallbacks(runnablePics)
             if (isMyServiceRunning(MusicService::class.java))
                 stopService(playIntent)
 
@@ -763,6 +773,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         val retrofitData = retrofitBuilder.getTrending()
 
         retrofitData.enqueue(object : Callback<MusicData?> {
+
+
             override fun onResponse(call: Call<MusicData?>, response: Response<MusicData?>) {
                 dataList = (response.body()?.data as ArrayList<Data>?)!!
 
@@ -773,11 +785,14 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     textViewFeaturing.visibility = VISIBLE
                 }
                 songs.clear()
-                for (item in dataList)
+                for (item in dataList) {
+                    songArts.add(item.album.cover)
                     if (playOnlyPreviews)
                         songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
                     else songs.add(item.link + " - " + item.title + " - " + item.album.cover)
+                }
 
+                setPics(songs)
 
                 rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
                 linearLayoutManager = LinearLayoutManager(
@@ -797,6 +812,47 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         })
     }
+
+//    private void animate(final ImageView imageView, final int images[], final int imageIndex, final boolean forever) {
+
+
+        private fun setPics(songArts: java.util.ArrayList<String>) {
+
+             handlerPics = Handler(Looper.getMainLooper())
+             runnablePics = object : Runnable {
+                override fun run() {
+                    //do something here
+                    changeBG()
+                    handlerPics.postDelayed(this, 1000)
+                }
+
+                private fun changeBG() {
+
+                    var splits = songArts[Random().nextInt(songArts.size) + 0].split(" - ")
+
+                    Thread {
+                    try {
+                        val url = URL(splits.get(2))
+                        var bitmapAlbum =
+                            BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                        imageArtAlbum = BitmapDrawable(appContext.resources, bitmapAlbum)
+
+                        mainActivity.runOnUiThread {
+
+                            relativeLayoutMain.background = BitmapDrawable(resources, getResizedBitmap(imageArtAlbum.bitmap, displayMetrics.widthPixels * 3, displayMetrics.heightPixels * 3))
+
+                        }
+                    } catch (ex: Exception) {
+                        makeToast(ex.toString())
+                    }
+                    }.start()
+
+                }
+            }
+            handlerPics.post(runnablePics)
+
+
+        }
 
     private fun showNativeAd() {
         if (adLoaded) {

@@ -35,7 +35,7 @@ class MusicAdapter(
         val imageViewFavSong: ImageView = view.findViewById(R.id.imgv_fav_song)
 
         init {
-            rvItemLayout.layoutParams = RelativeLayout.LayoutParams(MainActivity.screenDimens - 135, RelativeLayout.LayoutParams.WRAP_CONTENT)
+            rvItemLayout.layoutParams = RelativeLayout.LayoutParams(MainActivity.displayMetrics.widthPixels - 135, RelativeLayout.LayoutParams.WRAP_CONTENT)
             view.setOnClickListener(this)
 
         }
