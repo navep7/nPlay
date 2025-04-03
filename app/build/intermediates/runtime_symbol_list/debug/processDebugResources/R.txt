@@ -3227,6 +3227,7 @@ int drawable design_ic_visibility 0x7f08009a
 int drawable design_ic_visibility_off 0x7f08009b
 int drawable design_password_eye 0x7f08009c
 int drawable design_snackbar_background 0x7f08009d
+int drawable dj 0x7f08010b
 int drawable gnt_outline_shape 0x7f08009e
 int drawable gnt_rounded_corners_shape 0x7f08009f
 int drawable googleg_disabled_color_18 0x7f0800a0
@@ -3402,6 +3403,7 @@ int id action_bar_title 0x7f09003e
 int id action_container 0x7f09003f
 int id action_context_bar 0x7f090040
 int id action_divider 0x7f090041
+int id action_dj 0x7f09024c
 int id action_image 0x7f090042
 int id action_menu_divider 0x7f090043
 int id action_menu_presenter 0x7f090044
@@ -3590,6 +3592,7 @@ int id ignoreRequest 0x7f0900f7
 int id image 0x7f0900f8
 int id imgbtn_PlayAlbum 0x7f0900f9
 int id imgv_art 0x7f0900fb
+int id imgv_dj 0x7f09024d
 int id imgv_fav_song 0x7f0900fc
 int id immediateStop 0x7f0900fd
 int id included 0x7f0900fe
@@ -4061,6 +4064,7 @@ int layout design_navigation_menu 0x7f0c002e
 int layout design_navigation_menu_item 0x7f0c002f
 int layout design_text_input_end_icon 0x7f0c0030
 int layout design_text_input_start_icon 0x7f0c0031
+int layout dj_layout 0x7f0c008d
 int layout expand_button 0x7f0c0032
 int layout fragment_first 0x7f0c008b
 int layout fragment_second 0x7f0c008c
@@ -4161,6 +4165,7 @@ int raw abc 0x7f120001
 int raw b 0x7f120002
 int raw c 0x7f120003
 int raw d 0x7f120004
+int raw dj 0x7f120006
 int raw e 0x7f120005
 int string abc_action_bar_home_description 0x7f130000
 int string abc_action_bar_up_description 0x7f130001

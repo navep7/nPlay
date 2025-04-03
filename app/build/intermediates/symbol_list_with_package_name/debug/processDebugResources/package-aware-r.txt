@@ -3228,6 +3228,7 @@ drawable design_ic_visibility
 drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
+drawable dj
 drawable gnt_outline_shape
 drawable gnt_rounded_corners_shape
 drawable googleg_disabled_color_18
@@ -3403,6 +3404,7 @@ id action_bar_title
 id action_container
 id action_context_bar
 id action_divider
+id action_dj
 id action_image
 id action_menu_divider
 id action_menu_presenter
@@ -3591,6 +3593,7 @@ id ignoreRequest
 id image
 id imgbtn_PlayAlbum
 id imgv_art
+id imgv_dj
 id imgv_fav_song
 id immediateStop
 id included
@@ -4062,6 +4065,7 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout dj_layout
 layout expand_button
 layout fragment_first
 layout fragment_second
@@ -4162,6 +4166,7 @@ raw abc
 raw b
 raw c
 raw d
+raw dj
 raw e
 string abc_action_bar_home_description
 string abc_action_bar_up_description

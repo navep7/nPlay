@@ -4,6 +4,8 @@ package com.belaku.nplay
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
+import android.app.AlertDialog
+import android.app.Dialog
 import android.app.WallpaperManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -13,12 +15,14 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.media.PlaybackParams
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -27,13 +31,18 @@ import android.os.Looper
 import android.preference.PreferenceManager
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.INVISIBLE
+import android.view.Window
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.RemoteViews
@@ -48,7 +57,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.belaku.nplay.MusicService.Companion
 import com.belaku.nplay.MusicService.Companion.mediaPlayer1
 import com.belaku.nplay.MusicService.Companion.mediaPlayer2
 import com.belaku.nplay.MusicService.Companion.notifySong
@@ -133,14 +141,13 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     companion object {
         fun makeToast(s: String) {
             Log.d("Toast7ing", s)
-                Toast.makeText(appContext, s, Toast.LENGTH_SHORT).show()
+            Toast.makeText(appContext, s, Toast.LENGTH_SHORT).show()
         }
 
         @SuppressLint("ResourceAsColor")
         @RequiresApi(Build.VERSION_CODES.O)
         fun initializeMPs() {
             songIndex++
-            makeToast("plaYing - " + songsNameList[songIndex])
             txSongName.text = songsNameList[songIndex]
             Thread {
                 try {
@@ -251,10 +258,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         @SuppressLint("ResourceAsColor")
         private fun updateUI(what: Int) {
 
-            makeToast("updateUI")
             for (item in dataList)
                 if (playOnlyPreviews)
-                songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
+                    songs.add(item.preview + " - " + item.title + " - " + item.album.cover)
                 else songs.add(item.link + " - " + item.title + " - " + item.album.cover)
 
 
@@ -283,8 +289,16 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     imageArtAlbum = BitmapDrawable(appContext.resources, bitmapAlbum)
 
                     mainActivity.runOnUiThread {
-                        Handler().postDelayed(Runnable { relativeLayoutMain.background = imageArtAlbum }, 500)
-                        WallpaperManager.getInstance(appContext).setBitmap(getResizedBitmap(imageArtAlbum.bitmap, displayMetrics.widthPixels, displayMetrics.heightPixels), null, true, WallpaperManager.FLAG_LOCK)
+                        Handler().postDelayed(Runnable {
+                            relativeLayoutMain.background = imageArtAlbum
+                        }, 500)
+                        WallpaperManager.getInstance(appContext).setBitmap(
+                            getResizedBitmap(
+                                imageArtAlbum.bitmap,
+                                displayMetrics.widthPixels,
+                                displayMetrics.heightPixels
+                            ), null, true, WallpaperManager.FLAG_LOCK
+                        )
                     }
 
                     Palette.from(imageArtAlbum.bitmap).generate { palette ->
@@ -421,7 +435,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                                         }
                                     }
                                 } catch (ex: Exception) {
-                               //     txSongName.text = "End! - " + ex.getStackTrace()[0].getLineNumber();
+                                    //     txSongName.text = "End! - " + ex.getStackTrace()[0].getLineNumber();
                                     appContext.stopService(
                                         Intent(
                                             mainActivity,
@@ -510,11 +524,12 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         private var songs: ArrayList<String> = ArrayList()
         lateinit var appContext: Context
 
-    //    lateinit var swCrossFade: MaterialSwitch
-    //    lateinit var swPreview: MaterialSwitch
+        //    lateinit var swCrossFade: MaterialSwitch
+        //    lateinit var swPreview: MaterialSwitch
         lateinit var linearLayoutManager: LinearLayoutManager
         lateinit var rvAdapter: MusicAdapter
-      //  var screenDimens by Delegates.notNull<Int>()
+
+        //  var screenDimens by Delegates.notNull<Int>()
         lateinit var displayMetrics: DisplayMetrics
         lateinit var fabPlayPause: FloatingActionButton
         lateinit var dataList: ArrayList<Data>
@@ -536,7 +551,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     private final val TAG = "MainActivity"
 
 
-    @SuppressLint("ResourceAsColor", "SetTextI18n")
+    @SuppressLint("ResourceAsColor", "SetTextI18n", "ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -549,7 +564,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
-       // screenDimens = displayMetrics.widthPixels
+        // screenDimens = displayMetrics.widthPixels
 
 
         nativeAdLoader =
@@ -661,9 +676,14 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         }
 
+        var mp: MediaPlayer
+
         imageButtonPlayAlbum.setOnClickListener {
 
-            handlerPics.removeCallbacks(runnablePics)
+
+            if (this::handlerPics.isInitialized)
+                handlerPics.removeCallbacks(runnablePics)
+
             if (isMyServiceRunning(MusicService::class.java))
                 stopService(playIntent)
 
@@ -716,7 +736,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     }
                 } catch (ex: Exception) {
                     stopService(Intent(this@MainActivity, MusicService::class.java))
-                //    txSongName.text = "End of Playback - " + ex.getStackTrace()[0].getLineNumber();
+                    //    txSongName.text = "End of Playback - " + ex.getStackTrace()[0].getLineNumber();
                     try {
                         if (mediaPlayer1.isPlaying) {
                             mp1 = false
@@ -731,7 +751,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                         }
                     } catch (ex: Exception) {
                         stopService(Intent(this@MainActivity, MusicService::class.java))
-                        txSongName.text = "Didn't see this Com!ng" + ex.getStackTrace()[0].getLineNumber();
+                        txSongName.text =
+                            "Didn't see this Com!ng" + ex.getStackTrace()[0].getLineNumber();
                     }
                 }
             }
@@ -747,7 +768,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 playingSeekDuration = intent.getIntExtra("seek_duration", 0)
                 playingSeekUpdate = intent.getIntExtra("seek_update", 0)
 
-                makeToast("playingSongIndex - " + playingSongIndex)
                 updateUI(playingSongIndex)
 
                 Log.d("BR21", "Got message: $playingSongIndex - $playingSeekUpdate")
@@ -792,7 +812,12 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     else songs.add(item.link + " - " + item.title + " - " + item.album.cover)
                 }
 
-                setPics(songs)
+                try {
+                    if (!(mediaPlayer1.isPlaying || mediaPlayer2.isPlaying))
+                        setPics(songs)
+                } catch (ex: Exception) {
+                    setPics(songs)
+                }
 
                 rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
                 linearLayoutManager = LinearLayoutManager(
@@ -813,24 +838,21 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         })
     }
 
-//    private void animate(final ImageView imageView, final int images[], final int imageIndex, final boolean forever) {
+    private fun setPics(songArts: java.util.ArrayList<String>) {
 
+        handlerPics = Handler(Looper.getMainLooper())
+        runnablePics = object : Runnable {
+            override fun run() {
+                //do something here
+                changeBG()
+                handlerPics.postDelayed(this, 1000)
+            }
 
-        private fun setPics(songArts: java.util.ArrayList<String>) {
+            private fun changeBG() {
 
-             handlerPics = Handler(Looper.getMainLooper())
-             runnablePics = object : Runnable {
-                override fun run() {
-                    //do something here
-                    changeBG()
-                    handlerPics.postDelayed(this, 1000)
-                }
+                var splits = songArts[Random().nextInt(songArts.size) + 0].split(" - ")
 
-                private fun changeBG() {
-
-                    var splits = songArts[Random().nextInt(songArts.size) + 0].split(" - ")
-
-                    Thread {
+                Thread {
                     try {
                         val url = URL(splits.get(2))
                         var bitmapAlbum =
@@ -839,20 +861,27 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
                         mainActivity.runOnUiThread {
 
-                            relativeLayoutMain.background = BitmapDrawable(resources, getResizedBitmap(imageArtAlbum.bitmap, displayMetrics.widthPixels * 3, displayMetrics.heightPixels * 3))
+                            relativeLayoutMain.background = BitmapDrawable(
+                                resources,
+                                getResizedBitmap(
+                                    imageArtAlbum.bitmap,
+                                    displayMetrics.widthPixels * 3,
+                                    displayMetrics.heightPixels * 3
+                                )
+                            )
 
                         }
                     } catch (ex: Exception) {
-                        makeToast(ex.toString())
+                     //   makeToast(ex.toString())
                     }
-                    }.start()
+                }.start()
 
-                }
             }
-            handlerPics.post(runnablePics)
-
-
         }
+        handlerPics.post(runnablePics)
+
+
+    }
 
     private fun showNativeAd() {
         if (adLoaded) {
@@ -1042,7 +1071,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                     stopService(Intent(this@MainActivity, MusicService::class.java))
                     MusicService.notificationManager.cancelAll();
                 }
-            }catch (ex: Exception) {
+            } catch (ex: Exception) {
                 if (!mediaPlayer2.isPlaying) {
                     stopService(Intent(this@MainActivity, MusicService::class.java))
                     MusicService.notificationManager.cancelAll();
@@ -1110,7 +1139,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
             songIndex = sharedPreferences.getInt("playingIndex", 0)
 
-        //    Toast.makeText(appContext, "onRplayinG - " + songsNameList[songIndex], Toast.LENGTH_LONG).show()
+            //    Toast.makeText(appContext, "onRplayinG - " + songsNameList[songIndex], Toast.LENGTH_LONG).show()
             var rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
             recyclerview.adapter = rvAdapter
             recyclerview.setLayoutManager(
@@ -1201,14 +1230,63 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
+
+            R.id.action_dj -> {
+                showDJdialog()
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    fun showDJdialog() {
+        val dialog = Dialog(mainActivity)
+        dialog.setCancelable(true)
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dj_layout)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
+        val djView = dialog.findViewById<View>(R.id.imgv_dj)
+        djView.setOnTouchListener(object : View.OnTouchListener {
+            @SuppressLint("ClickableViewAccessibility")
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event!!.actionMasked) {
+                    MotionEvent.ACTION_DOWN -> {
+                        if (isMyServiceRunning(MusicService::class.java))
+                            if (mediaPlayer1.isPlaying)
+                                mediaPlayer1.playbackParams = PlaybackParams().setPitch(2.0f)
+                            else if (mediaPlayer2.isPlaying)
+                                mediaPlayer2.playbackParams = PlaybackParams().setPitch(2.0f)
+                    }
+
+                    MotionEvent.ACTION_MOVE -> {}
+                    MotionEvent.ACTION_UP -> {
+                        if (isMyServiceRunning(MusicService::class.java))
+                            if (mediaPlayer1.isPlaying)
+                                mediaPlayer1.playbackParams = PlaybackParams().setPitch(1.0f)
+                            else if (mediaPlayer2.isPlaying)
+                                mediaPlayer2.playbackParams = PlaybackParams().setPitch(1.0f)
+                    }
+
+                    else -> return true
+                }
+                return true
+            }
+        })
+
+        dialog.show()
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override
     fun onItemClick(position: Int) {
 
+        if (this::handlerPics.isInitialized)
+            handlerPics.removeCallbacks(runnablePics)
         makeToast(dataList[position].title)
 
 
