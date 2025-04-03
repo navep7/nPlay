@@ -5,15 +5,15 @@ array reply_values
 color black
 color white
 dimen fab_margin
-drawable background_fill
 drawable dj
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable nplay_icon
 drawable progress_fill
-drawable seekprogress
 drawable set
 drawable thumb
+drawable txlabel_bg_selected
+drawable txlabel_bg_unselected
 id FirstFragment
 id SecondFragment
 id action_FirstFragment_to_SecondFragment

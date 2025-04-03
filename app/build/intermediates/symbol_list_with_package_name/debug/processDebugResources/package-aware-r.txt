@@ -3195,7 +3195,6 @@ drawable admob_close_button_white_circle_black_cross
 drawable admob_close_button_white_cross
 drawable avd_hide_password
 drawable avd_show_password
-drawable background_fill
 drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
 drawable btn_checkbox_unchecked_mtrl
@@ -3332,12 +3331,13 @@ drawable offline_dialog_background
 drawable offline_dialog_default_icon_42dp
 drawable preference_list_divider_material
 drawable progress_fill
-drawable seekprogress
 drawable set
 drawable test_level_drawable
 drawable thumb
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
+drawable txlabel_bg_selected
+drawable txlabel_bg_unselected
 id ALT
 id BOTTOM_END
 id BOTTOM_START

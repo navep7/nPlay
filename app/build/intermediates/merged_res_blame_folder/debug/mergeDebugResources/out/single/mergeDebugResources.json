@@ -12,12 +12,12 @@
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/mipmap-hdpi/ic_launcher.webp"
     },
     {
-        "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/xml_data_extraction_rules.xml.flat",
-        "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/xml/data_extraction_rules.xml"
-    },
-    {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/raw_dj.mp3.flat",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/raw/dj.mp3"
+    },
+    {
+        "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/xml_data_extraction_rules.xml.flat",
+        "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/xml/data_extraction_rules.xml"
     },
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/drawable_seekprogress.xml.flat",
@@ -26,10 +26,6 @@
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/mipmap-xxhdpi/ic_launcher_round.webp"
-    },
-    {
-        "merged": "com.belaku.nplay.app-debug-60:/layout_dj_layout.xml.flat",
-        "source": "com.belaku.nplay.app-main-62:/layout/dj_layout.xml"
     },
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/layout_dj_layout.xml.flat",
@@ -64,6 +60,10 @@
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/mipmap-xxxhdpi/ic_launcher.webp"
     },
     {
+        "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/drawable_tx_background_selected.xml.flat",
+        "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/drawable/tx_background_selected.xml"
+    },
+    {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/drawable_progress_fill.xml.flat",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/drawable/progress_fill.xml"
     },
@@ -88,16 +88,16 @@
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/navigation/nav_graph.xml"
     },
     {
-        "merged": "com.belaku.nplay.app-debug-60:/drawable_dj.png.flat",
-        "source": "com.belaku.nplay.app-main-62:/drawable/dj.png"
-    },
-    {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/layout_fragment_second.xml.flat",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/layout/fragment_second.xml"
     },
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/xml_backup_rules.xml.flat",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/drawable_dj.png.flat",
+        "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/drawable/dj.png"
     },
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/raw_e.mp3.flat",
@@ -164,12 +164,20 @@
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/layout/content_settings.xml"
     },
     {
+        "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/drawable_txlabel_bg_unselected.xml.flat",
+        "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/drawable/txlabel_bg_unselected.xml"
+    },
+    {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/raw_b.mp3.flat",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/raw/b.mp3"
     },
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/layout_notification_push.xml.flat",
         "source": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-main-62:/layout/notification_push.xml"
+    },
+    {
+        "merged": "com.belaku.nplay.app-debug-60:/drawable_txlabel_bg_selected.xml.flat",
+        "source": "com.belaku.nplay.app-main-62:/drawable/txlabel_bg_selected.xml"
     },
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.belaku.nplay.app-debug-60:/drawable_thumb.xml.flat",

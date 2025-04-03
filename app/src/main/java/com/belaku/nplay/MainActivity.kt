@@ -104,6 +104,7 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
+    private var TxFavorites: ArrayList<TextView> = ArrayList()
     private lateinit var runnablePics: Runnable
     private lateinit var handlerPics: Handler
     private lateinit var layers: Array<Drawable?>
@@ -607,11 +608,17 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         arraylistFavorites = populateFavorites("favorites")
         for (item in arraylistFavorites) {
             val tx: TextView = TextView(applicationContext)
-            tx.text = item.substring(0, 1).uppercase(Locale.ROOT) + item.substring(1) + "\t\t\t"
-            tx.setBackgroundResource(android.R.drawable.editbox_background)
+            TxFavorites.add(tx)
+            tx.text = "\t\t\t" + item.substring(0, 1).uppercase(Locale.ROOT) + item.substring(1) + "\t\t\t"
+            tx.setBackgroundResource(R.drawable.txlabel_bg_unselected)
 
             tx.setOnClickListener {
 
+                for (item in TxFavorites)
+                    item.setBackgroundResource(R.drawable.txlabel_bg_unselected)
+
+
+                tx.setBackgroundResource(R.drawable.txlabel_bg_selected)
                 showIntrAd()
 
                 textViewFeaturing.text = "Featuring, " + tx.text.toString()
@@ -850,32 +857,34 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
             private fun changeBG() {
 
-                var splits = songArts[Random().nextInt(songArts.size) + 0].split(" - ")
+                if(!songArts.isEmpty()) {
+                    var splits = songArts[Random().nextInt(songArts.size - 1) + 0].split(" - ")
 
-                Thread {
-                    try {
-                        val url = URL(splits.get(2))
-                        var bitmapAlbum =
-                            BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                        imageArtAlbum = BitmapDrawable(appContext.resources, bitmapAlbum)
+                    Thread {
+                        try {
+                            val url = URL(splits.get(2))
+                            var bitmapAlbum =
+                                BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                            imageArtAlbum = BitmapDrawable(appContext.resources, bitmapAlbum)
 
-                        mainActivity.runOnUiThread {
+                            mainActivity.runOnUiThread {
 
-                            relativeLayoutMain.background = BitmapDrawable(
-                                resources,
-                                getResizedBitmap(
-                                    imageArtAlbum.bitmap,
-                                    displayMetrics.widthPixels * 3,
-                                    displayMetrics.heightPixels * 3
+                                relativeLayoutMain.background = BitmapDrawable(
+                                    resources,
+                                    getResizedBitmap(
+                                        imageArtAlbum.bitmap,
+                                        displayMetrics.widthPixels * 3,
+                                        displayMetrics.heightPixels * 3
+                                    )
                                 )
-                            )
 
+                            }
+                        } catch (ex: Exception) {
+                            //   makeToast(ex.toString())
                         }
-                    } catch (ex: Exception) {
-                     //   makeToast(ex.toString())
-                    }
-                }.start()
+                    }.start()
 
+                }
             }
         }
         handlerPics.post(runnablePics)
@@ -1008,9 +1017,13 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     private fun initializeStuff() {
         arrayListFavsAdded = ArrayList()
         val txTrending = TextView(applicationContext)
-        txTrending.text = "Trending"
-        txTrending.setBackgroundResource(android.R.drawable.editbox_background)
+        TxFavorites.add(txTrending)
+        txTrending.text = "\t\t\tTrending\t\t\t"
+        txTrending.setBackgroundResource(R.drawable.txlabel_bg_selected)
         txTrending.setOnClickListener(View.OnClickListener {
+            for (item in TxFavorites)
+                item.setBackgroundResource(R.drawable.txlabel_bg_unselected)
+            txTrending.setBackgroundResource(R.drawable.txlabel_bg_selected)
             getTrending()
             textViewFeaturing.text = "Trending..,"
         })
