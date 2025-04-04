@@ -514,6 +514,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             return false
         }
 
+        var arrayListplayLists: ArrayList<String> = ArrayList()
         var crossFadeNeeded: Boolean = false
         var playOnlyPreviews: Boolean = true
         var setLockWall: Boolean = true
@@ -597,6 +598,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         findViewByIds()
         initializeStuff()
+
+        arrayListplayLists.add("Favorites1")
+        arrayListplayLists.add("Favorites2")
 
         mSharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 

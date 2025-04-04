@@ -3455,6 +3455,8 @@ int id browser_actions_menu_item_icon 0x7f090072
 int id browser_actions_menu_item_text 0x7f090073
 int id browser_actions_menu_items 0x7f090074
 int id browser_actions_menu_view 0x7f090075
+int id btn_done 0x7f09024b
+int id btn_new_pl 0x7f090249
 int id buttonPanel 0x7f090076
 int id button_first 0x7f090077
 int id button_second 0x7f090078
@@ -3618,6 +3620,7 @@ int id list_item 0x7f090115
 int id ll_dynamic 0x7f090116
 int id locale 0x7f090117
 int id ltr 0x7f090118
+int id lv_pls 0x7f09024a
 int id m3_side_sheet 0x7f090119
 int id main 0x7f09011a
 int id marquee 0x7f09011b
@@ -4043,6 +4046,7 @@ int layout abc_tooltip 0x7f0c001b
 int layout activity_main 0x7f0c001c
 int layout activity_notify_handler 0x7f0c001d
 int layout activity_settings 0x7f0c001e
+int layout addto_layout 0x7f0c008d
 int layout admob_empty_layout 0x7f0c001f
 int layout browser_actions_context_menu_page 0x7f0c0020
 int layout browser_actions_context_menu_row 0x7f0c0021

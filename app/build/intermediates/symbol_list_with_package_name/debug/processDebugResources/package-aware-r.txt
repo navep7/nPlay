@@ -3456,6 +3456,8 @@ id browser_actions_menu_item_icon
 id browser_actions_menu_item_text
 id browser_actions_menu_items
 id browser_actions_menu_view
+id btn_done
+id btn_new_pl
 id buttonPanel
 id button_first
 id button_second
@@ -3619,6 +3621,7 @@ id list_item
 id ll_dynamic
 id locale
 id ltr
+id lv_pls
 id m3_side_sheet
 id main
 id marquee
@@ -4044,6 +4047,7 @@ layout abc_tooltip
 layout activity_main
 layout activity_notify_handler
 layout activity_settings
+layout addto_layout
 layout admob_empty_layout
 layout browser_actions_context_menu_page
 layout browser_actions_context_menu_row

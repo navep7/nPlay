@@ -1,5 +1,25 @@
 [
     {
+        "merged": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-mergeDebugResources-59:/layout/addto_layout.xml",
+        "source": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-main-62:/layout/addto_layout.xml"
+    },
+    {
+        "merged": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-mergeDebugResources-59:/layout/activity_settings.xml",
+        "source": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-main-62:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-mergeDebugResources-59:/layout/notification_push.xml",
+        "source": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-main-62:/layout/notification_push.xml"
+    },
+    {
+        "merged": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-mergeDebugResources-59:/layout/activity_notify_handler.xml",
+        "source": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-main-62:/layout/activity_notify_handler.xml"
+    },
+    {
+        "merged": "com.parvatha.music.app-mergeDebugResources-59:/layout/addto_layout.xml",
+        "source": "com.parvatha.music.app-main-62:/layout/addto_layout.xml"
+    },
+    {
         "merged": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-mergeDebugResources-59:/layout/rv_item.xml",
         "source": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-main-62:/layout/rv_item.xml"
     },
@@ -10,10 +30,6 @@
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-mergeDebugResources-59:/layout/fragment_first.xml",
         "source": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-main-62:/layout/fragment_first.xml"
-    },
-    {
-        "merged": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-mergeDebugResources-59:/layout/activity_settings.xml",
-        "source": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-main-62:/layout/activity_settings.xml"
     },
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-mergeDebugResources-59:/layout/content_settings.xml",
@@ -30,17 +46,5 @@
     {
         "merged": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-mergeDebugResources-59:/layout/content_main.xml",
         "source": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-main-62:/layout/content_main.xml"
-    },
-    {
-        "merged": "com.parvatha.music.app-mergeDebugResources-59:/layout/content_settings.xml",
-        "source": "com.parvatha.music.app-main-62:/layout/content_settings.xml"
-    },
-    {
-        "merged": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-mergeDebugResources-59:/layout/notification_push.xml",
-        "source": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-main-62:/layout/notification_push.xml"
-    },
-    {
-        "merged": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-mergeDebugResources-59:/layout/activity_notify_handler.xml",
-        "source": "/Users/np/.gradle/daemon/8.7/com.parvatha.music.app-main-62:/layout/activity_notify_handler.xml"
     }
 ]

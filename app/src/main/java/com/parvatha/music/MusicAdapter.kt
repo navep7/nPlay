@@ -1,16 +1,27 @@
 package com.parvatha.music
 
+
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.CheckedTextView
 import android.widget.ImageView
+import android.widget.ListView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.parvatha.music.MainActivity.Companion.appContext
+import com.parvatha.music.MainActivity.Companion.mainActivity
+import com.parvatha.music.MainActivity.Companion.makeToast
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -23,9 +34,10 @@ class MusicAdapter(
     private val listener: RecyclerViewEvent
 ) : RecyclerView.Adapter<MusicAdapter.ItemViewHolder>() {
 
+
     //Setup variables to hold the instance of the views defined in your recyclerView item layout
     //Kinda like the onCreate method in an Activity
-    inner class ItemViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
+    inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val sname: TextView = view.findViewById(R.id.rv_tx_sname)
         val aname: TextView = view.findViewById(R.id.tx_aname)
         var rvItemLayout: RelativeLayout = view.findViewById(R.id.rv_item_layout)
@@ -33,7 +45,10 @@ class MusicAdapter(
         val imageViewFavSong: ImageView = view.findViewById(R.id.imgv_fav_song)
 
         init {
-            rvItemLayout.layoutParams = RelativeLayout.LayoutParams(MainActivity.displayMetrics.widthPixels - 135, RelativeLayout.LayoutParams.WRAP_CONTENT)
+            rvItemLayout.layoutParams = RelativeLayout.LayoutParams(
+                MainActivity.displayMetrics.widthPixels - 135,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+            )
             view.setOnClickListener(this)
 
         }
@@ -72,8 +87,48 @@ class MusicAdapter(
         Picasso.get().load(songdata.album.cover).into(holder.imageView)
 
         holder.imageViewFavSong.setOnClickListener {
-            (mActivity as MainActivity).addToFavoriteSongs(holder.sname.text.toString())
+            showAddToDialog()
+            //   (mActivity as MainActivity).addToFavoriteSongs(holder.sname.text.toString())
         }
+    }
+
+    private fun showAddToDialog() {
+        val dialog = Dialog(mainActivity)
+        dialog.setCancelable(true)
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.addto_layout)
+        //    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        var lvPlaylists: ListView = dialog.findViewById(R.id.lv_pls)
+        var btnNewPl: Button = dialog.findViewById(R.id.btn_new_pl)
+        var btnDone: Button = dialog.findViewById(R.id.btn_done)
+
+
+
+        // here we adjust list elements choice mode
+        lvPlaylists.setChoiceMode(ListView.CHOICE_MODE_SINGLE)
+
+        // create adapter using array from resources file
+        var arrayAdapter =
+            ArrayAdapter(
+                appContext,
+                android.R.layout.simple_list_item_single_choice,
+                MainActivity.arrayListplayLists
+            )
+
+        lvPlaylists.setOnItemClickListener { adapter, v, position, id ->
+            val selItem = lvPlaylists.getItemAtPosition(position)
+       //     val value = selItem.text
+            makeToast("sPL - " + selItem)
+            btnDone.isEnabled = true
+        }
+
+        lvPlaylists.setAdapter(arrayAdapter)
+
+
+
+        dialog.show()
     }
 
 
@@ -82,7 +137,7 @@ class MusicAdapter(
         return data.size
     }
 
-    interface RecyclerViewEvent{
+    interface RecyclerViewEvent {
         fun onItemClick(position: Int)
     }
 }
