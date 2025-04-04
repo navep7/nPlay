@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.belaku.nplay.app-mergeDebugResources-58:/values-nl/values-nl.xml",
+            "outputFile": "com.parvatha.music.app-mergeDebugResources-58:/values-nl/values-nl.xml",
             "map": [
                 {
                     "source": "/Users/np/.gradle/caches/transforms-4/8e3def2a6139fe6c5faa4e41ebd04b09/transformed/play-services-base-18.0.0/res/values-nl/values.xml",

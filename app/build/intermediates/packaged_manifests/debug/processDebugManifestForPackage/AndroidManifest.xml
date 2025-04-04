@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.belaku.nplay"
+    package="com.parvatha.music"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -56,10 +56,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <permission
-        android:name="com.belaku.nplay.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:name="com.parvatha.music.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.belaku.nplay.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+    <uses-permission android:name="com.parvatha.music.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
         android:allowBackup="true"
@@ -77,7 +77,7 @@
         android:testOnly="true"
         android:theme="@style/Theme.NPlay" >
         <activity
-            android:name="com.belaku.nplay.SettingsActivity"
+            android:name="com.parvatha.music.SettingsActivity"
             android:exported="true"
             android:theme="@style/Theme.NPlay" />
 
@@ -86,12 +86,12 @@
             android:value="@string/admob_app_id" />
 
         <service
-            android:name="com.belaku.nplay.MusicService"
+            android:name="com.parvatha.music.MusicService"
             android:enabled="true"
             android:foregroundServiceType="mediaPlayback" />
 
         <activity
-            android:name="com.belaku.nplay.MainActivity"
+            android:name="com.parvatha.music.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.NPlay" >
             <intent-filter>
@@ -118,7 +118,7 @@
 
         <provider
             android:name="com.google.android.gms.ads.MobileAdsInitProvider"
-            android:authorities="com.belaku.nplay.mobileadsinitprovider"
+            android:authorities="com.parvatha.music.mobileadsinitprovider"
             android:exported="false"
             android:initOrder="100" />
 
@@ -154,7 +154,7 @@
 
         <provider
             android:name="androidx.startup.InitializationProvider"
-            android:authorities="com.belaku.nplay.androidx-startup"
+            android:authorities="com.parvatha.music.androidx-startup"
             android:exported="false" >
             <meta-data
                 android:name="androidx.emoji2.text.EmojiCompatInitializer"
@@ -288,7 +288,7 @@
 
         <provider
             android:name="com.squareup.picasso.PicassoProvider"
-            android:authorities="com.belaku.nplay.com.squareup.picasso"
+            android:authorities="com.parvatha.music.com.squareup.picasso"
             android:exported="false" />
     </application>
 

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.belaku.nplay.app-mergeDebugResources-58:/values-si/values-si.xml",
+            "outputFile": "com.parvatha.music.app-mergeDebugResources-58:/values-si/values-si.xml",
             "map": [
                 {
                     "source": "/Users/np/.gradle/caches/transforms-4/10b42af1c2bc5d3f09520612f45b0eb2/transformed/core-1.15.0/res/values-si/values-si.xml",

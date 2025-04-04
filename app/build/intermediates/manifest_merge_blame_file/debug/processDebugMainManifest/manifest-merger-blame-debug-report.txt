@@ -1,6 +1,6 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="com.belaku.nplay"
+3    package="com.parvatha.music"
 4    android:versionCode="1"
 5    android:versionName="1.0" >
 6
@@ -103,12 +103,12 @@
 57
 58    <permission
 58-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/10b42af1c2bc5d3f09520612f45b0eb2/transformed/core-1.15.0/AndroidManifest.xml:22:5-24:47
-59        android:name="com.belaku.nplay.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+59        android:name="com.parvatha.music.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
 59-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/10b42af1c2bc5d3f09520612f45b0eb2/transformed/core-1.15.0/AndroidManifest.xml:23:9-81
 60        android:protectionLevel="signature" />
 60-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/10b42af1c2bc5d3f09520612f45b0eb2/transformed/core-1.15.0/AndroidManifest.xml:24:9-44
 61
-62    <uses-permission android:name="com.belaku.nplay.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+62    <uses-permission android:name="com.parvatha.music.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 62-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/10b42af1c2bc5d3f09520612f45b0eb2/transformed/core-1.15.0/AndroidManifest.xml:26:5-97
 62-->[androidx.core:core:1.15.0] /Users/np/.gradle/caches/transforms-4/10b42af1c2bc5d3f09520612f45b0eb2/transformed/core-1.15.0/AndroidManifest.xml:26:22-94
 63
@@ -141,7 +141,7 @@
 78-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:21:9-43
 79        <activity
 79-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:23:9-26:50
-80            android:name="com.belaku.nplay.SettingsActivity"
+80            android:name="com.parvatha.music.SettingsActivity"
 80-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:24:13-45
 81            android:exported="true"
 81-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:25:13-36
@@ -157,7 +157,7 @@
 87
 88        <service
 88-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:32:9-35:61
-89            android:name="com.belaku.nplay.MusicService"
+89            android:name="com.parvatha.music.MusicService"
 89-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:33:13-41
 90            android:enabled="true"
 90-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:34:13-35
@@ -166,7 +166,7 @@
 92
 93        <activity
 93-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:37:9-46:20
-94            android:name="com.belaku.nplay.MainActivity"
+94            android:name="com.parvatha.music.MainActivity"
 94-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:38:13-41
 95            android:exported="true"
 95-->/Users/np/ASPs/nPlayG/app/src/main/AndroidManifest.xml:39:13-36
@@ -217,7 +217,7 @@
 119-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/41eb87fa4b0a8b76ad10f199f4d4f33d/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:80:9-85:43
 120            android:name="com.google.android.gms.ads.MobileAdsInitProvider"
 120-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/41eb87fa4b0a8b76ad10f199f4d4f33d/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:81:13-76
-121            android:authorities="com.belaku.nplay.mobileadsinitprovider"
+121            android:authorities="com.parvatha.music.mobileadsinitprovider"
 121-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/41eb87fa4b0a8b76ad10f199f4d4f33d/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:82:13-73
 122            android:exported="false"
 122-->[com.google.android.gms:play-services-ads-lite:23.6.0] /Users/np/.gradle/caches/transforms-4/41eb87fa4b0a8b76ad10f199f4d4f33d/transformed/play-services-ads-lite-23.6.0/AndroidManifest.xml:83:13-37
@@ -283,7 +283,7 @@
 155-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/765a30a48cfd29ea11cbf8818222798e/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
 156            android:name="androidx.startup.InitializationProvider"
 156-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/765a30a48cfd29ea11cbf8818222798e/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
-157            android:authorities="com.belaku.nplay.androidx-startup"
+157            android:authorities="com.parvatha.music.androidx-startup"
 157-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/765a30a48cfd29ea11cbf8818222798e/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
 158            android:exported="false" >
 158-->[androidx.emoji2:emoji2:1.3.0] /Users/np/.gradle/caches/transforms-4/765a30a48cfd29ea11cbf8818222798e/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
@@ -543,7 +543,7 @@
 289-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/fa3f8d2200efff5a2040db7509914092/transformed/picasso-2.71828/AndroidManifest.xml:8:9-11:40
 290            android:name="com.squareup.picasso.PicassoProvider"
 290-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/fa3f8d2200efff5a2040db7509914092/transformed/picasso-2.71828/AndroidManifest.xml:9:13-64
-291            android:authorities="com.belaku.nplay.com.squareup.picasso"
+291            android:authorities="com.parvatha.music.com.squareup.picasso"
 291-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/fa3f8d2200efff5a2040db7509914092/transformed/picasso-2.71828/AndroidManifest.xml:10:13-72
 292            android:exported="false" />
 292-->[com.squareup.picasso:picasso:2.71828] /Users/np/.gradle/caches/transforms-4/fa3f8d2200efff5a2040db7509914092/transformed/picasso-2.71828/AndroidManifest.xml:11:13-37

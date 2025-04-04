@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.belaku.nplay.app-mergeDebugResources-58:/values-land/values-land.xml",
+            "outputFile": "com.parvatha.music.app-mergeDebugResources-58:/values-land/values-land.xml",
             "map": [
                 {
                     "source": "/Users/np/ASPs/nPlayG/app/src/main/res/values-land/dimens.xml",

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.belaku.nplay"
+    namespace = "com.parvatha.music"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.belaku.nplay"
+        applicationId = "com.parvatha.music"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
