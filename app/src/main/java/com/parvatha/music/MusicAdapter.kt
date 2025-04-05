@@ -9,10 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.CheckedTextView
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.RelativeLayout
@@ -87,12 +85,12 @@ class MusicAdapter(
         Picasso.get().load(songdata.album.cover).into(holder.imageView)
 
         holder.imageViewFavSong.setOnClickListener {
-            showAddToDialog()
+            showAddToDialog(holder.sname)
             //   (mActivity as MainActivity).addToFavoriteSongs(holder.sname.text.toString())
         }
     }
 
-    private fun showAddToDialog() {
+    private fun showAddToDialog(sname: TextView) {
         val dialog = Dialog(mainActivity)
         dialog.setCancelable(true)
         dialog.setCanceledOnTouchOutside(true)
@@ -105,6 +103,9 @@ class MusicAdapter(
         var btnDone: Button = dialog.findViewById(R.id.btn_done)
 
 
+        btnDone.setOnClickListener(View.OnClickListener {
+            (mActivity as MainActivity).addToFavoriteSongs(sname.text.toString())
+        })
 
         // here we adjust list elements choice mode
         lvPlaylists.setChoiceMode(ListView.CHOICE_MODE_SINGLE)

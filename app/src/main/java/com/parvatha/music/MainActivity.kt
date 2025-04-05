@@ -599,8 +599,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         findViewByIds()
         initializeStuff()
 
-        arrayListplayLists.add("Favorites1")
-        arrayListplayLists.add("Favorites2")
+        arrayListplayLists.add("Favorites")
 
         mSharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
@@ -877,7 +876,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             private fun changeBG() {
 
                 if (!songArts.isEmpty()) {
-                    var splits = songArts[Random().nextInt(songArts.size - 1) + 0].split(" - ")
+                    var splits = songArts[Random().nextInt(songArts.size) + 0].split(" - ")
 
                     Thread {
                         try {
