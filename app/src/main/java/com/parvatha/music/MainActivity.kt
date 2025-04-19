@@ -76,6 +76,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.masoudss.lib.SeekBarOnProgressChanged
 import com.masoudss.lib.WaveformSeekBar
+import com.parvatha.music.MusicService.Companion
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -861,6 +862,13 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             }
 
         })
+
+        Handler().postDelayed(Runnable {
+            if (dataList.size > 0 && songsNameList.size > 0)
+            if (dataList[MusicService.songIndex].title.equals(songsNameList[MusicService.songIndex]))
+            recyclerview.smoothScrollToPosition(songIndex)
+        }, 1000)
+
     }
 
     private fun setPics(songArts: java.util.ArrayList<String>) {
@@ -870,7 +878,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             override fun run() {
                 //do something here
                 changeBG()
-                handlerPics.postDelayed(this, 5000)
+                handlerPics.postDelayed(this, 3000)
             }
 
             private fun changeBG() {
