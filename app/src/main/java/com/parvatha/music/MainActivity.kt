@@ -873,12 +873,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         })
 
-        Handler().postDelayed(Runnable {
-            for (i in 0 until dataList.size) {
-                if (txSongName.text.equals(dataList.get(i).title))
-                    recyclerview.smoothScrollToPosition(i)
-            }
-        }, 3000)
 
     }
 
@@ -1086,6 +1080,13 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             Getdata()
             textViewFeaturing.text = "Featuring, " + plName
         }
+
+        Handler().postDelayed(Runnable {
+            for (i in 0 until dataList.size) {
+                if (txSongName.text.equals(dataList.get(i).title))
+                    recyclerview.smoothScrollToPosition(i)
+            }
+        }, 3000)
 
     }
 
