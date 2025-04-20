@@ -101,6 +101,7 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
+    private lateinit var txTrending: TextView
     private var TxFavorites: ArrayList<TextView> = ArrayList()
     private lateinit var runnablePics: Runnable
     private lateinit var handlerPics: Handler
@@ -598,56 +599,29 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         contentView = RemoteViews(packageName, R.layout.notification_push)
 
         findViewByIds()
-        initializeStuff()
 
-        arrayListplayLists.add("Favorites")
+        arrayListFavsAdded = ArrayList()
+        txTrending = TextView(applicationContext)
+        TxFavorites.add(txTrending)
+        txTrending.text = "\t\t\tTrending\t\t\t"
+        txTrending.setBackgroundResource(R.drawable.txlabel_bg_selected)
+        txTrending.setOnClickListener(View.OnClickListener {
+            for (item in TxFavorites)
+                item.setBackgroundResource(R.drawable.txlabel_bg_unselected)
+            txTrending.setBackgroundResource(R.drawable.txlabel_bg_selected)
+            getTrending()
+            textViewFeaturing.text = "Trending..,"
+        })
+        linearLayoutFavs.addView(txTrending)
 
         mSharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         sharedPreferencesEditor = mSharedPreference.edit()
         arraylistFavorites = populateFavorites("favorites")
+        renderPlaylists()
 
-        for (item in arraylistFavorites) {
-            val tx: TextView = TextView(applicationContext)
-            TxFavorites.add(tx)
-            tx.text = "\t\t\t" + item.substring(0, 1)
-                .uppercase(Locale.ROOT) + item.substring(1) + "\t\t\t"
-            tx.setBackgroundResource(R.drawable.txlabel_bg_unselected)
+        initializeStuff()
 
-            tx.setOnClickListener {
-
-                for (item in TxFavorites)
-                    item.setBackgroundResource(R.drawable.txlabel_bg_unselected)
-
-
-                tx.setBackgroundResource(R.drawable.txlabel_bg_selected)
-                showIntrAd()
-
-                textViewFeaturing.text = "Featuring, " + tx.text.toString()
-                wfs.progress = 0f
-                plName = tx.text.toString()
-                if (!tx.text.toString().strip().equals("Favorites"))
-                    Getdata()
-                else {
-                    getFavorites()
-                }
-                checkFavoritesIcon()
-            }
-            linearLayoutFavs.addView(tx)
-
-
-
-            if (!isMyServiceRunning(MusicService::class.java)) {
-                wfs.progress = 0f
-                if (isMyServiceRunning(MusicService::class.java)) {
-                    stopService(Intent(this@MainActivity, MusicService::class.java))
-                }
-
-            }
-        }
-
-
-
-
+        arrayListplayLists.add("Favorites")
 
         editTextSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             var handled = false
@@ -672,7 +646,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             showIntrAd()
 
             fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_on))
-            if (textViewFeaturing.text.length > 0)
+            if (textViewFeaturing.text.isNotEmpty())
                 if (saveFav(textViewFeaturing.text.toString().split(",").get(1)))
                     Toast.makeText(
                         applicationContext,
@@ -807,6 +781,49 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             IntentFilter("nPlay_Events")
         );
 
+
+    }
+
+    private fun renderPlaylists() {
+
+        for (item in arraylistFavorites) {
+            val tx: TextView = TextView(applicationContext)
+            TxFavorites.add(tx)
+            tx.text = "\t\t\t" + item.substring(0, 1)
+                .uppercase(Locale.ROOT) + item.substring(1) + "\t\t\t"
+            tx.setBackgroundResource(R.drawable.txlabel_bg_unselected)
+
+            tx.setOnClickListener {
+
+                for (item in TxFavorites)
+                    item.setBackgroundResource(R.drawable.txlabel_bg_unselected)
+
+
+                tx.setBackgroundResource(R.drawable.txlabel_bg_selected)
+                showIntrAd()
+
+                textViewFeaturing.text = "Featuring, " + tx.text.toString()
+                wfs.progress = 0f
+                plName = tx.text.toString()
+                if (!tx.text.toString().strip().equals("Favorites"))
+                    Getdata()
+                else {
+                    getFavorites()
+                }
+                checkFavoritesIcon()
+            }
+            linearLayoutFavs.addView(tx)
+
+
+
+            if (!isMyServiceRunning(MusicService::class.java)) {
+                wfs.progress = 0f
+                if (isMyServiceRunning(MusicService::class.java)) {
+                    stopService(Intent(this@MainActivity, MusicService::class.java))
+                }
+
+            }
+        }
 
     }
 
@@ -1047,19 +1064,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
     private fun initializeStuff() {
-        arrayListFavsAdded = ArrayList()
-        val txTrending = TextView(applicationContext)
-        TxFavorites.add(txTrending)
-        txTrending.text = "\t\t\tTrending\t\t\t"
-        txTrending.setBackgroundResource(R.drawable.txlabel_bg_selected)
-        txTrending.setOnClickListener(View.OnClickListener {
-            for (item in TxFavorites)
-                item.setBackgroundResource(R.drawable.txlabel_bg_unselected)
-            txTrending.setBackgroundResource(R.drawable.txlabel_bg_selected)
-            getTrending()
-            textViewFeaturing.text = "Trending..,"
-        })
-        linearLayoutFavs.addView(txTrending)
+
         sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
         var playingALbum = sharedPreferences.getString("playingQuery", "Trending").toString()
         makeToast("playingALbum - " + playingALbum)
@@ -1068,6 +1073,11 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             textViewFeaturing.text = "Trending..,"
         } else if (playingALbum.equals("\t\t\tFavorites\t\t\t")) {
             getFavorites()
+            txTrending.setBackgroundResource(R.drawable.txlabel_bg_unselected)
+            for (item in TxFavorites)
+                if (item.text.toString().equals(playingALbum))
+                    item.setBackgroundResource(R.drawable.txlabel_bg_selected)
+
             textViewFeaturing.text = "Favorites..,"
         } else {
             plName = playingALbum
