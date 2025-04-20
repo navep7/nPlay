@@ -711,6 +711,14 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             startForegroundService(playIntent)
 
 
+            Handler().postDelayed(Runnable {
+                for (i in 0 until dataList.size) {
+                    if (txSongName.text.equals(dataList.get(i).title))
+                        recyclerview.smoothScrollToPosition(i)
+                }
+            }, 1000)
+
+
         }
 
         var mp1: Boolean = true
@@ -875,8 +883,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
 
-
-
     private fun setPics(songArts: java.util.ArrayList<String>) {
 
         handlerPics = Handler(Looper.getMainLooper())
@@ -925,15 +931,15 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
     private fun showNativeAd() {
-    /*    if (adLoaded) {
-            template.setVisibility(VISIBLE)
-            adLoaded = false
-            // Showing a simple Toast message to user when an Native ad is shown to the user
+        /*    if (adLoaded) {
+                template.setVisibility(VISIBLE)
+                adLoaded = false
+                // Showing a simple Toast message to user when an Native ad is shown to the user
 
-        } else {
-            //Load the Native ad if it is not loaded
-            loadNativeAd()
-        }*/
+            } else {
+                //Load the Native ad if it is not loaded
+                loadNativeAd()
+            }*/
     }
 
     private fun loadNativeAd() {
@@ -947,25 +953,25 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
     private fun showIntrAd() {
-/*
-   //     if (Random().nextInt() % 2 == 0) {
-            val adRequest = AdRequest.Builder().build()
-            InterstitialAd.load(
-                this,
-                resources.getString(R.string.admob_intr_adunit_id),
-                adRequest,
-                object : InterstitialAdLoadCallback() {
-                    override fun onAdFailedToLoad(adError: LoadAdError) {
-                        adError?.toString()?.let { }
-                        mInterstitialAd = null
-                    }
+        /*
+           //     if (Random().nextInt() % 2 == 0) {
+                    val adRequest = AdRequest.Builder().build()
+                    InterstitialAd.load(
+                        this,
+                        resources.getString(R.string.admob_intr_adunit_id),
+                        adRequest,
+                        object : InterstitialAdLoadCallback() {
+                            override fun onAdFailedToLoad(adError: LoadAdError) {
+                                adError?.toString()?.let { }
+                                mInterstitialAd = null
+                            }
 
-                    override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                        mInterstitialAd = interstitialAd
-                        mInterstitialAd?.show(this@MainActivity)
-                    }
-                })
-    //    }*/
+                            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                                mInterstitialAd = interstitialAd
+                                mInterstitialAd?.show(this@MainActivity)
+                            }
+                        })
+            //    }*/
     }
 
     private fun renderFavorites() {
@@ -1061,7 +1067,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         })
         linearLayoutFavs.addView(txTrending)
         sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
-        var playingALbum =  sharedPreferences.getString("playingQuery", "Trending").toString()
+        var playingALbum = sharedPreferences.getString("playingQuery", "Trending").toString()
         makeToast("playingALbum - " + playingALbum)
         if (playingALbum.equals("Trending")) {
             getTrending()
@@ -1273,9 +1279,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     private fun checkFavoritesIcon() {
 
         if (textViewFeaturing.text.split(", ").size > 1)
-        if (arraylistFavorites.contains(textViewFeaturing.text.split(", ").get(1).strip()))
-            fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_on))
-        else fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_off))
+            if (arraylistFavorites.contains(textViewFeaturing.text.split(", ").get(1).strip()))
+                fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_on))
+            else fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_off))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
