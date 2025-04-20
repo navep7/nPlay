@@ -252,6 +252,9 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
             if (mediaPlayer1.isPlaying()) {
                 mediaPlayer1.stop();
                 mediaPlayer1.release();
+            } else if (mediaPlayer2.isPlaying()) {
+                mediaPlayer2.stop();
+                mediaPlayer2.release();
             }
         } catch (ex: Exception) {
             try {

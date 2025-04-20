@@ -866,10 +866,11 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         })
 
         Handler().postDelayed(Runnable {
-            if (dataList.size > 0 && songsNameList.size > 0)
-            if (dataList[MusicService.songIndex].title.equals(songsNameList[MusicService.songIndex]))
-            recyclerview.smoothScrollToPosition(songIndex)
-        }, 1500)
+            for (i in 0 until dataList.size) {
+                if (txSongName.text.equals(dataList.get(i).title))
+                    recyclerview.smoothScrollToPosition(i)
+            }
+        }, 3000)
 
     }
 
