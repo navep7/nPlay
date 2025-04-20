@@ -102,6 +102,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
 
     private lateinit var txTrending: TextView
+    private lateinit var txFavs: TextView
     private var TxFavorites: ArrayList<TextView> = ArrayList()
     private lateinit var runnablePics: Runnable
     private lateinit var handlerPics: Handler
@@ -208,8 +209,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 //   mediaPlayer1.setOnErrorListener(this)
             } catch (e: Exception) {
                 println(e.toString())
-                Toast.makeText(appContext, "P ex - " + e, Toast.LENGTH_LONG).show()
-            }
+        makeToast("P ex - " + e)    }
 
             try {
 
@@ -231,7 +231,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
             } catch (e: Exception) {
                 println(e.toString())
-                Toast.makeText(appContext, "P ex - " + e, Toast.LENGTH_LONG).show()
+          makeToast("P ex - " + e)
             }
         }
 
@@ -614,6 +614,24 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         })
         linearLayoutFavs.addView(txTrending)
 
+        if (!arraylistFavorites.contains("Favorites")) {
+            arraylistFavorites.add("Favorites")
+            txFavs = TextView(applicationContext)
+            TxFavorites.add(txFavs)
+            txFavs.text = "\t\t\tFavorites\t\t\t"
+            txFavs.setBackgroundResource(R.drawable.txlabel_bg_unselected)
+            txFavs.setOnClickListener(View.OnClickListener {
+                getFavorites()
+
+                for (item in TxFavorites)
+                    item.setBackgroundResource(R.drawable.txlabel_bg_unselected)
+
+                txFavs.setBackgroundResource(R.drawable.txlabel_bg_selected)
+                TxFavorites.add(txFavs)
+            })
+            linearLayoutFavs.addView(txFavs)
+        }
+
         mSharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         sharedPreferencesEditor = mSharedPreference.edit()
         arraylistFavorites = populateFavorites("favorites")
@@ -621,6 +639,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         initializeStuff()
 
+        if (!arrayListplayLists.contains("Favorites"))
         arrayListplayLists.add("Favorites")
 
         editTextSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
@@ -644,17 +663,23 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         fabFavorite.setOnClickListener {
 
             showIntrAd()
+            refreshLayout()
+            Handler().postDelayed( {
+                plName = editTextSearch.text.toString()
+                Getdata()
+                txTrending.setBackgroundResource(R.drawable.txlabel_bg_unselected)
+                for (item in TxFavorites)
+                    if (item.text.toString().equals(plName))
+                        item.setBackgroundResource(R.drawable.txlabel_bg_selected)
+            }, 1000)
+
 
             fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_on))
             if (textViewFeaturing.text.isNotEmpty())
                 if (saveFav(textViewFeaturing.text.toString().split(",").get(1)))
-                    Toast.makeText(
-                        applicationContext,
-                        "Added " + (textViewFeaturing.text.toString().split(",")
-                            .get(1)) + " to Favs!", Toast.LENGTH_LONG
-                    ).show()
-                else Toast.makeText(applicationContext, "Already in Favs!", Toast.LENGTH_LONG)
-                    .show()
+                   makeToast("Added " + (textViewFeaturing.text.toString().split(",")
+                       .get(1)) + " to Favs!")
+                else makeToast("Already in Favs!")
 
         }
 
@@ -784,6 +809,11 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     }
 
+    private fun refreshLayout() {
+        finish();
+        startActivity(getIntent());
+    }
+
     private fun renderPlaylists() {
 
         for (item in arraylistFavorites) {
@@ -885,7 +915,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             }
 
             override fun onFailure(call: Call<MusicData?>, t: Throwable) {
-                Toast.makeText(applicationContext, "onF - ", Toast.LENGTH_LONG).show()
+               makeToast("Failed to get Trending - " + t.message)
             }
 
         })
@@ -1218,7 +1248,6 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
             songIndex = sharedPreferences.getInt("playingIndex", 0)
 
-            //    Toast.makeText(appContext, "onRplayinG - " + songsNameList[songIndex], Toast.LENGTH_LONG).show()
             var rvAdapter = MusicAdapter(this@MainActivity, dataList, this@MainActivity)
             recyclerview.adapter = rvAdapter
             recyclerview.setLayoutManager(
@@ -1278,7 +1307,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             }
 
             override fun onFailure(call: Call<MusicData?>, t: Throwable) {
-                Toast.makeText(applicationContext, "not Found", Toast.LENGTH_LONG).show()
+               makeToast("no Results found")
             }
 
         })
@@ -1390,9 +1419,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         for (i in dataList.indices) {
             if (dataList.get(i).title.equals(text)) {
 
-                if (arraylistFavoriteSongs.size == 0) {
-                    saveFav("Favorites")
-                }
+
 
                 var arraylistFavoriteSongNames = ArrayList<String>()
                 for (item in arraylistFavoriteSongs) {
@@ -1400,17 +1427,12 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 }
 
                 if (!arraylistFavoriteSongNames.contains(dataList.get(i).title)) {
-                    Toast.makeText(
-                        applicationContext,
-                        "Added - " + dataList.get(i).title + " to Fav Songs!",
-                        Toast.LENGTH_LONG
-                    ).show()
+                   makeToast("Added - " + dataList.get(i).title + " to Fav Songs!")
+
+
+
                     arraylistFavoriteSongs.add(dataList.get(i))
-                } else Toast.makeText(
-                    applicationContext,
-                    "Already exist in FavS",
-                    Toast.LENGTH_LONG
-                ).show()
+                } else makeToast("Already exist in FavS")
             }
         }
 

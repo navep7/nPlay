@@ -211,8 +211,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
         if (songsNameList.size > songIndex) {
             notifySong(songIndex)
-            if (dataList[songIndex].title.equals(songsNameList[songIndex]))
-                MainActivity.recyclerview.smoothScrollToPosition(songIndex)
         } else txSongName.text = "End of Playback!"
 
         if (songIndex < songsUrlList.size) {
