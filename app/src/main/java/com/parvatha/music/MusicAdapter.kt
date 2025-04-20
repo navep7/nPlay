@@ -105,6 +105,7 @@ class MusicAdapter(
 
         btnDone.setOnClickListener(View.OnClickListener {
             (mActivity as MainActivity).addToFavoriteSongs(sname.text.toString())
+            dialog.cancel()
         })
 
         // here we adjust list elements choice mode
@@ -120,8 +121,6 @@ class MusicAdapter(
 
         lvPlaylists.setOnItemClickListener { adapter, v, position, id ->
             val selItem = lvPlaylists.getItemAtPosition(position)
-       //     val value = selItem.text
-            makeToast("sPL - " + selItem)
             btnDone.isEnabled = true
         }
 

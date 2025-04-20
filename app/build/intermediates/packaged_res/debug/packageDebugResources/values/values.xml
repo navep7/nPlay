@@ -15,7 +15,7 @@
     <string name="admob_app_id">ca-app-pub-6424332507659067~2148617812</string>
     <string name="admob_intr_adunit_id">ca-app-pub-6424332507659067/6649865957</string>
     <string name="admob_native_adunit_id">ca-app-pub-6424332507659067/1700528279</string>
-    <string name="app_name">nPlay</string>
+    <string name="app_name">nPause</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>

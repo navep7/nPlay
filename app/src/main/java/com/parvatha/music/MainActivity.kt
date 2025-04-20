@@ -544,7 +544,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     }
 
-    private lateinit var query: String
+    private lateinit var plName: String
     private lateinit var binding: ActivityMainBinding
 
     private var mInterstitialAd: InterstitialAd? = null
@@ -603,10 +603,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         arrayListplayLists.add("Favorites")
 
         mSharedPreference = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-
         sharedPreferencesEditor = mSharedPreference.edit()
-
         arraylistFavorites = populateFavorites("favorites")
+
         for (item in arraylistFavorites) {
             val tx: TextView = TextView(applicationContext)
             TxFavorites.add(tx)
@@ -625,7 +624,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
                 textViewFeaturing.text = "Featuring, " + tx.text.toString()
                 wfs.progress = 0f
-                query = tx.text.toString()
+                plName = tx.text.toString()
                 if (!tx.text.toString().strip().equals("Favorites"))
                     Getdata()
                 else {
@@ -655,7 +654,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 textViewFeaturing.text = "Featuring, " + editTextSearch.text.substring(0, 1)
                     .toUpperCase() + editTextSearch.text.substring(1)
-                query = editTextSearch.getText().toString()
+                plName = editTextSearch.getText().toString()
                 Getdata()
                 handled = true
             }
@@ -706,6 +705,9 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 i++
             }
 
+            if (!this::plName.isInitialized)
+                plName = "Trending"
+            saveQuery(plName)
             startForegroundService(playIntent)
 
 
@@ -867,9 +869,12 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             if (dataList.size > 0 && songsNameList.size > 0)
             if (dataList[MusicService.songIndex].title.equals(songsNameList[MusicService.songIndex]))
             recyclerview.smoothScrollToPosition(songIndex)
-        }, 1000)
+        }, 1500)
 
     }
+
+
+
 
     private fun setPics(songArts: java.util.ArrayList<String>) {
 
@@ -919,7 +924,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
     private fun showNativeAd() {
-        if (adLoaded) {
+    /*    if (adLoaded) {
             template.setVisibility(VISIBLE)
             adLoaded = false
             // Showing a simple Toast message to user when an Native ad is shown to the user
@@ -927,7 +932,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         } else {
             //Load the Native ad if it is not loaded
             loadNativeAd()
-        }
+        }*/
     }
 
     private fun loadNativeAd() {
@@ -941,7 +946,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
     private fun showIntrAd() {
-
+/*
    //     if (Random().nextInt() % 2 == 0) {
             val adRequest = AdRequest.Builder().build()
             InterstitialAd.load(
@@ -959,7 +964,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                         mInterstitialAd?.show(this@MainActivity)
                     }
                 })
-    //    }
+    //    }*/
     }
 
     private fun renderFavorites() {
@@ -1054,8 +1059,27 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             textViewFeaturing.text = "Trending..,"
         })
         linearLayoutFavs.addView(txTrending)
-        getTrending()
-        textViewFeaturing.text = "Trending..,"
+        sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
+        var playingALbum =  sharedPreferences.getString("playingQuery", "Trending").toString()
+        makeToast("playingALbum - " + playingALbum)
+        if (playingALbum.equals("Trending")) {
+            getTrending()
+            textViewFeaturing.text = "Trending..,"
+        } else if (playingALbum.equals("\t\t\tFavorites\t\t\t")) {
+            getFavorites()
+            textViewFeaturing.text = "Favorites..,"
+        } else {
+            plName = playingALbum
+
+            txTrending.setBackgroundResource(R.drawable.txlabel_bg_unselected)
+            for (item in TxFavorites) {
+                if (item.text.toString().equals(plName))
+                    item.setBackgroundResource(R.drawable.txlabel_bg_selected)
+            }
+            Getdata()
+            textViewFeaturing.text = "Featuring, " + plName
+        }
+
     }
 
 
@@ -1170,12 +1194,10 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             this,
             MusicService::class.java
         )
+        sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
         if (isMyServiceRunning(MusicService::class.java)) {
-
             fabPlayPause.visibility = VISIBLE
             fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
-            sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-
             songIndex = sharedPreferences.getInt("playingIndex", 0)
 
             //    Toast.makeText(appContext, "onRplayinG - " + songsNameList[songIndex], Toast.LENGTH_LONG).show()
@@ -1203,7 +1225,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             .build()
             .create(ApiInterface::class.java)
 
-        val retrofitData = retrofitBuilder.getDate(query)
+        val retrofitData = retrofitBuilder.getData(plName)
 
         retrofitData.enqueue(object : Callback<MusicData?> {
             override fun onResponse(
@@ -1249,6 +1271,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
     private fun checkFavoritesIcon() {
 
+        if (textViewFeaturing.text.split(", ").size > 1)
         if (arraylistFavorites.contains(textViewFeaturing.text.split(", ").get(1).strip()))
             fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_on))
         else fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_off))
