@@ -22,8 +22,6 @@
        android:background="#75ffffff"
        android:text="Play 30s Only - "
        android:textStyle="bold"
-       android:enabled="false"
-       android:checked="true"
        android:layout_margin="@dimen/fab_margin"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"/>
@@ -34,7 +32,6 @@
         android:background="#75ffffff"
         android:text="Set Album art as Lock screen wallpaper - "
         android:textStyle="bold"
-        android:checked="true"
         android:layout_margin="@dimen/fab_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

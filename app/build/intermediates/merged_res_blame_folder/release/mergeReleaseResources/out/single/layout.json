@@ -4,6 +4,10 @@
         "source": "com.parvatha.music.app-main-61:/layout/activity_settings.xml"
     },
     {
+        "merged": "com.parvatha.music.app-mergeReleaseResources-59:/layout/addto_layout.xml",
+        "source": "com.parvatha.music.app-main-61:/layout/addto_layout.xml"
+    },
+    {
         "merged": "com.parvatha.music.app-mergeReleaseResources-59:/layout/rv_item.xml",
         "source": "com.parvatha.music.app-main-61:/layout/rv_item.xml"
     },

@@ -116,6 +116,10 @@
         "source": "com.parvatha.music.app-main-61:/layout/notification_push.xml"
     },
     {
+        "merged": "com.parvatha.music.app-release-60:/layout_addto_layout.xml.flat",
+        "source": "com.parvatha.music.app-main-61:/layout/addto_layout.xml"
+    },
+    {
         "merged": "com.parvatha.music.app-release-60:/mipmap-xhdpi_ic_launcher.webp.flat",
         "source": "com.parvatha.music.app-main-61:/mipmap-xhdpi/ic_launcher.webp"
     },

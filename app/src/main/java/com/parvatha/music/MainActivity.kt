@@ -72,6 +72,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.masoudss.lib.SeekBarOnProgressChanged
@@ -140,7 +141,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     companion object {
         fun makeToast(s: String) {
             Log.d("Toast7ing", s)
-            Toast.makeText(appContext, s, Toast.LENGTH_SHORT).show()
+            //   Toast.makeText(appContext, s, Toast.LENGTH_SHORT).show()
+            Snackbar.make(mainActivity.window.decorView, s, Snackbar.ANIMATION_MODE_FADE).show()
         }
 
         @SuppressLint("ResourceAsColor")
@@ -209,7 +211,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
                 //   mediaPlayer1.setOnErrorListener(this)
             } catch (e: Exception) {
                 println(e.toString())
-        makeToast("P ex - " + e)    }
+                makeToast("P ex - " + e)
+            }
 
             try {
 
@@ -231,7 +234,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
             } catch (e: Exception) {
                 println(e.toString())
-          makeToast("P ex - " + e)
+                makeToast("P ex - " + e)
             }
         }
 
@@ -640,7 +643,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         initializeStuff()
 
         if (!arrayListplayLists.contains("Favorites"))
-        arrayListplayLists.add("Favorites")
+            arrayListplayLists.add("Favorites")
 
         editTextSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             var handled = false
@@ -662,31 +665,24 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         fabFavorite.setOnClickListener {
 
-            showIntrAd()
-            refreshLayout()
-            Handler().postDelayed( {
-                plName = editTextSearch.text.toString()
-                Getdata()
-                txTrending.setBackgroundResource(R.drawable.txlabel_bg_unselected)
-                for (item in TxFavorites)
-                    if (item.text.toString().equals(plName))
-                        item.setBackgroundResource(R.drawable.txlabel_bg_selected)
-            }, 1000)
-
-
             fabFavorite.setImageDrawable(resources.getDrawable(android.R.drawable.star_on))
-            if (textViewFeaturing.text.isNotEmpty())
-                if (saveFav(textViewFeaturing.text.toString().split(",").get(1)))
-                   makeToast("Added " + (textViewFeaturing.text.toString().split(",")
-                       .get(1)) + " to Favs!")
-                else makeToast("Already in Favs!")
+            txTrending.setBackgroundResource(R.drawable.txlabel_bg_unselected)
+            plName = editTextSearch.text.toString()
+                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+            Getdata()
 
+            if (!arraylistFavorites.contains(plName)) {
+                makeToast("Adding - " + plName)
+                var tx = TextView(applicationContext)
+                tx.setText("\t\t\t$plName\t\t\t")
+                tx.setBackgroundResource(R.drawable.txlabel_bg_selected)
+                linearLayoutFavs.addView(tx)
+                TxFavorites.add(tx)
+                saveFav(plName).toString()
+            }
         }
 
-        var mp: MediaPlayer
-
         imageButtonPlayAlbum.setOnClickListener {
-
 
             if (this::handlerPics.isInitialized)
                 handlerPics.removeCallbacks(runnablePics)
@@ -915,7 +911,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             }
 
             override fun onFailure(call: Call<MusicData?>, t: Throwable) {
-               makeToast("Failed to get Trending - " + t.message)
+                makeToast("Failed to get Trending - " + t.message)
             }
 
         })
@@ -972,15 +968,15 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
     private fun showNativeAd() {
-        /*    if (adLoaded) {
-                template.setVisibility(VISIBLE)
-                adLoaded = false
-                // Showing a simple Toast message to user when an Native ad is shown to the user
+        if (adLoaded) {
+            template.setVisibility(VISIBLE)
+            adLoaded = false
+            // Showing a simple Toast message to user when an Native ad is shown to the user
 
-            } else {
-                //Load the Native ad if it is not loaded
-                loadNativeAd()
-            }*/
+        } else {
+            //Load the Native ad if it is not loaded
+            loadNativeAd()
+        }
     }
 
     private fun loadNativeAd() {
@@ -994,30 +990,27 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
     }
 
     private fun showIntrAd() {
-        /*
-           //     if (Random().nextInt() % 2 == 0) {
-                    val adRequest = AdRequest.Builder().build()
-                    InterstitialAd.load(
-                        this,
-                        resources.getString(R.string.admob_intr_adunit_id),
-                        adRequest,
-                        object : InterstitialAdLoadCallback() {
-                            override fun onAdFailedToLoad(adError: LoadAdError) {
-                                adError?.toString()?.let { }
-                                mInterstitialAd = null
-                            }
+        //     if (Random().nextInt() % 2 == 0) {
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(
+            this,
+            resources.getString(R.string.admob_intr_adunit_id),
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    adError?.toString()?.let { }
+                    mInterstitialAd = null
+                    makeToast(" ")
+                }
 
-                            override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                                mInterstitialAd = interstitialAd
-                                mInterstitialAd?.show(this@MainActivity)
-                            }
-                        })
-            //    }*/
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    mInterstitialAd = interstitialAd
+                    mInterstitialAd?.show(this@MainActivity)
+                }
+            })
     }
 
     private fun renderFavorites() {
-
-
         dataList.clear()
         for (i in arraylistFavoriteSongs.indices) {
             dataList.add(arraylistFavoriteSongs.get(i))
@@ -1307,7 +1300,7 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             }
 
             override fun onFailure(call: Call<MusicData?>, t: Throwable) {
-               makeToast("no Results found")
+                makeToast("no Results found")
             }
 
         })
@@ -1420,14 +1413,13 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
             if (dataList.get(i).title.equals(text)) {
 
 
-
                 var arraylistFavoriteSongNames = ArrayList<String>()
                 for (item in arraylistFavoriteSongs) {
                     arraylistFavoriteSongNames.add(item.title)
                 }
 
                 if (!arraylistFavoriteSongNames.contains(dataList.get(i).title)) {
-                   makeToast("Added - " + dataList.get(i).title + " to Fav Songs!")
+                    makeToast("Added - " + dataList.get(i).title + " to Fav Songs!")
 
 
 
