@@ -46,6 +46,7 @@ import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import android.widget.TextView.VISIBLE
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -565,6 +566,8 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
 
         appContext = applicationContext
         mainActivity = this@MainActivity
+
+        enableEdgeToEdge()
 
         displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
