@@ -683,37 +683,40 @@ class MainActivity : AppCompatActivity(), MusicAdapter.RecyclerViewEvent {
         }
 
         imageButtonPlayAlbum.setOnClickListener {
+            if (songs.size > 0)
+            {
 
-            if (this::handlerPics.isInitialized)
-                handlerPics.removeCallbacks(runnablePics)
+                if (this::handlerPics.isInitialized)
+                    handlerPics.removeCallbacks(runnablePics)
 
-            if (isMyServiceRunning(MusicService::class.java))
-                stopService(playIntent)
-
-
-            imageButtonPlayAlbum.visibility = View.INVISIBLE
-            fabPlayPause.visibility = View.VISIBLE
-            fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
-            var i = 0;
-            for (item in songs) {
-                playIntent.putExtra(i.toString(), item)
-                i++
-            }
-
-            if (!this::plName.isInitialized)
-                plName = "Trending"
-            saveQuery(plName)
-            startForegroundService(playIntent)
+                if (isMyServiceRunning(MusicService::class.java))
+                    stopService(playIntent)
 
 
-            Handler().postDelayed(Runnable {
-                for (i in 0 until dataList.size) {
-                    if (txSongName.text.equals(dataList.get(i).title))
-                        recyclerview.smoothScrollToPosition(i)
+                imageButtonPlayAlbum.visibility = View.INVISIBLE
+                fabPlayPause.visibility = View.VISIBLE
+                fabPlayPause.setImageResource(android.R.drawable.ic_media_pause)
+                var i = 0;
+                for (item in songs) {
+                    playIntent.putExtra(i.toString(), item)
+                    i++
                 }
-            }, 1000)
+
+                if (!this::plName.isInitialized)
+                    plName = "Trending"
+                saveQuery(plName)
+                startForegroundService(playIntent)
 
 
+                Handler().postDelayed(Runnable {
+                    for (i in 0 until dataList.size) {
+                        if (txSongName.text.equals(dataList.get(i).title))
+                            recyclerview.smoothScrollToPosition(i)
+                    }
+                }, 1000)
+
+
+            }
         }
 
         var mp1: Boolean = true
